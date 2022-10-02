@@ -1,5 +1,4 @@
 #include "Frisbee.h"
-// #include "Liaison.h"
 // #include "Integrateur.h"
 #include "Canvas.h"
 // #include <sstream>
@@ -14,33 +13,9 @@ using namespace std;
 Frisbee::Frisbee(Canvas* canvas, Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr)
 	: Drawable(canvas), xyz_(xyz), phiThetaPsi_(phiThetaPsi), uvw_(uvw), pqr_(pqr) { }
 
-// Frisbee::~Frisbee(){	//delete les masses+ressorts dynamiquement alloués
-// 	for (auto& R : listRessorts ) delete R;
-// 	for (auto& M : listMasses ) delete M;
-// }
-
 
 	
-
-
 void Frisbee::draw() const { canvas_->draw(*this); }
-
-// void Frisbee::dessineMasses() const{
-// 	for (auto const& M : listMasses ) {
-// 		M->dessine();
-// 	}
-// }
-
-// void Frisbee::dessineRessorts() const{
-// 	for (auto const& R : listRessorts ) {
-// 		R->dessine();
-// 	}
-// }
-
-// vector<Triangle> Frisbee::trianglesEntreMasses() const{  //pour pouvoir dessiner des triangles entre des masses (une autre sorte de visualisation graphique)
-// 	return listTriangles;
-// }
-
 
 
 // Getters
@@ -75,7 +50,6 @@ const vector<Vector3> Frisbee::bodyAxes() const {
 	}
 	return axes;
 }
-
 
 
 
@@ -157,9 +131,6 @@ const Matrix3x3 Frisbee::T_r(double const& phi, double const& theta) const { // 
 	return Matrix3x3(1., 0., 		-sin(theta),
 					 0., cos_phi, 	sin_phi*cos_theta,
 					 0., -sin_phi, 	cos_phi*cos_theta);
-	// return Matrix3x3(1., 0., 		-sin(theta),
-	// 				 0., cos_phi, 	-sin_phi*cos_theta,
-	// 				 0., -sin_phi, 	cos_phi*cos_theta);
 }
 
 const Matrix3x3 Frisbee::T_r() const {
@@ -186,27 +157,6 @@ const Matrix3x3 Frisbee::T_r_inv() const { // Inverse matrix. Multiply this matr
 	return T_r_inv(phi(), theta());
 }
 
-// const Matrix3x3 Frisbee::T_a12() const {
-// 	// return T_a(phi(), theta(), psi());
-// 	// return T_a12().transpose(); 
-
-// }
-
-// const Matrix3x3 Frisbee::T_a21() const {
-// 	// return T_a12().transpose();
-// 	return T_a(phi(), theta(), psi()); // this is correct
-// }
-
-// Matrix3x3 Frisbee::T_a23() const {
-// 	// return T_a(0., 0., -beta_2());
-// 	return T_a(0., 0., beta_2());
-// }
-
-// Matrix3x3 Frisbee::T_a34() const {
-// 	return T_a(0., -alpha_3(),0.);
-// 	// return T_a(0., alpha_3(),0.);
-// }
-
 const double Frisbee::atan2(double const& x, double const& y) const {
 	if(x>0.) { return atan(y/x); }
 	else if(x<0.) {
@@ -216,101 +166,31 @@ const double Frisbee::atan2(double const& x, double const& y) const {
 	else {
 		if (y>0.) { return 0.5*M_PI; }
 		if (y<0.) { return -0.5*M_PI; }
-		else { return 0.; }	// even though it is technically undefined.
+		else { return 0.; }	// Even though it is technically undefined.
 	}
 }
-
-
-// T_r23() ? If we do T_r(0,0,-beta_2) then it equals Id matrix, so thetadot_3 = thetadot_2 ? NO
-
-
-// const double Frisbee::p() const {
-// 	return thetadot_2()[0]; // make improvements : save the data so that you don' recompute manytimes all theese matrices
-// }
-
-// const double Frisbee::p_4() const {
-// 	return thetadot_4()[0]; // make improvements : save the data so that you don' recompute manytimes all theese matrices
-// }
-
-// const double Frisbee::q() const {
-// 	return thetadot_2()[1];
-// }
-
-// const double Frisbee::q_4() const {
-// 	return thetadot_4()[1];
-// }
-
-// const double Frisbee::r() const {
-// 	return thetadot_2()[2];
-// }
-
-// const double Frisbee::r_3() const {
-// 	return thetadot_3()[2];
-// }
-
-// const double Frisbee::r_4() const {
-// 	return thetadot_4()[2];
-// }
 
 const Vector3 Frisbee::xdot_ydot_zdot() const {
 	return T_21()*uvw();
 }
 
 const Vector3 Frisbee::phidot_thetadot_psidot() const {
-	// return T_r_inv(phi(), theta()) * pqr();
 	return T_r_inv()*pqr();
 }
 
-// const Vector3 Frisbee::thetadot_2() const {
-// 	return T_r12()*thetadot_1();
-// }
-
-const Vector3 Frisbee::xdot_2() const {
-	// return T_a12()*xdot_1();
-	return uvw();
-}
-
-// const double Frisbee::beta_2() const { // slipside angle
-// 	Vector3 xdot_2_ (xdot_2());
-// 	// if (xdot_2_[0]==0.) { // If there is no speed in the x direction, then beta equals plus or minus pi/2.
-// 	// 	double sign;
-// 	// 	if (xdot_2_[1]>0) { sign=+1.; }
-// 	// 	else { sign=-1.; }
-// 	// 	return sign*0.5*M_PI;
-// 	// } else { // Normal case.
-// 	// 	return atan(xdot_2_[1]/xdot_2_[0]);
-// 	// }
-// 	return atan2(xdot_2_[0],xdot_2_[1]);
-// }
-
 const double Frisbee::beta() const { // slipside angle
-	Vector3 xdot_2_ (xdot_2());
-	return atan2(xdot_2_[0],xdot_2_[1]);
+	return atan2(u(),v());
 }
 
 const Vector3 Frisbee::udot_vdot_wdot() const {
-	// cerr << "f_2()/m()=" << (f_2()/m()) << endl;
-	// cerr << "-omegaTilde()*uvw()=" << (omegaTilde()*uvw()) << endl;
-	// cerr << "udot_vdot_wdot=f_2()/m()-omegaTilde()*uvw()=" << (f_2()/m()-omegaTilde()*uvw()) << endl;
-	
-	// return f_2()/m(); // ***
 	return f_2()/m()-omegaTilde()*uvw();
 }
 
 const Vector3 Frisbee::f_2aero() const {
-	// return T_a23().transpose()*( T_a34().transpose() * f_4() );
 	return T_32()*( T_43()*f_4() );
 }
 
 const Vector3 Frisbee::f_2() const {
-
-	// cerr << "T_12()" << T_12() << endl;
-	// cerr << "T_21()" << T_21() << endl;
-	// cerr << "mg()" << mg() << endl;
-	// cerr << "T_12()*mg()" << T_12()*mg() << endl;
-
-
-	// return T_12()*mg(); // *** 
 	return f_2aero() + T_12()*mg();
 }
 
@@ -332,38 +212,17 @@ const Vector3 Frisbee::pdot_qdot_rdot() const {
 
 
 const Vector3 Frisbee::m_2() const {
-
-	// return T_a23().transpose()*m_4(); // ***
-	// return T_a23().transpose()*( T_a34().transpose() * m_4() );
-
-	// return Vector3(0.,0.,0.); // ***
-	// return T_32()*m_4();
+	// return T_32()*m_4(); // test this one ?
 	return T_32()*( T_43()*m_4() );
-
 }
 
 const Vector3 Frisbee::xdot_3() const {
-	// return T_a23()*xdot_2();
 	return T_23()*uvw();
 }
 
 const Vector3 Frisbee::omega_3() const {
-	// return T_a23()*pqr();
 	return T_23()*pqr();
 }
-
-// const double Frisbee::alpha_3() const {
-// 	Vector3 xdot_3_ (xdot_3());
-// 	// if (xdot_3_[0]==0.) { // If there is no speed in the x direction, then alpha equals plus or minus pi/2.
-// 	// 	double sign;
-// 	// 	if (xdot_3_[2]>0) { sign=+1.; }
-// 	// 	else { sign=-1.; }
-// 	// 	return sign*0.5*M_PI;
-// 	// } else { // Normal case.
-// 	// 	return atan(xdot_3_[2]/xdot_3_[0]);
-// 	// }
-// 	return atan2(xdot_3_[0],xdot_3_[2]);
-// }
 
 const double Frisbee::alpha() const {
 	Vector3 xdot_3_ (xdot_3());
@@ -375,12 +234,11 @@ const double Frisbee::rho_inf() const {
 }
 
 const double Frisbee::q_inf() const {
-	// return 0.5*rho_inf()*xdot_1().norm2();
 	return 0.5*rho_inf()*(uvw().norm2());
 }
 
 const double Frisbee::S() const {
-	// return 0.0590; // surface of frisbee [m^2], pi*diametre^2/4
+	// return 0.06?; // surface of frisbee [m^2], pi*diametre^2/4
 	return M_PI*c()*c()*0.25; // surface of frisbee [m^2], pi*diametre^2/4
 }
 
@@ -429,7 +287,6 @@ const double Frisbee::i_perp_over_i_para_minus_i_para_over_I_perp() const {
 	return 1.5; // [-]
 }
 
-
 const double Frisbee::v_inf() const {
 	return uvw().norm();
 }
@@ -443,7 +300,7 @@ const double Frisbee::c_Drag(double const& alpha) const {
 
 	// *** This approximation is very bad for big angle of attacks
 
-	// return 0.1+1.5*(alpha+0.035)*(alpha+0.035)    formula taken from equation 2.26
+	// Try: return 0.1+1.5*(alpha+0.035)*(alpha+0.035) formula taken from equation 2.26 ?
 }
 
 const double Frisbee::c_Yr(double const& r, double const& v_inf) const {	
@@ -454,7 +311,8 @@ const double Frisbee::c_Yr(double const& r, double const& v_inf) const {
 		return x*(0.00521461257+x*x*0.00972148905); // From linear regression of Fig 5.20c
 	}
 
-	// *** make sure that the range is correct, otherwise the approximation is increasingly incorrect
+	// *** Make sure that the range is correct, otherwise the approximation is increasingly incorrect
+	// *** Improve the formula for higher angles of attack.
 }
 
 const double Frisbee::c_Side(double const& r, double const& v_inf) const {
@@ -474,7 +332,7 @@ const double Frisbee::c_L(double const& p, double const& v_inf) const {
 		return 0.;
 	} else {
 		double c_Lp (-1.30);
-		return c_Lp*p*c()/(2*v_inf);
+		return c_Lp*p*c()/(2.*v_inf);
 	}
 }
 
@@ -489,12 +347,6 @@ const double Frisbee::c_M(double const& alpha, double const& q, double const& v_
 	}
 }
 
-// const double Frisbee::c_M() const { formula taken from figure 7.4 // Pitching moment coefficient.
-// 	double c_M0 (-0.01);
-// 	double c_Malpha (0.057);
-// 	return c_M0+c_Malpha*alpha; (alpha = AoA = angle of attack) ***
-// }
-
 const double Frisbee::c_N(double const& r, double const& v_inf) const {
 	// if (v_inf==0.) {
 	// 	return 0.;
@@ -502,17 +354,13 @@ const double Frisbee::c_N(double const& r, double const& v_inf) const {
 	// 	double c_Nr (??);
 	// 	return c_Nr*r*c()/(2*v_inf);
 	// }
-	return 0.; // They suppose no spin loss because in typical Frisbee flights, there is very little spin loss.
+	return 0.; // This supposes no spin loss because in typical Frisbee flights, there is very little spin loss.
 }
 
 const Vector3 Frisbee::f_4() const {
-	Vector3 omega_3_ (omega_3());
-	double v_inf_ (v_inf());
 	double alpha_ (alpha());
 
-	// cerr << "-c_Lift(alpha_)" << -c_Lift(alpha_) << endl;
-
-	return q_inf()*S()*Vector3(-c_Drag(alpha_), c_Side(omega_3_[2], v_inf_), -c_Lift(alpha_));
+	return q_inf()*S()*Vector3(-c_Drag(alpha_), c_Side(omega_3()[2], v_inf()), -c_Lift(alpha_));
 }
 
 const Vector3 Frisbee::m_4() const {
@@ -521,7 +369,7 @@ const Vector3 Frisbee::m_4() const {
 	return q_inf()*S()*c()*Vector3(c_L(omega_3_[0], v_inf_), c_M(alpha(), omega_3_[1], v_inf_), c_N(omega_3_[2], v_inf_)); // *** improvements : avoid recomputing alpha multiple times.
 }
 
-const Matrix3x3 Frisbee::omegaTilde() const {
+const Matrix3x3 Frisbee::omegaTilde() const { // A shortcut to thee cross product with pqr.
 	return Matrix3x3(0.,  -r(),q(),
 					 r(), 0.,  -p(),
 					 -q(),p(), 0.); // *** improve by not recomputing many times.
@@ -532,21 +380,6 @@ const Vector3 Frisbee::mg() const {
 	return Vector3(0., 0., m()*g);
 }
 
-
-
-
-// void Frisbee::updateForcesMoments(){
-// 	forceSubi_ = poids() + frottements() + forcesRappel();
-// }
-
-// void Frisbee::add_force(Vector3 const& v){
-// 	// to define
-// }
-
-// void Frisbee::evolve(Integrator& I, double dt){
-// 	// I.integre(*this, dt);
-// }
-
 const double Frisbee::advR(double const& r, double const& v_inf) const { // advance ratio
 	if(v_inf==0.) {
 		throw string("Frisbee::advR v_inf==0.");
@@ -554,8 +387,6 @@ const double Frisbee::advR(double const& r, double const& v_inf) const { // adva
 		return r*c()/(2.*v_inf);
 	}
 }
-
-
 
 
 // //------------------------Contraintes-----------------------------------
@@ -608,7 +439,6 @@ const double Frisbee::advR(double const& r, double const& v_inf) const { // adva
 // 	for(size_t i(0); i<listMasses.size() ; ++i) arrete(i);
 // }
 
-
 ostream& Frisbee::display(ostream& out) const{
 	out << "Frisbee " << this << " : " << endl
 		<< "  xyz : " << xyz() << endl
@@ -617,9 +447,6 @@ ostream& Frisbee::display(ostream& out) const{
 		<< "  pqr : " << pqr() << endl;	
 	return out;
 }
-
-
-
 
 ostream& operator<<(ostream& out, Frisbee const& f){
 	f.display(out);
