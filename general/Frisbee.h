@@ -32,10 +32,6 @@ public :
 
 
 	virtual void draw() const override;
-	// void dessineMasses() const;
-	// void dessineRessorts() const;
-	// std::vector<Triangle> trianglesEntreMasses() const;  //pour pouvoir dessiner des triangles entre des masses (visualisation graphique)
-														//par ce biais on peut accéder aux masses, mais on fait conviance à l'utilisateur pour ne pas le faire	
 
 	// Setters
 	void setXyz(Vector3 const& v) { xyz_ = v; }
@@ -65,54 +61,31 @@ public :
 	const Vector3 bodyZAxis() const;
 	const vector<Vector3> bodyAxes() const;
 
-	// const Vector3 x_1() const { return position; }
-	// const double x_1(size_t i) const { return position[i]; }
-
-	// const Vector3 theta_1() const { return orientation; }
-	// const double theta_1(size_t i) const { return orientation[i]; }
-	// const double phi() const { return theta_1(0); }
-	// const double theta() const { return theta_1(1); }
-	// const double psi() const { return theta_1(2); }
-	// const Vector3 xdot_1() const { return velocity; }
-	// const double xdot_1(size_t i) const { return velocity[i]; }
-
-	// const Vector3 thetadot_1() const { return angularVelocity; }
-	// const double thetadot_1(size_t i) const { return angularVelocity[i]; }
 	
 	// Evolution
-
-
-	const Matrix3x3 T_21(double const& phi, double const& theta, double const& psi) const; // to go from coordinates in body axes (2) to coordinates in earth axes (1).
+	const Matrix3x3 T_21(double const& phi, double const& theta, double const& psi) const; // To go from coordinates in body axes (2) to coordinates in earth axes (1).
 	const Matrix3x3 T_21() const;
 	const Matrix3x3 T_12(double const& phi, double const& theta, double const& psi) const;
 	const Matrix3x3 T_12() const;
-	const Matrix3x3 T_32(double const& beta) const; // to go from coordinates in slipside axes (3) to coordinates in body axes (2).
+	const Matrix3x3 T_32(double const& beta) const; // To go from coordinates in slipside axes (3) to coordinates in body axes (2).
 	const Matrix3x3 T_32() const;
 	const Matrix3x3 T_23(double const& beta) const;
 	const Matrix3x3 T_23() const;
-	const Matrix3x3 T_43(double const& alpha) const; // to go from coordinates in angle of attack axes (4) to coordinates in slipside axes (3).
+	const Matrix3x3 T_43(double const& alpha) const; // To go from coordinates in angle of attack axes (4) to coordinates in slipside axes (3).
 	const Matrix3x3 T_43() const;
 	const Matrix3x3 T_34(double const& alpha) const;
 	const Matrix3x3 T_34() const;
 
 
-	// const Matrix3x3 T_a(double const& phi, double const& theta, double const& psi) const;
 	const Matrix3x3 T_r(double const& phi, double const& theta) const;
 	const Matrix3x3 T_r() const;
 	const Matrix3x3 T_r_inv(double const& phi, double const& theta) const;
 	const Matrix3x3 T_r_inv() const;
 
-	// const Matrix3x3 T_a12() const;
-	// const Matrix3x3 T_a21() const;
-	// Matrix3x3 T_a23() const;
-	// Matrix3x3 T_a34() const;
-
 	const double atan2(double const& x, double const& y) const;
 
 	const Vector3 xdot_ydot_zdot() const;
 	const Vector3 phidot_thetadot_psidot() const;
-	// const Vector3 thetadot_2() const;
-	const Vector3 xdot_2() const;
 	const double beta() const; // Slipside angle
 	const Vector3 udot_vdot_wdot() const;
 	const Vector3 f_2aero() const;

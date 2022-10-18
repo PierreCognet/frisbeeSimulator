@@ -6,6 +6,7 @@
 #include "GLSphere.h"
 #include "Canvas.h"
 #include "System.h"
+#include "PlayingField.h"
 
 
 // enum PtVue {Zplus, Zminus, Xplus , Xminus , Yplus , Yminus};	// Camera point of view.
@@ -19,6 +20,9 @@ public:
 
   virtual void draw(System const& toDraw) override;
   virtual void draw(Frisbee const& toDraw) override;
+  virtual void draw(PlayingField const& toDraw) override;
+  virtual void draw(Cone const& toDraw) override;
+  virtual void draw(Line const& toDraw) override;
 //   virtual void dessine(Tissu const& a_dessiner) override;
 //   virtual void dessine(Masse const& a_dessiner)override;
 //   virtual void dessine(Ressort const& a_dessiner) override;
@@ -59,7 +63,8 @@ public:
 
   void drawLine(QMatrix4x4 const& pov , Vector3 Point1 ,Vector3 Point2 ,Vector3 couleur );
   // void drawTriangle(QMatrix4x4 const& pov, Vector3 const& v1, Vector3 const& v2, Vector3 const& v3, Vector3 const& c1, Vector3 const& c2, Vector3 const& c3);
-  void drawTriangle(QMatrix4x4 const& pov, vector<Vector3> const& vertices, vector<Vector3> const& colors);
+  // void drawTriangle(QMatrix4x4 const& pov, vector<Vector3> const& vertices, vector<Vector3> const& colors);
+  void drawTriangle(QMatrix4x4 const& pov, array<Vector3,3> const& vertices, array<Vector3,3> const& colors);
   void drawQuad(QMatrix4x4 const& pov, Vector3 p1 , Vector3  p2, Vector3 p3, Vector3 p4);
   void drawSphere(QMatrix4x4 const& pov = QMatrix4x4() ,Vector3 couleur = Vector3(1.,1.,1.) );
   // void drawCube(QMatrix4x4 const& pov = QMatrix4x4() );

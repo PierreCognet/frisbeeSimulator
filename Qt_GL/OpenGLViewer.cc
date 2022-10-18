@@ -48,6 +48,7 @@ void OpenGLViewer::drawZ(Vector3 const& camPos){
 void OpenGLViewer::draw(System const& toDraw) {
 
 	toDraw.drawFrisbee();
+	toDraw.drawPlayingField();
 
 	// if (Contr_on){
 	// toDraw.dessineContrainte();
@@ -101,19 +102,19 @@ void OpenGLViewer::draw(Frisbee const& toDraw) {
 		color_iplus1 = cos(angle)*red+cos(angle+M_PI)*blue;
 
 		matrix.setToIdentity();
-		drawTriangle(matrix, vector<Vector3>({ discCenter, circ_i, circ_iplus1 }), vector<Vector3>({ discCenterColor, color_i, color_iplus1 }) );
+		// drawTriangle(matrix, vector<Vector3>({ discCenter, circ_i, circ_iplus1 }), vector<Vector3>({ discCenterColor, color_i, color_iplus1 }) );
+		drawTriangle(matrix, array<Vector3,3>({ discCenter, circ_i, circ_iplus1 }), array<Vector3,3>({ discCenterColor, color_i, color_iplus1 }) );
 		matrix.setToIdentity();
-		drawTriangle(matrix, vector<Vector3>({ circ_i, rim_i, circ_iplus1 }), vector<Vector3>({ color_i, color_i, color_iplus1 }) );
+		// drawTriangle(matrix, vector<Vector3>({ circ_i, rim_i, circ_iplus1 }), vector<Vector3>({ color_i, color_i, color_iplus1 }) );
+		drawTriangle(matrix, array<Vector3,3>({ circ_i, rim_i, circ_iplus1 }), array<Vector3,3>({ color_i, color_i, color_iplus1 }) );
 		matrix.setToIdentity();
-		drawTriangle(matrix, vector<Vector3>({ circ_iplus1, rim_iplus1, rim_i }), vector<Vector3>({ color_iplus1, color_iplus1, color_i }) );
+		// drawTriangle(matrix, vector<Vector3>({ circ_iplus1, rim_iplus1, rim_i }), vector<Vector3>({ color_iplus1, color_iplus1, color_i }) );
+		drawTriangle(matrix, array<Vector3,3>({ circ_iplus1, rim_iplus1, rim_i }), array<Vector3,3>({ color_iplus1, color_iplus1, color_i }) );
 
 		circ_i = circ_iplus1;
 		rim_i = rim_iplus1;
 		color_i = color_iplus1;
 	}
-
-
-
 
 	// something like thatn: matrice.translate( toDraw.position()[0], toDraw.position()[1], toDraw.position()[2] );
 	// then draw a disc, make a mark on the disc so that we can see the rotation
@@ -136,6 +137,81 @@ void OpenGLViewer::draw(Frisbee const& toDraw) {
 	// 	}
 	// }
 }
+
+void OpenGLViewer::draw(PlayingField const& toDraw) { ///*** implement same functions for textviewer  
+	array<Cone,8> cones (toDraw.cones());
+	array<Line,10> lines (toDraw.lines());
+
+	for (auto c : cones) {
+		draw(c);
+	}
+	for (auto l : lines) {
+		draw(l);
+	}
+
+	array<array<Vector3,3>,2> triangles (toDraw.trianglesToDraw());
+	Vector3 green(0.,1.,0.);
+	QMatrix4x4 matrix;
+	matrix.setToIdentity();
+	drawTriangle(matrix, triangles[0], array<Vector3,3>({ green, green, green }) );
+	matrix.setToIdentity();
+	drawTriangle(matrix, triangles[1], array<Vector3,3>({ green, green, green }) );
+	
+}
+
+void OpenGLViewer::draw(Cone const& toDraw) {
+
+	Vector3 coneCenter(toDraw.xyz());
+	double r (toDraw.radius());
+	double h (toDraw.height());
+	Vector3 yellow(1.,1.,0.);
+
+	QMatrix4x4 matrix;
+
+	size_t n(8); // Number of points drawn at the circumference off the cone. n=infty means perfect circle, but takes long to compute.
+	Vector3 circ_i(coneCenter+r*Vector3(1.,0.,0.));
+	Vector3 circ_iplus1;
+	Vector3 tip(coneCenter+h*Vector3(0.,0.,1.));
+	
+	for(size_t i=0; i<n; ++i) {
+		double angle(2.*M_PI*(i+1.)/n);
+		circ_iplus1 = coneCenter+r*Vector3(cos(angle),sin(angle),0.);
+
+		matrix.setToIdentity();
+		// drawTriangle(matrix, vector<Vector3>({ tip, circ_i, circ_iplus1 }), vector<Vector3>({ yellow, yellow, yellow }) );
+		drawTriangle(matrix, array<Vector3,3>({ tip, circ_i, circ_iplus1 }), array<Vector3,3>({ yellow, yellow, yellow }) );
+
+		circ_i = circ_iplus1;
+	}
+}
+
+
+void OpenGLViewer::draw(Line const& toDraw) {
+	Vector3 v1 (toDraw.vertex1());
+	Vector3 v2 (toDraw.vertex2());
+	double t (toDraw.thickness());
+	Vector3 lineParaUnitVec ((v1-v2).unitary());
+	Vector3 linePerpUnitVec (lineParaUnitVec^Vector3(0.,0.,1.));
+	Vector3 white(1.,1.,1.);
+	
+	QMatrix4x4 matrix;
+
+	Vector3 corner1 (v1+0.5*t*linePerpUnitVec);
+	Vector3 corner2 (v1-0.5*t*linePerpUnitVec);
+	Vector3 corner3 (v2-0.5*t*linePerpUnitVec);
+	Vector3 corner4 (v2+0.5*t*linePerpUnitVec);
+
+	matrix.setToIdentity();
+	// drawTriangle(matrix, vector<Vector3>({ corner1, corner2, corner3 }), vector<Vector3>({ white, white, white }) );
+	drawTriangle(matrix, array<Vector3,3>({ corner1, corner2, corner3 }), array<Vector3,3>({ white, white, white }) );
+	matrix.setToIdentity();
+	// drawTriangle(matrix, vector<Vector3>({ corner1, corner3, corner4 }), vector<Vector3>({ white, white, white }) );
+	drawTriangle(matrix, array<Vector3,3>({ corner1, corner3, corner4 }), array<Vector3,3>({ white, white, white }) );
+
+}
+
+
+
 
 
 // void OpenGLViewer::dessine(Masse const& toDraw){
@@ -225,7 +301,8 @@ void OpenGLViewer::drawLine(QMatrix4x4 const& pov, Vector3 point1, Vector3 point
 
 // void OpenGLViewer::drawTriangle(QMatrix4x4 const& pov, Triangle const& t) {
 // void OpenGLViewer::drawTriangle(QMatrix4x4 const& pov, Vector3 const& v1, Vector3 const& v2, Vector3 const& v3, Vector3 const& c1, Vector3 const& c2, Vector3 const& c3) {
-void OpenGLViewer::drawTriangle(QMatrix4x4 const& pov, vector<Vector3> const& vertices, vector<Vector3> const& colors) {
+// void OpenGLViewer::drawTriangle(QMatrix4x4 const& pov, vector<Vector3> const& vertices, vector<Vector3> const& colors) {
+void OpenGLViewer::drawTriangle(QMatrix4x4 const& pov, array<Vector3,3> const& vertices, array<Vector3,3> const& colors) {
 
 	prog.setUniformValue("model_view", viewMatrix* pov);
 

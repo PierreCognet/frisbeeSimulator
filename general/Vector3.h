@@ -31,7 +31,7 @@ public :
 	Vector3& operator*=(double const& lambda);	// multiply by scalar
 	Vector3& operator/=(double const& lambda); // divide by scalar
 	const Vector3 operator-()const; // opposite
-	const Vector3 unitaire()const;	// returns unitary vector of this vector
+	const Vector3 unitary()const;	// returns unitary vector of this vector
 	Vector3& normalise(); // normalises the vector
 	// bool isColinearWith(Vector3 const& v) const;
 	// double distance(Vector3 const& v) const; // distance between two points

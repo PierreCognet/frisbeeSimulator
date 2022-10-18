@@ -3,6 +3,7 @@
 
 #include "Drawable.h"
 #include "Frisbee.h"
+#include "PlayingField.h"
 
 
 // typedef Tissu* TissuPtr;			//pour pouvoir changer plus facilement
@@ -15,8 +16,8 @@ public:
 
 	System(Canvas* support, double const& t = 0.);
 
-	// System(System const& s) = delete;
-	// System operator=(System const& s) = delete;
+	System(System const& s) = delete; // Contains dynamically allocated attributs, so delete the copie function.
+	System operator=(System const& s) = delete;
 
 	virtual ~System() override;
 	
@@ -29,6 +30,7 @@ public:
 	
 	virtual void draw() const override;
 	void drawFrisbee() const;
+	void drawPlayingField() const;
 	// void dessineContrainte() const;
 	// bool get_Cassable() ;
 
@@ -58,6 +60,7 @@ public:
 
 private :
 	Frisbee* f;
+	PlayingField* pf;
 	// std::vector<ContraintePtr> listContrainte;
 	double time_; // Total time since system evolves.
 };

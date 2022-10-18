@@ -60,9 +60,9 @@ Vector3& Vector3::operator*=(double const& lambda){
 // 	return ((-1)*(*this));
 // }
 
-// const Vector3 Vector3::unitaire()const { // returns the unitary vector (a new Vector3)
-// 	return Vector3(*this/norme());
-// }
+const Vector3 Vector3::unitary()const { // returns the unitary vector (a new Vector3)
+	return Vector3(*this/norm());
+}
 
 // Vector3& Vector3::normalise(){	// normalises the vector (modifies it)
 // 	return (*this)/= norme();

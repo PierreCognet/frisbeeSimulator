@@ -21,12 +21,13 @@ using namespace std;
 
 
 System::System(Canvas* canvas, double const& t)
-	: Drawable(canvas), time_(t), f(new Frisbee(canvas)) { }
+	: Drawable(canvas), time_(t), f(new Frisbee(canvas)), pf(new PlayingField(canvas)) { }
 
 
 System::~System() {
 	// delete_all_Contrainte();
 	delete f;
+	delete pf;
 }
 
 
@@ -158,6 +159,10 @@ void System::drawFrisbee() const {
 	f->draw();
 }
 
+void System::drawPlayingField() const {
+	pf->draw();
+}
+
 // void System::dessineContrainte() const{
 // 	for (auto const& C : listContrainte){
 // 		C->dessine();
@@ -256,9 +261,10 @@ Frisbee* System::getFrisbee() {
 const double System::time() const{ return time_; }
 
 void System::display(ostream& out) const{
-    out << "Canvas : " << canvas_ << endl
+	out << "Canvas : " << canvas_ << endl
 		<< "Time : " << time() << endl
-		<< "Frisbee : " << *f << endl << endl;
+		<< "Frisbee : " << *f << endl
+		<< "PlayingField : " << *pf << endl << endl;
 }
 
 void System::evolve(Integrator& i, double const& dt){

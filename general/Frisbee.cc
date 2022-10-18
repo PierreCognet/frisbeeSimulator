@@ -62,9 +62,12 @@ const Matrix3x3 Frisbee::T_21(double const& phi, double const& theta, double con
 	double sth (sin(theta));
 	double sps (sin(psi));
 	
-	return Matrix3x3(cth*cps, sph*sth*cps-cph*sps, cph*sth*cps+sph*sps,
-					 cth*sps, sph*sth*sps+cph*cps, cph*sth*sps-sph*cps,
-					 -sth,    sph*cth,             cph*cth);
+	// return Matrix3x3(cth*cps, sph*sth*cps-cph*sps, cph*sth*cps+sph*sps, // Earth axes with z pointing down.
+	// 				 cth*sps, sph*sth*sps+cph*cps, cph*sth*sps-sph*cps,
+	// 				 -sth,    sph*cth,             cph*cth);
+	return Matrix3x3(cth*cps,  sph*sth*cps-cph*sps,  cph*sth*cps+sph*sps, // Earth axes with z pointing up.
+					 -cth*sps, -sph*sth*sps-cph*cps, sph*cps-cph*sth*sps,
+					 sth,      -sph*cth,             -cph*cth);
 }
 
 const Matrix3x3 Frisbee::T_21() const {
@@ -178,7 +181,7 @@ const Vector3 Frisbee::phidot_thetadot_psidot() const {
 	return T_r_inv()*pqr();
 }
 
-const double Frisbee::beta() const { // slipside angle
+const double Frisbee::beta() const { // Slipside angle
 	return atan2(u(),v());
 }
 
@@ -377,7 +380,8 @@ const Matrix3x3 Frisbee::omegaTilde() const { // A shortcut to thee cross produc
 
 const Vector3 Frisbee::mg() const {
 	double g (9.81); // [m/s^2]
-	return Vector3(0., 0., m()*g);
+	// return Vector3(0., 0., m()*g); // For Earth axes with z pointing down.
+	return Vector3(0., 0., -m()*g); // For Earth axes with z pointing up.
 }
 
 const double Frisbee::advR(double const& r, double const& v_inf) const { // advance ratio

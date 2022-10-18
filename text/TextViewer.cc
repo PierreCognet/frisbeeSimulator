@@ -1,6 +1,7 @@
 #include <iostream>
 #include "TextViewer.h"
 #include "System.h"
+#include "PlayingField.h"
 // #include "Contrainte.h"
 // #include "Crochet.h"
 // #include "ImpulsionSinusoidale.h"
@@ -11,11 +12,25 @@ using namespace std;
 
 void TextViewer::draw(System const& s)  {
 	s.drawFrisbee();
+	s.drawPlayingField();
 }
 
 void TextViewer::draw(Frisbee const& f)  {
 	flow << f << endl;
 }
+
+void TextViewer::draw(PlayingField const& f)  {
+	flow << f << endl;
+}
+
+void TextViewer::draw(Cone const& c)  {
+	flow << c << endl;
+}
+
+void TextViewer::draw(Line const& l)  {
+	flow << l << endl;
+}
+
 
 // void TextViewer::dessine(Masse const& M)  {
 // 	flot << M << endl;

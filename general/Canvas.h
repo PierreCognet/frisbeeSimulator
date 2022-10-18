@@ -3,6 +3,9 @@
 
 class System;
 class Frisbee;
+class PlayingField;
+class Cone;
+class Line;
 // class Masse;
 // class Ressort;
 // class ChampAction;
@@ -22,6 +25,9 @@ class Canvas
 
 	virtual void draw(System const& toDraw) = 0;
 	virtual void draw(Frisbee const& toDraw) = 0;
+	virtual void draw(PlayingField const& toDraw) = 0;
+	virtual void draw(Cone const& toDraw) = 0;
+	virtual void draw(Line const& toDraw) = 0;
 
 	// virtual void dessine(Systeme const& a_dessiner)  = 0;
 	// virtual void dessine(Tissu const& a_dessiner)  = 0;

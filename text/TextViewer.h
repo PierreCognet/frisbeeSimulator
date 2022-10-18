@@ -14,8 +14,11 @@ class TextViewer : public Canvas {
 	
 	virtual ~TextViewer() {}
 	
-	virtual void draw(System const& s)  override;
-	virtual void draw(Frisbee const& f)  override;
+	virtual void draw(System const& s) override;
+	virtual void draw(Frisbee const& f) override;
+	virtual void draw(PlayingField const& f) override;
+	virtual void draw(Cone const& c) override;
+	virtual void draw(Line const& l) override;
 
 	//-------------------------Dessine------------------------------------
 	// virtual void dessine(Systeme const& S)  override;
