@@ -166,8 +166,8 @@ void GLWidget::resetTime() {
 
 
 
-void GLWidget::setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr) {
-	s->setFrisbeeState(xyz, phiThetaPsi, uvw, pqr);
+void GLWidget::setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr, bool const& uvwIsBodyNotEarthAxes) {
+	s->setFrisbeeState(xyz, phiThetaPsi, uvw, pqr, uvwIsBodyNotEarthAxes);
 	stop();
 	updateGL();
 }

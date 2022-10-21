@@ -25,6 +25,7 @@ private slots :
     void simulate();              // Needed to display and quit window (OpenGL).
 
     void setFrisbeeState();
+    void toggleUvwBodyEarthAxes();
 
     // void saveFile();
 
@@ -141,6 +142,8 @@ private :
     QLabel* rLabel;
 
     QPushButton* setFrisbeeStateButton;
+    QPushButton* toggleUvwBodyEarthAxesButton;
+    bool uvwIsBodyNotEarthAxes;
 
 
 

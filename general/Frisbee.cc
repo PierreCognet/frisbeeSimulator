@@ -18,6 +18,12 @@ Frisbee::Frisbee(Canvas* canvas, Vector3 const& xyz, Vector3 const& phiThetaPsi,
 void Frisbee::draw() const { canvas_->draw(*this); }
 
 
+// Setters
+void Frisbee::setXdotYdotZdot(Vector3 const& v) {
+	setUvw( T_12()*v ); // Convert v from earth to body axes. 
+}
+
+
 // Getters
 const Vector3 Frisbee::xyz() const { return xyz_; }
 

@@ -58,7 +58,8 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
     qLabel = new QLabel("q:");
     rLabel = new QLabel("r:");
 	setFrisbeeStateButton = new QPushButton("Set values");
-
+	toggleUvwBodyEarthAxesButton = new QPushButton("Toogle between earth and body axes for velocity");
+	uvwIsBodyNotEarthAxes = true;
 
 	startStopButton = new QPushButton("Start/stop");
 	playbackSpeedSlider = new QSlider(Qt::Horizontal);
@@ -120,26 +121,26 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
     frisbeeGrid->addWidget(phiSpinBox, 5, 2);
     frisbeeGrid->addWidget(thetaSpinBox, 6, 2);
     frisbeeGrid->addWidget(psiSpinBox, 7, 2);
-    frisbeeGrid->addWidget(uSpinBox, 8, 2);
-    frisbeeGrid->addWidget(vSpinBox, 9, 2);
-    frisbeeGrid->addWidget(wSpinBox, 10, 2);
-    frisbeeGrid->addWidget(pSpinBox, 11, 2);
-    frisbeeGrid->addWidget(qSpinBox, 12, 2);
-    frisbeeGrid->addWidget(rSpinBox, 13, 2);
+    frisbeeGrid->addWidget(uSpinBox, 9, 2);
+    frisbeeGrid->addWidget(vSpinBox, 10, 2);
+    frisbeeGrid->addWidget(wSpinBox, 11, 2);
+    frisbeeGrid->addWidget(pSpinBox, 12, 2);
+    frisbeeGrid->addWidget(qSpinBox, 13, 2);
+    frisbeeGrid->addWidget(rSpinBox, 14, 2);
 	frisbeeGrid->addWidget(xLabel, 2, 1);
     frisbeeGrid->addWidget(yLabel, 3, 1);
     frisbeeGrid->addWidget(zLabel, 4, 1);
     frisbeeGrid->addWidget(phiLabel, 5, 1);
     frisbeeGrid->addWidget(thetaLabel, 6, 1);
     frisbeeGrid->addWidget(psiLabel, 7, 1);
-    frisbeeGrid->addWidget(uLabel, 8, 1);
-    frisbeeGrid->addWidget(vLabel, 9, 1);
-    frisbeeGrid->addWidget(wLabel, 10, 1);
-    frisbeeGrid->addWidget(pLabel, 11, 1);
-    frisbeeGrid->addWidget(qLabel, 12, 1);
-    frisbeeGrid->addWidget(rLabel, 13, 1);
+    frisbeeGrid->addWidget(uLabel, 9, 1);
+    frisbeeGrid->addWidget(vLabel, 10, 1);
+    frisbeeGrid->addWidget(wLabel, 11, 1);
+    frisbeeGrid->addWidget(pLabel, 12, 1);
+    frisbeeGrid->addWidget(qLabel, 13, 1);
+    frisbeeGrid->addWidget(rLabel, 14, 1);
     frisbeeGrid->addWidget(setFrisbeeStateButton, 1, 1, 1, 2);
-
+    frisbeeGrid->addWidget(toggleUvwBodyEarthAxesButton, 8, 1, 1, 2);
 
 	integratorGrid = new QGridLayout;
 	integratorGrid->addWidget(resetTimeButton, 1, 1, 1, 1);
@@ -338,6 +339,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	QObject::connect(stopButton, SIGNAL(clicked()), infoWin, SLOT(close()));
 
     QObject::connect(setFrisbeeStateButton, SIGNAL(clicked()), this, SLOT(setFrisbeeState()));
+    QObject::connect(toggleUvwBodyEarthAxesButton, SIGNAL(clicked()), this, SLOT(toggleUvwBodyEarthAxes()));
 
 	QObject::connect(startStopButton, SIGNAL(clicked()), w, SLOT(toggleTime()));
 
@@ -381,11 +383,25 @@ void CommandWindow::setFrisbeeState() {
     	w->setFrisbeeState(Vector3(xSpinBox->value(), ySpinBox->value(), zSpinBox->value()),
     						Vector3(phiSpinBox->value(), thetaSpinBox->value(), psiSpinBox->value()),
     						Vector3(uSpinBox->value(), vSpinBox->value(), wSpinBox->value()),
-    						Vector3(pSpinBox->value(), qSpinBox->value(), rSpinBox->value()));
+    						Vector3(pSpinBox->value(), qSpinBox->value(), rSpinBox->value()),
+    						uvwIsBodyNotEarthAxes);
     	w->coutSystem();
     }catch (std::string s) {
         QMessageBox::information(this, "Problem", QString::fromStdString(s));
     }
+}
+
+void CommandWindow::toggleUvwBodyEarthAxes() {
+	uvwIsBodyNotEarthAxes = !uvwIsBodyNotEarthAxes;
+	if (uvwIsBodyNotEarthAxes) {
+		uLabel->setText("u:");
+		vLabel->setText("v:");
+		wLabel->setText("w:");
+	} else {
+		uLabel->setText("xDot (Earth axes):");
+		vLabel->setText("yDot (Earth axes):");
+		wLabel->setText("zDot (Earth axes):");
+	}
 }
 
 //==============SLots poyur la creation=================================================

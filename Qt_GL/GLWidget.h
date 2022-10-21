@@ -131,7 +131,7 @@ public :
 
 	// std::vector<Vecteur3D> Get_CdM_pos () const {return s->get_CDM();}
 
-	void setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr);
+	void setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr, bool const& uvwIsBodyNotEarthAxes);
 	void coutSystem();
 	
 	const Vector3 getFrisbeePosition() const;

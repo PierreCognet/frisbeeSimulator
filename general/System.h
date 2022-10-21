@@ -35,7 +35,7 @@ public:
 	// bool get_Cassable() ;
 
 
-	void setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr);
+	void setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr, bool const& uvwIsBodyNotEarthAxes=true);
 	
 	Frisbee* getFrisbee();
 

@@ -39,6 +39,8 @@ public :
 	void setUvw(Vector3 const& v) { uvw_ = v; }
 	void setPqr(Vector3 const& v) { pqr_ = v; }
 
+	void setXdotYdotZdot(Vector3 const& v); // Set the velocity using earth axis (unlike setUvW which is in body axis).
+
 
 	// Getters
 	const Vector3 xyz() const;

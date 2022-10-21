@@ -172,10 +172,11 @@ void System::drawPlayingField() const {
 
 
 
-void System::setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr) {
+void System::setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr, bool const& uvwIsBodyNotEarthAxes) {
 	f->setXyz(xyz);
 	f->setPhiThetaPsi(phiThetaPsi);
-	f->setUvw(uvw);
+	if (uvwIsBodyNotEarthAxes) 	{ f->setUvw(uvw); }
+	else 						{ f->setXdotYdotZdot(uvw); }
 	f->setPqr(pqr);
 }
 
