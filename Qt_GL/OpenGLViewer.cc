@@ -554,6 +554,7 @@ void OpenGLViewer::translate(Vector3 translation)
 	QMatrix4x4 translation_supplementaire;
 	translation_supplementaire.translate(translation[0], translation[1], translation[2]);
 	viewMatrix = translation_supplementaire * viewMatrix;
+	getViewPosition(); // ***
 }
 
 
@@ -563,4 +564,10 @@ void OpenGLViewer::rotate(double angle, Vector3 rotation)
 	QMatrix4x4 rotation_supplementaire;
 	rotation_supplementaire.rotate(angle, rotation[0], rotation[1], rotation[2]);
 	viewMatrix = rotation_supplementaire * viewMatrix;
+}
+
+Vector3 OpenGLViewer::getViewPosition() const {
+	// Vector3 viewPosition (viewMatrix[12], viewMatrix[13], viewMatrix[14]);
+	Vector3 viewPosition (viewMatrix(0,3), viewMatrix(1,3), viewMatrix(2,3));
+	cerr << viewPosition << endl;
 }

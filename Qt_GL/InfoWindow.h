@@ -5,6 +5,8 @@
 #include "PosInfo.h"
 #include "GLWidget.h"
 
+class GLWidget;
+class PosInfo;
 
 class InfoWindow : public QWidget {
 Q_OBJECT

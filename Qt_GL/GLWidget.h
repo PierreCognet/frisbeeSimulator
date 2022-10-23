@@ -4,10 +4,14 @@
 #include <QGLWidget>
 #include <QObject>
 #include <QTime>
+#include "CommandWindow.h"
 #include "OpenGLViewer.h"
 #include "System.h"
 #include "Integrator.h"
 
+class CommandWindow;
+
+// enum KeyAction { pitchUp, pitchDown, yawLeft, yawRight, rollLeft, rollRight, moveUp, moveDown, moveLeft, moveRight, moveForward, moveBackward, resetPosition, startStopTime };
 
 class GLWidget : public QGLWidget {
 
@@ -15,7 +19,9 @@ Q_OBJECT
 
 public:
 
-	GLWidget(IntegratorType type = RungeKutta, QWidget* parent = nullptr);
+	// GLWidget(IntegratorType type = RungeKutta, QWidget* parent = nullptr);
+	GLWidget(IntegratorType type = RungeKutta, CommandWindow* parent = nullptr);
+
 
 	virtual ~GLWidget();  // Delete dyamically allocated integrator.
 
@@ -169,6 +175,11 @@ private:
 	System* s; // Objects to draw and make evolve.
 	Integrator* integrator;
 	double playbackSpeed; // To change the speed at which time flows (multiplier).
+
+	// std::map<int, KeyAction> keyActionMap;
+	// // std::map<Qt::Key, KeyAction> keyActionMap;
+	CommandWindow* parent; // The parent window.
+
 
 };
 

@@ -26,8 +26,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	frisbeePage = new QWidget;
 	timePage = new QWidget;
 	cameraPage = new QWidget;
-	// TypeTissu = new QComboBox;
-	// TypeContraintes = new QComboBox;
+	keyboardPage = new QWidget;
 	
 	stopButton = new QPushButton("Stop simulation");
 	startButton = new QPushButton("Start simulation");
@@ -167,6 +166,154 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	cameraGrid->addWidget(yButton, 3, 0);
 	cameraGrid->addWidget(yyButton, 3, 2);
 
+
+	keyboardGrid = new QGridLayout;
+
+	keyActionMap[Qt::Key_Up] = pitchUp;
+	keyActionMap[Qt::Key_Down] = pitchDown;
+	keyActionMap[Qt::Key_Left] = yawLeft;
+	keyActionMap[Qt::Key_Right] = yawRight;
+	keyActionMap[Qt::Key_A] = rollLeft;
+	keyActionMap[Qt::Key_E] = rollRight;
+	keyActionMap[Qt::Key_R] = moveUp;
+	keyActionMap[Qt::Key_F] = moveDown;
+	keyActionMap[Qt::Key_Q] = moveLeft;
+	keyActionMap[Qt::Key_D] = moveRight;
+	keyActionMap[Qt::Key_Z] = moveForward;
+	keyActionMap[Qt::Key_S] = moveBackward;
+	keyActionMap[Qt::Key_Home] = resetPosition;
+	keyActionMap[Qt::Key_Space] = startStopTime;
+
+	actionTitleLabel = new QLabel("Action:");
+	currentKeyTitleLabel = new QLabel("Current Key:");
+	setNewKeyTitleLabel = new QLabel("Click then press new key:");
+	keyboardGrid->addWidget(actionTitleLabel, 1, 1);
+	keyboardGrid->addWidget(currentKeyTitleLabel, 1, 2);
+	keyboardGrid->addWidget(setNewKeyTitleLabel, 1, 3);
+
+	pitchUpLabel = new QLabel("Pitch up");
+	pitchDownLabel = new QLabel("Pitch down");
+	yawLeftLabel = new QLabel("Yaw left");
+	yawRightLabel = new QLabel("Yaw right");
+	rollLeftLabel = new QLabel("Roll left");
+	rollRightLabel = new QLabel("Roll right");
+	moveUpLabel = new QLabel("Move up");
+	moveDownLabel = new QLabel("Move down");
+	moveLeftLabel = new QLabel("Move left");
+	moveRightLabel = new QLabel("Move right");
+	moveForwardLabel = new QLabel("Move forwards");
+	moveBackwardLabel = new QLabel("Move backwards");
+	resetPositionLabel = new QLabel("Reset position");
+	startStopTimeLabel = new QLabel("Toggle time");
+
+	pitchUpCurKeyLabel = new QLabel("");
+	pitchDownCurKeyLabel = new QLabel("");
+	yawLeftCurKeyLabel = new QLabel("");
+	yawRightCurKeyLabel = new QLabel("");
+	rollLeftCurKeyLabel = new QLabel("");
+	rollRightCurKeyLabel = new QLabel("");
+	moveUpCurKeyLabel = new QLabel("");
+	moveDownCurKeyLabel = new QLabel("");
+	moveLeftCurKeyLabel = new QLabel("");
+	moveRightCurKeyLabel = new QLabel("");
+	moveForwardCurKeyLabel = new QLabel("");
+	moveBackwardCurKeyLabel = new QLabel("");
+	resetPositionCurKeyLabel = new QLabel("");
+	startStopTimeCurKeyLabel = new QLabel("");
+	// pitchUpCurKeyLabel = new QLabel(QKeySequence(findBindedKey(pitchUp)).toString());
+	// pitchDownCurKeyLabel = new QLabel(QKeySequence(findBindedKey(pitchDown)).toString());
+	// yawLeftCurKeyLabel = new QLabel(QKeySequence(findBindedKey(yawLeft)).toString());
+	// yawRightCurKeyLabel = new QLabel(QKeySequence(findBindedKey(yawRight)).toString());
+	// rollLeftCurKeyLabel = new QLabel(QKeySequence(findBindedKey(rollLeft)).toString());
+	// rollRightCurKeyLabel = new QLabel(QKeySequence(findBindedKey(rollRight)).toString());
+	// moveUpCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveUp)).toString());
+	// moveDownCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveDown)).toString());
+	// moveLeftCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveLeft)).toString());
+	// moveRightCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveRight)).toString());
+	// moveForwardCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveForward)).toString());
+	// moveBackwardCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveBackward)).toString());
+	// resetPositionCurKeyLabel = new QLabel(QKeySequence(findBindedKey(resetPosition)).toString());
+	// startStopTimeCurKeyLabel = new QLabel(QKeySequence(findBindedKey(startStopTime)).toString());
+	refreshCurKeyLabels();
+
+	pitchUpSetButton = new QPushButton("Set new key");
+	pitchDownSetButton = new QPushButton("Set new key");
+	yawLeftSetButton = new QPushButton("Set new key");
+	yawRightSetButton = new QPushButton("Set new key");
+	rollLeftSetButton = new QPushButton("Set new key");
+	rollRightSetButton = new QPushButton("Set new key");
+	moveUpSetButton = new QPushButton("Set new key");
+	moveDownSetButton = new QPushButton("Set new key");
+	moveLeftSetButton = new QPushButton("Set new key");
+	moveRightSetButton = new QPushButton("Set new key");
+	moveForwardSetButton = new QPushButton("Set new key");
+	moveBackwardSetButton = new QPushButton("Set new key");
+	resetPositionSetButton = new QPushButton("Set new key");
+	startStopTimeSetButton = new QPushButton("Set new key");
+
+	keyboardGrid->addWidget(pitchUpLabel, 2, 1);
+	keyboardGrid->addWidget(pitchDownLabel, 3, 1);
+	keyboardGrid->addWidget(yawLeftLabel, 4, 1);
+	keyboardGrid->addWidget(yawRightLabel, 5, 1);
+	keyboardGrid->addWidget(rollLeftLabel, 6, 1);
+	keyboardGrid->addWidget(rollRightLabel, 7, 1);
+	keyboardGrid->addWidget(moveUpLabel, 8, 1);
+	keyboardGrid->addWidget(moveDownLabel, 9, 1);
+	keyboardGrid->addWidget(moveLeftLabel, 10, 1);
+	keyboardGrid->addWidget(moveRightLabel, 11, 1);
+	keyboardGrid->addWidget(moveForwardLabel, 12, 1);
+	keyboardGrid->addWidget(moveBackwardLabel, 13, 1);
+	keyboardGrid->addWidget(resetPositionLabel, 14, 1);
+	keyboardGrid->addWidget(startStopTimeLabel, 15, 1);
+
+	keyboardGrid->addWidget(pitchUpCurKeyLabel, 2, 2);
+	keyboardGrid->addWidget(pitchDownCurKeyLabel, 3, 2);
+	keyboardGrid->addWidget(yawLeftCurKeyLabel, 4, 2);
+	keyboardGrid->addWidget(yawRightCurKeyLabel, 5, 2);
+	keyboardGrid->addWidget(rollLeftCurKeyLabel, 6, 2);
+	keyboardGrid->addWidget(rollRightCurKeyLabel, 7, 2);
+	keyboardGrid->addWidget(moveUpCurKeyLabel, 8, 2);
+	keyboardGrid->addWidget(moveDownCurKeyLabel, 9, 2);
+	keyboardGrid->addWidget(moveLeftCurKeyLabel, 10, 2);
+	keyboardGrid->addWidget(moveRightCurKeyLabel, 11, 2);
+	keyboardGrid->addWidget(moveForwardCurKeyLabel, 12, 2);
+	keyboardGrid->addWidget(moveBackwardCurKeyLabel, 13, 2);
+	keyboardGrid->addWidget(resetPositionCurKeyLabel, 14, 2);
+	keyboardGrid->addWidget(startStopTimeCurKeyLabel, 15, 2);
+
+	keyboardGrid->addWidget(pitchUpSetButton, 2, 3);
+	keyboardGrid->addWidget(pitchDownSetButton, 3, 3);
+	keyboardGrid->addWidget(yawLeftSetButton, 4, 3);
+	keyboardGrid->addWidget(yawRightSetButton, 5, 3);
+	keyboardGrid->addWidget(rollLeftSetButton, 6, 3);
+	keyboardGrid->addWidget(rollRightSetButton, 7, 3);
+	keyboardGrid->addWidget(moveUpSetButton, 8, 3);
+	keyboardGrid->addWidget(moveDownSetButton, 9, 3);
+	keyboardGrid->addWidget(moveLeftSetButton, 10, 3);
+	keyboardGrid->addWidget(moveRightSetButton, 11, 3);
+	keyboardGrid->addWidget(moveForwardSetButton, 12, 3);
+	keyboardGrid->addWidget(moveBackwardSetButton, 13, 3);
+	keyboardGrid->addWidget(resetPositionSetButton, 14, 3);
+	keyboardGrid->addWidget(startStopTimeSetButton, 15, 3);
+
+	nextKeyPressSetsAction = false;
+	// actionToSet = null;
+
+	// vector<string> actionNames ({ "Pitch up", "Pitch down", "Yaw left", "Yaw right", "Roll left", "Roll right", "Move up", "Move down", "Move left", "Move right", "Move forwards", "Move backwards", "Reset position", "Toggle time" });
+	// for (const auto action : KeyAction::All) {
+
+	// 	actionLabels.push_back(new QLabel(actionNames[action])); // *** std:: ?
+	// 	currentKeyLabels.push_back(new QLabel(findBindedKey(action))) *** findBindedKey implement
+	// 	setNewKeyButtons.push_back(new QPushButton("Set new key")); // *** std:: ?
+
+	//     keyboardGrid->addWidget(keyActionLabels[action], 2+action, 1);
+	//     keyboardGrid->addWidget(currentKeyLabels[action], 2+action, 2);
+	//     keyboardGrid->addWidget(setNewKeyButtons[action], 2+action, 3);
+	// }
+
+
+
+
 	// box4 = new QGridLayout;
 	// box4->addWidget(boutonMass , 1 , 0);
 	// box4->addWidget(boutonSpring , 2 , 0);
@@ -286,11 +433,8 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	masterPage->setLayout(masterGrid);
 	frisbeePage->setLayout(frisbeeGrid);
 	timePage->setLayout(timeGrid);
-	// page3->setLayout(box4);
 	cameraPage->setLayout(cameraGrid);
-	// page5->setLayout(box5);
-	// page6->setLayout(fileSaveLoadGrid);
-	// page7->setLayout(box7);
+	keyboardPage->setLayout(keyboardGrid);
 
 
 	// Fill the tabs.
@@ -298,11 +442,8 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	tabs->addTab(masterPage, "Command Window");
 	tabs->addTab(frisbeePage, "Frisbee");
 	tabs->addTab(timePage, " Time");
-	// tabs->addTab(page3, "Type Visualisation");
-	// tabs->addTab(page5 , "Tissus");
-	// tabs->addTab(page7 , "Contraintes");
 	tabs->addTab(cameraPage, " Camera");
-	// tabs->addTab(page6, "Files" );
+	tabs->addTab(keyboardPage, " Keyboard Bindings");
 
 
 
@@ -367,6 +508,22 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 
 	QObject::connect(resetTimeButton, SIGNAL(clicked()), w ,SLOT(resetTime()));
 	
+
+	QObject::connect(pitchUpSetButton, SIGNAL(clicked()), this, SLOT(pitchUpSetNew()));
+	QObject::connect(pitchDownSetButton, SIGNAL(clicked()), this, SLOT(pitchDownSetNew()));
+	QObject::connect(yawLeftSetButton, SIGNAL(clicked()), this, SLOT(yawLeftSetNew()));
+	QObject::connect(yawRightSetButton, SIGNAL(clicked()), this, SLOT(yawRightSetNew()));
+	QObject::connect(rollLeftSetButton, SIGNAL(clicked()), this, SLOT(rollLeftSetNew()));
+	QObject::connect(rollRightSetButton, SIGNAL(clicked()), this, SLOT(rollRightSetNew()));
+	QObject::connect(moveUpSetButton, SIGNAL(clicked()), this, SLOT(moveUpSetNew()));
+	QObject::connect(moveDownSetButton, SIGNAL(clicked()), this, SLOT(moveDownSetNew()));
+	QObject::connect(moveLeftSetButton, SIGNAL(clicked()), this, SLOT(moveLeftSetNew()));
+	QObject::connect(moveRightSetButton, SIGNAL(clicked()), this, SLOT(moveRightSetNew()));
+	QObject::connect(moveForwardSetButton, SIGNAL(clicked()), this, SLOT(moveForwardSetNew()));
+	QObject::connect(moveBackwardSetButton, SIGNAL(clicked()), this, SLOT(moveBackwardSetNew()));
+	QObject::connect(resetPositionSetButton, SIGNAL(clicked()), this, SLOT(resetPositionSetNew()));
+	QObject::connect(startStopTimeSetButton, SIGNAL(clicked()), this, SLOT(startStopTimeSetNew()));
+
 	// QObject::connect(ClearTT , SIGNAL(clicked()), w , SLOT(clear_tissu()));
 	// QObject::connect(ToggleContr, SIGNAL(clicked()) , w , SLOT (Toggle_Contr()));
 	// QObject::connect(ToggleCass, SIGNAL(clicked()) , w , SLOT (Toggle_Cassures()));
@@ -403,6 +560,162 @@ void CommandWindow::toggleUvwBodyEarthAxes() {
 		wLabel->setText("zDot (Earth axes):");
 	}
 }
+
+void CommandWindow::pitchUpSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = pitchUp;
+}
+
+void CommandWindow::pitchDownSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = pitchDown;
+}
+
+void CommandWindow::yawLeftSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = yawLeft;
+}
+
+void CommandWindow::yawRightSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = yawRight;
+}
+
+void CommandWindow::rollLeftSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = rollLeft;
+}
+
+void CommandWindow::rollRightSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = rollRight;
+}
+
+void CommandWindow::moveUpSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = moveUp;
+}
+
+void CommandWindow::moveDownSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = moveDown;
+}
+
+void CommandWindow::moveLeftSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = moveLeft;
+}
+
+void CommandWindow::moveRightSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = moveRight;
+}
+
+void CommandWindow::moveForwardSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = moveForward;
+}
+
+void CommandWindow::moveBackwardSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = moveBackward;
+}
+
+void CommandWindow::resetPositionSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = resetPosition;
+}
+
+void CommandWindow::startStopTimeSetNew() {
+	nextKeyPressSetsAction = true;
+	// setNewKeyTitleLabel->Focus();	
+	actionToSet = startStopTime;
+}
+
+
+
+bool CommandWindow::getMappedAction(QKeyEvent* event, KeyAction& action) {
+
+	map<int, KeyAction>::iterator it = keyActionMap.find(event->key()); // Find the action corresponding to this key press. 
+
+	if (it != keyActionMap.end()) { 
+		action = it->second;
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
+int CommandWindow::findBindedKey(KeyAction const& a) {
+	for (auto& it : keyActionMap) {
+		if (it.second==a) {
+			return it.first;
+		}
+	}
+	throw string("CommandWindow::findBindedKey(...)  action doesn't have any key binding");
+}
+
+void CommandWindow::refreshCurKeyLabels() {
+	// QString:: ?
+	pitchUpCurKeyLabel->setText(QKeySequence(findBindedKey(pitchUp)).toString());
+	pitchDownCurKeyLabel->setText(QKeySequence(findBindedKey(pitchDown)).toString());
+	yawLeftCurKeyLabel->setText(QKeySequence(findBindedKey(yawLeft)).toString());
+	yawRightCurKeyLabel->setText(QKeySequence(findBindedKey(yawRight)).toString());
+	rollLeftCurKeyLabel->setText(QKeySequence(findBindedKey(rollLeft)).toString());
+	rollRightCurKeyLabel->setText(QKeySequence(findBindedKey(rollRight)).toString());
+	moveUpCurKeyLabel->setText(QKeySequence(findBindedKey(moveUp)).toString());
+	moveDownCurKeyLabel->setText(QKeySequence(findBindedKey(moveDown)).toString());
+	moveLeftCurKeyLabel->setText(QKeySequence(findBindedKey(moveLeft)).toString());
+	moveRightCurKeyLabel->setText(QKeySequence(findBindedKey(moveRight)).toString());
+	moveForwardCurKeyLabel->setText(QKeySequence(findBindedKey(moveForward)).toString());
+	moveBackwardCurKeyLabel->setText(QKeySequence(findBindedKey(moveBackward)).toString());
+	resetPositionCurKeyLabel->setText(QKeySequence(findBindedKey(resetPosition)).toString());
+	startStopTimeCurKeyLabel->setText(QKeySequence(findBindedKey(startStopTime)).toString());
+}
+
+
+void CommandWindow::keyPressEvent(QKeyEvent* event) {
+	if (nextKeyPressSetsAction) {
+		nextKeyPressSetsAction = false;
+
+		map<int, KeyAction>::iterator it = keyActionMap.find(event->key());
+
+		if (it == keyActionMap.end()) {
+			// The key is not already attributed to other action. Good, so attribute it to this action.
+			bool valueNotYetFound (true);
+			for (map<int, KeyAction>::iterator it=keyActionMap.begin(); it!=keyActionMap.end() && valueNotYetFound; ++it) {
+				if (it->second==actionToSet) {
+					keyActionMap.erase(it);
+					valueNotYetFound = false;
+				}
+			}
+			keyActionMap[event->key()] = actionToSet;
+
+			// *** (while nextKeyPressSetsAction change the text of label or button to say that you are waiting for a keypress)
+
+			refreshCurKeyLabels();
+
+		} else {
+			// *** dialogue box or error msg saying that this key is already attributed.
+		}
+
+	}
+}
+
 
 //==============SLots poyur la creation=================================================
 

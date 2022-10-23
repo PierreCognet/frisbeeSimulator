@@ -5,11 +5,12 @@
 #include <QGridLayout>
 #include "GLWidget.h"
 #include "InfoWindow.h"
-// #include "Liaison.h"
-// #include "Tissu.h"
-// #include "TissuDisque.h"
-// #include "TissuRectangle.h"
-// #include "Masse.h"
+#include <map>
+
+class GLWidget;
+class InfoWindow;
+
+enum KeyAction { pitchUp, pitchDown, yawLeft, yawRight, rollLeft, rollRight, moveUp, moveDown, moveLeft, moveRight, moveForward, moveBackward, resetPosition, startStopTime };
 
 
 class CommandWindow : public QWidget {
@@ -18,211 +19,284 @@ Q_OBJECT
 
 public :
 
-    CommandWindow (QWidget *parent);
+	CommandWindow (QWidget *parent);
+
+	bool getMappedAction(QKeyEvent* event, KeyAction& action);
 
 private slots :
 
-    void simulate();              // Needed to display and quit window (OpenGL).
+	void simulate();              // Needed to display and quit window (OpenGL).
 
-    void setFrisbeeState();
-    void toggleUvwBodyEarthAxes();
+	void setFrisbeeState();
+	void toggleUvwBodyEarthAxes();
 
-    // void saveFile();
+	// void saveFile();
 
-    // void loadFile();
+	// void loadFile();
 
-    // void quit();
+	// void quit();
 
-    // void quit2();
+	// void quit2();
 
-
+	void pitchUpSetNew();
+	void pitchDownSetNew();
+	void yawLeftSetNew();
+	void yawRightSetNew();
+	void rollLeftSetNew();
+	void rollRightSetNew();
+	void moveUpSetNew();
+	void moveDownSetNew();
+	void moveLeftSetNew();
+	void moveRightSetNew();
+	void moveForwardSetNew();
+	void moveBackwardSetNew();
+	void resetPositionSetNew();
+	void startStopTimeSetNew();
 
 private :
 
-    QTabWidget *tabs;
-    QWidget* masterPage;
-    QWidget* frisbeePage;
-    QWidget* timePage;
-    // QWidget *page3 ;
-    QWidget* cameraPage;
-    // QWidget *page5 ;
-    // QWidget *page6 ;
-    // QWidget *page7 ;
-    // QLabel *nomF;
+	int findBindedKey(KeyAction const& a);
+	void refreshCurKeyLabels();
 
-    // QPushButton* save;
-    // QPushButton* load;
-    // QComboBox *TypeTissu;
-    // QComboBox *TypeContraintes;
-    // QComboBox *TissuComp;
-    
-
-    QLabel* camPositionTitle;
+	// Methods for event handling. 
+	virtual void keyPressEvent(QKeyEvent* event) override;
 
 
-    QPushButton* resetTimeButton;
-    // QPushButton *boutonTri ;
-    // QPushButton *boutonSpring ;
-    // QPushButton *boutonMass ;
+	QTabWidget *tabs;
+	QWidget* masterPage;
+	QWidget* frisbeePage;
+	QWidget* timePage;
+	QWidget* cameraPage;
+	QWidget* keyboardPage;
 
-    QGridLayout* integratorGrid;
+	// QPushButton* save;
+	// QPushButton* load;
+	// QComboBox *TypeTissu;
+	// QComboBox *TypeContraintes;
+	// QComboBox *TissuComp;
+	
 
-    
-    // QPushButton *boutonIntegrateurEuler;
-    // QPushButton *boutonIntegrateurNewmark;
-    QPushButton* rk4Button;
-
-
-    QPushButton* startStopButton;
-    QPushButton* stopButton;
-    QPushButton* startButton;
-
-    QPushButton* zButton;
-    QPushButton* zzButton;
-    QPushButton* xButton;
-    QPushButton* xxButton;
-    QPushButton* yButton;
-    QPushButton* yyButton;
-    
-    // QPushButton *boutonCDM; // set camera on fribee ? ***
-
-    // QPushButton *ToggleContr;
-    // QPushButton *ToggleCass;
-    //QPushButton *boutonOK;
-
-    QSlider* playbackSpeedSlider;
-    
-    QGridLayout* masterGrid;
-    QGridLayout* frisbeeGrid;
-    QGridLayout* timeGrid;
-    QGridLayout* cameraGrid;
-    // QGridLayout *box4;
-    // QGridLayout *box5;
-    // QGridLayout *fileSaveLoadGrid;
-    // QGridLayout *box7;
-
-    QLabel* playbackSpeedLabel;
-    
-    // QPushButton* ClearTT;
-    // QLineEdit* filename;
-    // QLabel* infofile;
-    QLabel* integratorLabel;
-
-    // QPushButton *Del_Tissu;
-    // QPushButton *Del_Contr;
+	QLabel* camPositionTitle;
 
 
-    // QGridLayout *ChoixTissu;
-    // QWidget *ChoixT;
+	QPushButton* resetTimeButton;
+	// QPushButton *boutonTri ;
+	// QPushButton *boutonSpring ;
+	// QPushButton *boutonMass ;
 
-    QDoubleSpinBox* xSpinBox;
-    QDoubleSpinBox* ySpinBox;
-    QDoubleSpinBox* zSpinBox;
-    QDoubleSpinBox* phiSpinBox;
-    QDoubleSpinBox* thetaSpinBox;
-    QDoubleSpinBox* psiSpinBox;
-    QDoubleSpinBox* uSpinBox;
-    QDoubleSpinBox* vSpinBox;
-    QDoubleSpinBox* wSpinBox;
-    QDoubleSpinBox* pSpinBox;
-    QDoubleSpinBox* qSpinBox;
-    QDoubleSpinBox* rSpinBox;
+	QGridLayout* integratorGrid;
 
-    QLabel* xLabel;
-    QLabel* yLabel;
-    QLabel* zLabel;
-    QLabel* phiLabel;
-    QLabel* thetaLabel;
-    QLabel* psiLabel;
-    QLabel* uLabel;
-    QLabel* vLabel;
-    QLabel* wLabel;
-    QLabel* pLabel;
-    QLabel* qLabel;
-    QLabel* rLabel;
-
-    QPushButton* setFrisbeeStateButton;
-    QPushButton* toggleUvwBodyEarthAxesButton;
-    bool uvwIsBodyNotEarthAxes;
+	
+	// QPushButton *boutonIntegrateurEuler;
+	// QPushButton *boutonIntegrateurNewmark;
+	QPushButton* rk4Button;
 
 
+	QPushButton* startStopButton;
+	QPushButton* stopButton;
+	QPushButton* startButton;
 
-    // QDoubleSpinBox* MasseGet ;
-    // QDoubleSpinBox* MasseGet1;
-    // QDoubleSpinBox* LambdaGet ;
-    // QDoubleSpinBox* loGet  ;
-    // QDoubleSpinBox* KGet  ;
-    // QSpinBox* tailleGet;
-    // QDoubleSpinBox* PasRadialGet;
-    // QDoubleSpinBox* PasAngulaireGet;
+	QPushButton* zButton;
+	QPushButton* zzButton;
+	QPushButton* xButton;
+	QPushButton* xxButton;
+	QPushButton* yButton;
+	QPushButton* yyButton;
+	
+	// QPushButton *boutonCDM; // set camera on fribee ? ***
 
-    // QDoubleSpinBox* VecXGet ;
-    // QDoubleSpinBox* VecYGet ;
-    // QDoubleSpinBox* VecZGet ;
-    // QDoubleSpinBox* VecXGet1 ;
-    // QDoubleSpinBox* VecYGet1 ;
-    // QDoubleSpinBox* VecZGet1 ;
-    // QDoubleSpinBox* VecXGet2 ;
-    // QDoubleSpinBox* VecYGet2 ;
-    // QDoubleSpinBox* VecZGet2 ;
+	// QPushButton *ToggleContr;
+	// QPushButton *ToggleCass;
+	//QPushButton *boutonOK;
 
-    // // For the popup window
-    // QPushButton* create;
-    // QPushButton* Compose;
-    // QPushButton* pop;
-    // QPushButton* Quit;
+	QSlider* playbackSpeedSlider;
+	
+	QGridLayout* masterGrid;
+	QGridLayout* frisbeeGrid;
+	QGridLayout* timeGrid;
+	QGridLayout* cameraGrid;
+	QGridLayout* keyboardGrid;
 
-    // void tissuchaine();                 //Fonctions pour les champs variables
-    // void tissuCarre();
-    // void tissuHexagone();
-    // void tissuDisque();
-    // void tissuRectangle();
-    // void tissulibre();
-    // void tissuCarre2();
-    // void tissuComp();
+	QLabel* playbackSpeedLabel;
+	
+	// QPushButton* ClearTT;
+	// QLineEdit* filename;
+	// QLabel* infofile;
+	QLabel* integratorLabel;
 
-
+	// QPushButton *Del_Tissu;
+	// QPushButton *Del_Contr;
 
 
-    // QGridLayout* ChoixContraintes;
-    // QWidget* ChoixC;
-    // QGridLayout* set;
+	// QGridLayout *ChoixTissu;
+	// QWidget *ChoixT;
 
-    // QDoubleSpinBox* CentreGet1;
-    // QDoubleSpinBox* CentreGet2;
-    // QDoubleSpinBox* CentreGet3;
-    // QDoubleSpinBox* RayonGet;
-    // QDoubleSpinBox* GetTpDebut;
-    // QDoubleSpinBox* GetTpFin;
-    // QDoubleSpinBox* Force1;
-    // QDoubleSpinBox* Force2;
-    // QDoubleSpinBox* Force3;
-    // QDoubleSpinBox* Freq;
-    // QPushButton* CreateC;
-    // QDialog* PopUp;
-    // QSpinBox* massedep;
-    // QSpinBox* massearr;
+	QDoubleSpinBox* xSpinBox;
+	QDoubleSpinBox* ySpinBox;
+	QDoubleSpinBox* zSpinBox;
+	QDoubleSpinBox* phiSpinBox;
+	QDoubleSpinBox* thetaSpinBox;
+	QDoubleSpinBox* psiSpinBox;
+	QDoubleSpinBox* uSpinBox;
+	QDoubleSpinBox* vSpinBox;
+	QDoubleSpinBox* wSpinBox;
+	QDoubleSpinBox* pSpinBox;
+	QDoubleSpinBox* qSpinBox;
+	QDoubleSpinBox* rSpinBox;
 
+	QLabel* xLabel;
+	QLabel* yLabel;
+	QLabel* zLabel;
+	QLabel* phiLabel;
+	QLabel* thetaLabel;
+	QLabel* psiLabel;
+	QLabel* uLabel;
+	QLabel* vLabel;
+	QLabel* wLabel;
+	QLabel* pLabel;
+	QLabel* qLabel;
+	QLabel* rLabel;
 
-
-    // void crochet();
-    // void Impulsion();
-    // void Sinusoidale();
-    // void levitateur();
-    // void Boule();
-    // void trounoir();
-
-    // std::vector <Liaison> Liasons;
-    // std::vector <Masse> Masses;
-    // std::vector <Tissu*> Tissus;
-
-
-    // void Init_champC();
-    // void Init_champT(QGridLayout* Q);           //Pour un code plus comprehensible
+	QPushButton* setFrisbeeStateButton;
+	QPushButton* toggleUvwBodyEarthAxesButton;
+	bool uvwIsBodyNotEarthAxes;
 
 
-    GLWidget* w;
-    InfoWindow* infoWin; // Information window.
+	std::map<int, KeyAction> keyActionMap; // For each key, maps to the corresponding action. Would be cleaner to use Qt::Key, as key type.
+
+    QLabel* actionTitleLabel;
+    QLabel* currentKeyTitleLabel;
+    QLabel* setNewKeyTitleLabel;
+
+	// vector<QLabel*> actionLabels; // std:: ?
+	// vector<QLabel*> currentKeyLabels; // std:: ?
+	// vector<QPushButton*> setNewKeyButtons; // std:: ?
+
+	QLabel* pitchUpLabel;
+	QLabel* pitchDownLabel;
+	QLabel* yawLeftLabel;
+	QLabel* yawRightLabel;
+	QLabel* rollLeftLabel;
+	QLabel* rollRightLabel;
+	QLabel* moveUpLabel;
+	QLabel* moveDownLabel;
+	QLabel* moveLeftLabel;
+	QLabel* moveRightLabel;
+	QLabel* moveForwardLabel;
+	QLabel* moveBackwardLabel;
+	QLabel* resetPositionLabel;
+	QLabel* startStopTimeLabel;
+
+	QLabel* pitchUpCurKeyLabel;
+	QLabel* pitchDownCurKeyLabel;
+	QLabel* yawLeftCurKeyLabel;
+	QLabel* yawRightCurKeyLabel;
+	QLabel* rollLeftCurKeyLabel;
+	QLabel* rollRightCurKeyLabel;
+	QLabel* moveUpCurKeyLabel;
+	QLabel* moveDownCurKeyLabel;
+	QLabel* moveLeftCurKeyLabel;
+	QLabel* moveRightCurKeyLabel;
+	QLabel* moveForwardCurKeyLabel;
+	QLabel* moveBackwardCurKeyLabel;
+	QLabel* resetPositionCurKeyLabel;
+	QLabel* startStopTimeCurKeyLabel;
+
+	QPushButton* pitchUpSetButton;
+	QPushButton* pitchDownSetButton;
+	QPushButton* yawLeftSetButton;
+	QPushButton* yawRightSetButton;
+	QPushButton* rollLeftSetButton;
+	QPushButton* rollRightSetButton;
+	QPushButton* moveUpSetButton;
+	QPushButton* moveDownSetButton;
+	QPushButton* moveLeftSetButton;
+	QPushButton* moveRightSetButton;
+	QPushButton* moveForwardSetButton;
+	QPushButton* moveBackwardSetButton;
+	QPushButton* resetPositionSetButton;
+	QPushButton* startStopTimeSetButton;
+
+	bool nextKeyPressSetsAction;
+	KeyAction actionToSet;
+
+	// QDoubleSpinBox* MasseGet ;
+	// QDoubleSpinBox* MasseGet1;
+	// QDoubleSpinBox* LambdaGet ;
+	// QDoubleSpinBox* loGet  ;
+	// QDoubleSpinBox* KGet  ;
+	// QSpinBox* tailleGet;
+	// QDoubleSpinBox* PasRadialGet;
+	// QDoubleSpinBox* PasAngulaireGet;
+
+	// QDoubleSpinBox* VecXGet ;
+	// QDoubleSpinBox* VecYGet ;
+	// QDoubleSpinBox* VecZGet ;
+	// QDoubleSpinBox* VecXGet1 ;
+	// QDoubleSpinBox* VecYGet1 ;
+	// QDoubleSpinBox* VecZGet1 ;
+	// QDoubleSpinBox* VecXGet2 ;
+	// QDoubleSpinBox* VecYGet2 ;
+	// QDoubleSpinBox* VecZGet2 ;
+
+	// // For the popup window
+	// QPushButton* create;
+	// QPushButton* Compose;
+	// QPushButton* pop;
+	// QPushButton* Quit;
+
+	// void tissuchaine();                 //Fonctions pour les champs variables
+	// void tissuCarre();
+	// void tissuHexagone();
+	// void tissuDisque();
+	// void tissuRectangle();
+	// void tissulibre();
+	// void tissuCarre2();
+	// void tissuComp();
+
+
+
+
+	// QGridLayout* ChoixContraintes;
+	// QWidget* ChoixC;
+	// QGridLayout* set;
+
+	// QDoubleSpinBox* CentreGet1;
+	// QDoubleSpinBox* CentreGet2;
+	// QDoubleSpinBox* CentreGet3;
+	// QDoubleSpinBox* RayonGet;
+	// QDoubleSpinBox* GetTpDebut;
+	// QDoubleSpinBox* GetTpFin;
+	// QDoubleSpinBox* Force1;
+	// QDoubleSpinBox* Force2;
+	// QDoubleSpinBox* Force3;
+	// QDoubleSpinBox* Freq;
+	// QPushButton* CreateC;
+	// QDialog* PopUp;
+	// QSpinBox* massedep;
+	// QSpinBox* massearr;
+
+
+
+	// void crochet();
+	// void Impulsion();
+	// void Sinusoidale();
+	// void levitateur();
+	// void Boule();
+	// void trounoir();
+
+	// std::vector <Liaison> Liasons;
+	// std::vector <Masse> Masses;
+	// std::vector <Tissu*> Tissus;
+
+
+	// void Init_champC();
+	// void Init_champT(QGridLayout* Q);           //Pour un code plus comprehensible
+
+
+	GLWidget* w;
+	InfoWindow* infoWin; // Information window.
+
 
 };
 

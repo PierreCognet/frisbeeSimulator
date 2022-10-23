@@ -61,6 +61,9 @@ public:
   void translate(Vector3 translation);
   void rotate(double angle, Vector3 rotation);
 
+  Vector3 getViewPosition() const;
+
+
   void drawLine(QMatrix4x4 const& pov , Vector3 Point1 ,Vector3 Point2 ,Vector3 couleur );
   // void drawTriangle(QMatrix4x4 const& pov, Vector3 const& v1, Vector3 const& v2, Vector3 const& v3, Vector3 const& c1, Vector3 const& c2, Vector3 const& c3);
   // void drawTriangle(QMatrix4x4 const& pov, vector<Vector3> const& vertices, vector<Vector3> const& colors);

@@ -11,8 +11,9 @@
 using namespace std;
 
 
-GLWidget::GLWidget(IntegratorType type, QWidget* parent)
-	: QGLWidget(parent), s(new System(&view)), playbackSpeed(50) { // Dynamically allocated because we may want to change the System.
+// GLWidget::GLWidget(IntegratorType type, QWidget* parent)
+GLWidget::GLWidget(IntegratorType type, CommandWindow* parent)
+	: QGLWidget(parent), s(new System(&view)), playbackSpeed(50), parent(parent) { // Dynamically allocated because we may want to change the System.
 	switch (type) {
 		// case Euler:
 		// 	integrator =  new IntegrateurEuler;
@@ -24,6 +25,21 @@ GLWidget::GLWidget(IntegratorType type, QWidget* parent)
 			integrator = new IntegratorRK4;
 			break;
 	}
+
+	// keyActionMap[Qt::Key_Up] = pitchUp;
+	// keyActionMap[Qt::Key_Down] = pitchDown;
+	// keyActionMap[Qt::Key_Left] = yawLeft;
+	// keyActionMap[Qt::Key_Right] = yawRight;
+	// keyActionMap[Qt::Key_A] = rollLeft;
+	// keyActionMap[Qt::Key_E] = rollRight;
+	// keyActionMap[Qt::Key_R] = moveUp;
+	// keyActionMap[Qt::Key_F] = moveDown;
+	// keyActionMap[Qt::Key_Q] = moveLeft;
+	// keyActionMap[Qt::Key_D] = moveRight;
+	// keyActionMap[Qt::Key_Z] = moveForward;
+	// keyActionMap[Qt::Key_S] = moveBackward;
+	// keyActionMap[Qt::Key_Home] = resetPosition;
+	// keyActionMap[Qt::Key_Space] = startStopTime;
 }
 
 GLWidget::~GLWidget() { 
@@ -205,69 +221,52 @@ void GLWidget::keyPressEvent(QKeyEvent* event) {
 	constexpr double smallAngle(5.0); // In degrees.
 	constexpr double smallStep(1.0);
 
-	switch (event->key()) {
+	KeyAction action;
 
-		case Qt::Key_Left:
-			view.rotate(smallAngle, Vector3(0.0, -1.0, 0.0));
-			break;
 
-		case Qt::Key_Right:
-			view.rotate(smallAngle, Vector3(0.0, +1.0, 0.0));
-			break;
+	// map<int, KeyAction>::iterator it = keyActionMap.find(event->key()); // Find the action correesponding to this key press; 
+	// // map<Qt::Key, KeyAction>::iterator it = keyActionMap.find(event->key()); // Find the action correesponding to this key press; 
 
-		case Qt::Key_Up:
-			view.rotate(smallAngle, Vector3(-1.0, 0.0, 0.0));
-			break;
+	// if (it != keyActionMap.end()) { 
+		
+	// 	action = it->second;
 
-		case Qt::Key_Down:
+	if (parent->getMappedAction(event, action)) {
+		if (action==pitchUp) {
+			view.rotate(smallAngle, Vector3(-1.0, 0.0, 0.0));	
+		} else if (action==pitchDown) {
 			view.rotate(smallAngle, Vector3(+1.0, 0.0, 0.0));
-			break;
-
-		case Qt::Key_PageUp:
-		case Qt::Key_W:
-			view.translate(Vector3(0.0, 0.0,  smallStep));
-			break;
-
-		case Qt::Key_PageDown:
-		case Qt::Key_S:
-			view.translate(Vector3(0.0, 0.0, -smallStep));
-			break;
-
-		case Qt::Key_A:
-			view.translate( Vector3(smallStep, 0.0, 0.0));
-			break;
-
-		case Qt::Key_D:
-			view.translate(Vector3(-smallStep, 0.0, 0.0));
-			break;
-
-		case Qt::Key_R:
-			view.translate(Vector3(0.0, -smallStep, 0.0));
-			break;
-
-		case Qt::Key_F:
-			view.translate(Vector3(0.0,  smallStep, 0.0));
-			break;
-
-		case Qt::Key_Q:
+		} else if (action==yawLeft) {
+			view.rotate(smallAngle, Vector3(0.0, -1.0, 0.0));	
+		} else if (action==yawRight) {
+			view.rotate(smallAngle, Vector3(0.0, +1.0, 0.0));
+		} else if (action==rollLeft) {
 			view.rotate(smallAngle, Vector3(0.0, 0.0, -1.0));
-			break;
-
-		case Qt::Key_E:
+		} else if (action==rollRight) {
 			view.rotate(smallAngle, Vector3(0.0, 0.0, +1.0));
-			break;
-
-		case Qt::Key_Home:
+		} else if (action==moveUp) {
+			view.translate(Vector3(0.0, -smallStep, 0.0));
+		} else if (action==moveDown) {
+			view.translate(Vector3(0.0,  smallStep, 0.0));
+		} else if (action==moveLeft) {
+			view.translate( Vector3(smallStep, 0.0, 0.0));
+		} else if (action==moveRight) {
+			view.translate(Vector3(-smallStep, 0.0, 0.0));
+		} else if (action==moveForward) {
+			view.translate(Vector3(0.0, 0.0,  smallStep));	
+		} else if (action==moveBackward) {
+			view.translate(Vector3(0.0, 0.0, -smallStep));
+		} else if (action==resetPosition) {
 			view.initializePosition();
-			break;
-
-		case Qt::Key_Space:
+		} else if (action==startStopTime) {
 			toggleTime();
-			break;
-	};
-
-	updateGL();
+		} else {
+			throw string("GLWidget::keyPressEvent(...)  unknown action");
+		}
+	}
+	updateGL(); // put this line inside the if brackets ?
 }
+
 
 void GLWidget::timerEvent(QTimerEvent* event) {
 	Q_UNUSED(event);

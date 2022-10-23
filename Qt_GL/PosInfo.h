@@ -7,6 +7,8 @@
 #include <QObject>
 #include "GLWidget.h"
 
+class GLWidget;
+
 enum AxisType {XY , Z};
 
 class PosInfo : public QGLWidget {
