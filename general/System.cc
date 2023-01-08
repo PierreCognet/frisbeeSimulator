@@ -5,6 +5,7 @@
 #include "Canvas.h"
 #include <fstream>
 #include <sstream>
+#include <queue>
 // #include "TissuChaine.h"
 // #include "TissuRectangle.h"
 // #include "TissuDisque.h"
@@ -150,8 +151,20 @@ System::~System() {
 // 	sortie << "FinContraintes" << endl;
 
 
-System::System(Canvas* support, ifstream& input)
-	: Drawable(support) {
+queue<string> System::getLineMakeQ(ifstream& input) const {
+	string tmp;
+	if (!getline(input, tmp)) { throw string("System::getLineMakeQ(ifstream) end of file'"); }
+	stringstream str_strm(tmp);
+	queue<string> q; 
+	char sep (',');
+	while (getline(str_strm, tmp, sep)) {
+		q.push(tmp);
+	}
+	return q;
+}
+
+System::System(Canvas* canvas, ifstream& input)
+	: Drawable(canvas) {
 
 	// ***
 	// string s;
@@ -162,21 +175,40 @@ System::System(Canvas* support, ifstream& input)
 	// if (!getline(input, headers)) { throw string("System::System(canvas, ifstream) empty file'"); }
 	// if (!headers) { throw string("System::System(canvas, ifstream) empty file'"); }
 
-	stringstream str_strm("hello,from,here");
-	// if (!getline(input, str_strm)) { throw string("System::System(canvas, ifstream) empty file'"); }
-	string tmp;
+	
+
+	// string tmp;
+	// if (!getline(input, tmp)) { throw string("System::System(canvas, ifstream) empty file'"); }
+	// stringstream str_strm(tmp);
+	// queue<string> q; 
+	// char sep (',');
+	// while (getline(str_strm, tmp, sep)) {
+	// 	q.push(tmp);
+	// }
+	// while(!q.empty()) {
+	// 	cerr << q.front();
+	// 	q.pop();
+	// }
+
+	queue<string> headers (getLineMakeQ(input));
+	queue<string> values (getLineMakeQ(input));
+
+	if (!input.eof()) { throw string("System::System(Canvas*, ifstream&) loaded file has too many lines"); }
+
+	if (headers.front()!="time") { throw string("System::System(Canvas*, ifstream&) 'time' header missing"); }
+	headers.pop();
+	time_ = stod(values.front()); //*** add a try catch in case values has bad format
+	values.pop();
+
+	f = new Frisbee(canvas, headers, values); // Create new Frisbee. Note that this process can fail if there are format errors.
+
+	// // playingfield ?
+	pf = new PlayingField(canvas);
+
 	//***
-
-
-	string line;
-	while (getline(input, line)) {
-        cerr << "line=";
-        cerr << line << endl;
-    }
 
 	// time
 	// frisbee
-	// // playingfield ?
 	// ***
 
 	// vector<Masse> masses;	//on y ajoute les masses lus, a la fin on construit tissu avec toutes ces masses
@@ -271,52 +303,75 @@ System::System(Canvas* support, ifstream& input)
 }
 
 
-string System::connectWithSep(vector<string> vec, string sep) const {
+// string System::connectWithSep(vector<string> vec, string sep) const {
+// 	string out ("");
+// 	for (size_t i=0; i+1<vec.size(); ++i) {
+// 		out += vec[i] + sep;
+// 	}
+// 	if (vec.size()>0) {
+// 		out += vec[vec.size()-1];
+// 	}
+// 	return out;
+// }
+
+string System::connectWithSep(queue<string> q, string sep) const {
 	string out ("");
-	for (size_t i=0; i+1<vec.size(); ++i) {
-		out += vec[i] + sep;
+	while(!q.empty()) {
+		out += q.front();
+		q.pop();
+		if (!q.empty()) {
+			out += sep;
+		}
 	}
-	if (vec.size()>0) {
-		out += vec[vec.size()-1];
-	}
+	// for (size_t i=0; i+1<vec.size(); ++i) {
+	// 	out += vec[i] + sep;
+	// }
+	// if (vec.size()>0) {
+	// 	out += vec[vec.size()-1];
+	// }
 	return out;
 }
 
 
 string System::getHeaders() const {
-	// string output;
-	// output = "time,";
-	// output += f->getHeaders();
-	// // playingfield ?
-	// return output;
-	
-	vector<string> outputVec (0);
-	outputVec.push_back("time");
-	f->addHeaders(outputVec);
+	queue<string> outputQ;
+	outputQ.push("time");
+	f->addHeaders(outputQ);
 
 	// playingfield ? add headers ?
 
 	string sep (",");
-	return connectWithSep(outputVec,sep);
+	return connectWithSep(outputQ,sep);
+
+	// vector<string> outputVec (0);
+	// outputVec.push_back("time");
+	// f->addHeaders(outputVec);
+
+	// // playingfield ? add headers ?
+
+	// string sep (",");
+	// return connectWithSep(outputVec,sep);
 }
 
 
 string System::getCurrentState() const {
-	// string sep (",");
-	// string output = "";
-	// output += to_string(time())+sep;
-	// output += f->getCurrentState();
-	// // pf->getCurrentState(); ?
-	// return output;***
-
-	vector<string> outputVec (0);
-	outputVec.push_back(to_string(time()));
-	f->addCurrentState(outputVec);
+	queue<string> outputQ;
+	outputQ.push(to_string(time()));
+	f->addCurrentState(outputQ);
 
 	// playingfield ? add headers ?
 
 	string sep (",");
-	return connectWithSep(outputVec,sep);
+	return connectWithSep(outputQ,sep);
+
+	// vector<string> outputVec (0);
+	// outputVec.push_back(to_string(time()));
+	// f->addCurrentState(outputVec);
+
+	// // playingfield ? add headers ?
+
+	// string sep (",");
+	// return connectWithSep(outputVec,sep);
 }
 
 

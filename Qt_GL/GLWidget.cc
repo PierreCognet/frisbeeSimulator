@@ -222,16 +222,23 @@ void GLWidget::saveCurrentState(std::string fileName) const{
 
 
 void GLWidget::loadState(std::string const& fileName) {
-	// ***
 	ifstream input(fileName);
 	if (input.fail()) {
 		throw string("GLWidget::loadState(...)  impossible to load '"+fileName+"' in read mode");
 	}
 	
 	if (input.is_open()) {
-		System* tmpSyst ( new System (&view,input) );	// Create new system. Note that this process can fail if there are format errors.
-		delete s;	// If successfully loaded, delete and replace the old System.
-		s = tmpSyst;	//on garde le nouveau
+
+		try {
+			System* tmpSyst ( new System(&view, input) );	// Create new system. Note that this process can fail if there are format errors.
+			delete s;	// If successfully loaded, delete and replace the old System.
+			s = tmpSyst;	//on garde le nouveau
+		} catch (std::string s) {
+		    QMessageBox::information(this, "Exception caught", QString::fromStdString(s));
+		} catch (const std::exception& e) {
+		    QMessageBox::information(this, "Exception caught", QString::fromStdString(e.what()));
+		}
+
 		input.close();
 	}
 }

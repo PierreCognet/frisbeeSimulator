@@ -14,7 +14,7 @@ class System : public Drawable {
 
 public:
 
-	System(Canvas* support, double const& t = 0.);
+	System(Canvas* canvas, double const& t = 0.);
 
 	System(System const& s) = delete; // Contains dynamically allocated attributs, so delete the copie function.
 	System operator=(System const& s) = delete;
@@ -25,8 +25,7 @@ public:
 	// double fromStr(std::string const& str) const;
 	// System(SupportADessin* support, std::ifstream& fichier);	//constructeur qui lit un fichier
 	// void saveCurrentState(std::ofstream& output) const; *** not needed anymore
-	System(Canvas* support, std::ifstream& input);	// Constructor that loads a file.
-	std::string connectWithSep(std::vector<std::string> vec, std::string sep) const;
+	System(Canvas* canvas, std::ifstream& input);	// Constructor that loads a file.
 	std::string getHeaders() const;
 	std::string getCurrentState() const;
 	
@@ -64,6 +63,10 @@ public:
 
 
 private :
+	// std::string connectWithSep(std::vector<std::string> vec, std::string sep) const;
+	std::queue<std::string> getLineMakeQ(std::ifstream& input) const;
+	std::string connectWithSep(std::queue<std::string> q, std::string sep) const;
+
 	Frisbee* f;
 	PlayingField* pf;
 	// std::vector<ContraintePtr> listContrainte;

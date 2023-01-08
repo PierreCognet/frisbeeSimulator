@@ -452,41 +452,84 @@ const double Frisbee::advR(double const& r, double const& v_inf) const { // adva
 // 	for(size_t i(0); i<listMasses.size() ; ++i) arrete(i);
 // }
 
-// string Frisbee::getHeaders() const {
-// 	// in future if there are multiple Frisbees, add the frisbee number.
+
+
+Frisbee::Frisbee(Canvas* canvas, queue<string> & headers, queue<string> & values)
+	: Drawable(canvas) {
+
+	queue<string> expectedHeadersQ;
+	addHeaders(expectedHeadersQ);
+
+	while(!expectedHeadersQ.empty()) {
+		if (headers.empty()) { throw string("Frisbee::Frisbee(Canvas, queue<string>, queue<string>) not enough headers"); }
+		if (expectedHeadersQ.front()!=headers.front()) { throw string("Frisbee::Frisbee(Canvas, queue<string>, queue<string>) headers are incorrect"); }
+		expectedHeadersQ.pop();
+		headers.pop();
+	}
+
+
+	double v1, v2, v3;
+	Vector3 v;
+
+	for (size_t i=0; i<4; ++i) {
+		if (values.empty()) { throw string("Frisbee::Frisbee(Canvas, queue<string>, queue<string>) not enough values"); }
+		v1 = stod(values.front());
+		values.pop();
+		if (values.empty()) { throw string("Frisbee::Frisbee(Canvas, queue<string>, queue<string>) not enough values"); }
+		v2 = stod(values.front());
+		values.pop();
+		if (values.empty()) { throw string("Frisbee::Frisbee(Canvas, queue<string>, queue<string>) not enough values"); }
+		v3 = stod(values.front());
+		values.pop();
+
+		v = Vector3(v1, v2, v3);
+		
+		if (i==0) {
+			setXyz(v);
+		} else if (i==1) {
+			setPhiThetaPsi(v);
+		} else if (i==2) {
+			setUvw(v);
+		} else if (i==3) {
+			setPqr(v);
+		} else {
+			throw string("Frisbee::Frisbee(Canvas, queue<string>, queue<string>) unexpected i value");
+		}
+	}
+}
+
+// void Frisbee::addHeaders(vector<string> & outputVec) const {
+// 	// To do : In future if there are multiple Frisbees, add the frisbee number.
 // 	string pre ("Frisbee_");
-// 	string sep (",");
-// 	string output = "";
-// 	output += pre+"x"+sep;
-// 	output += pre+"y"+sep;
-// 	output += pre+"z"+sep;
-// 	output += pre+"phi"+sep;
-// 	output += pre+"theta"+sep;
-// 	output += pre+"psi"+sep;
-// 	output += pre+"u"+sep;
-// 	output += pre+"v"+sep;
-// 	output += pre+"w"+sep;
-// 	output += pre+"p"+sep;
-// 	output += pre+"q"+sep;
-// 	output += pre+"r";
-// 	return output;
+// 	outputVec.push_back(pre+"x");
+// 	outputVec.push_back(pre+"y");
+// 	outputVec.push_back(pre+"z");
+// 	outputVec.push_back(pre+"phi");
+// 	outputVec.push_back(pre+"theta");
+// 	outputVec.push_back(pre+"psi");
+// 	outputVec.push_back(pre+"u");
+// 	outputVec.push_back(pre+"v");
+// 	outputVec.push_back(pre+"w");
+// 	outputVec.push_back(pre+"p");
+// 	outputVec.push_back(pre+"q");
+// 	outputVec.push_back(pre+"r");	
 // }
 
-void Frisbee::addHeaders(vector<string> & outputVec) const {
+void Frisbee::addHeaders(queue<string> & outputQ) const {
 	// To do : In future if there are multiple Frisbees, add the frisbee number.
 	string pre ("Frisbee_");
-	outputVec.push_back(pre+"x");
-	outputVec.push_back(pre+"y");
-	outputVec.push_back(pre+"z");
-	outputVec.push_back(pre+"phi");
-	outputVec.push_back(pre+"theta");
-	outputVec.push_back(pre+"psi");
-	outputVec.push_back(pre+"u");
-	outputVec.push_back(pre+"v");
-	outputVec.push_back(pre+"w");
-	outputVec.push_back(pre+"p");
-	outputVec.push_back(pre+"q");
-	outputVec.push_back(pre+"r");	
+	outputQ.push(pre+"x");
+	outputQ.push(pre+"y");
+	outputQ.push(pre+"z");
+	outputQ.push(pre+"phi");
+	outputQ.push(pre+"theta");
+	outputQ.push(pre+"psi");
+	outputQ.push(pre+"u");
+	outputQ.push(pre+"v");
+	outputQ.push(pre+"w");
+	outputQ.push(pre+"p");
+	outputQ.push(pre+"q");
+	outputQ.push(pre+"r");	
 }
 
 
@@ -509,21 +552,39 @@ void Frisbee::addHeaders(vector<string> & outputVec) const {
 // }
 
 
-void Frisbee::addCurrentState(vector<string> & outputVec) const {
+// void Frisbee::addCurrentState(vector<string> & outputVec) const {
+// 	// To do : In future if there are multiple Frisbees, add the frisbee number.
+// 	outputVec.push_back(to_string(x()));
+// 	outputVec.push_back(to_string(y()));
+// 	outputVec.push_back(to_string(z()));
+// 	outputVec.push_back(to_string(phi()));
+// 	outputVec.push_back(to_string(theta()));
+// 	outputVec.push_back(to_string(psi()));
+// 	outputVec.push_back(to_string(u()));
+// 	outputVec.push_back(to_string(v()));
+// 	outputVec.push_back(to_string(w()));
+// 	outputVec.push_back(to_string(p()));
+// 	outputVec.push_back(to_string(q()));
+// 	outputVec.push_back(to_string(r()));
+// }
+
+
+void Frisbee::addCurrentState(queue<string> & outputQ) const {
 	// To do : In future if there are multiple Frisbees, add the frisbee number.
-	outputVec.push_back(to_string(x()));
-	outputVec.push_back(to_string(y()));
-	outputVec.push_back(to_string(z()));
-	outputVec.push_back(to_string(phi()));
-	outputVec.push_back(to_string(theta()));
-	outputVec.push_back(to_string(psi()));
-	outputVec.push_back(to_string(u()));
-	outputVec.push_back(to_string(v()));
-	outputVec.push_back(to_string(w()));
-	outputVec.push_back(to_string(p()));
-	outputVec.push_back(to_string(q()));
-	outputVec.push_back(to_string(r()));
+	outputQ.push(to_string(x()));
+	outputQ.push(to_string(y()));
+	outputQ.push(to_string(z()));
+	outputQ.push(to_string(phi()));
+	outputQ.push(to_string(theta()));
+	outputQ.push(to_string(psi()));
+	outputQ.push(to_string(u()));
+	outputQ.push(to_string(v()));
+	outputQ.push(to_string(w()));
+	outputQ.push(to_string(p()));
+	outputQ.push(to_string(q()));
+	outputQ.push(to_string(r()));
 }
+
 
 
 ostream& Frisbee::display(ostream& out) const{

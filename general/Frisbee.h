@@ -11,6 +11,7 @@
 // #include "Vector3.h"
 #include "Matrix3x3.h"
 #include "Integrator.h"
+#include <queue>
 
 // class BouleRigide;
 // class TrouNoir;
@@ -152,10 +153,11 @@ public :
 	// void arrete(std::initializer_list<size_t> const& listnum);
 	// void arrete();
 
-	// string getHeaders() const;
-	void addHeaders(vector<string> & outputVec) const;
-	// string getCurrentState() const;
-	void addCurrentState(vector<string> & outputVec) const;
+	Frisbee(Canvas* canvas, queue<string> & headers, queue<string> & values);	// Constructor that loads a file.
+	// void addHeaders(vector<string> & outputVec) const;
+	void addHeaders(queue<string> & outputQ) const;
+	// void addCurrentState(vector<string> & outputVec) const;
+	void addCurrentState(queue<string> & outputQ) const;
 	ostream& display(ostream& out) const;
 	
 	
