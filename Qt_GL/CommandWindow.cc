@@ -71,6 +71,8 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	xxButton = new QPushButton("X minus");
 	yButton = new QPushButton("Y plus");
 	yyButton = new QPushButton("Y minus");
+	toggleFrisbeeTrackingCameraModeButton = new QPushButton("Toggle frisbee tracking camera mode");
+
 	camPositionTitle = new QLabel ("Change camera position");
 	// boutonCDM = new QPushButton ("CDM"); Set camera on frisbee ?
 	
@@ -166,6 +168,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	cameraGrid->addWidget(xxButton, 5, 1);
 	cameraGrid->addWidget(yButton, 3, 0);
 	cameraGrid->addWidget(yyButton, 3, 2);
+	cameraGrid->addWidget(toggleFrisbeeTrackingCameraModeButton, 6, 0, 1, 3);
 	// cameraGrid->addWidget(***Button, 6, 0);
 
 
@@ -411,13 +414,13 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	playbackSpeedSlider->setRange(1, 100);
 	resetTimeButton->setFixedSize(200,80);
 
-	zButton->setFixedSize(200,100);
-	zzButton->setFixedSize(200,100);
-	xButton->setFixedSize(200,100);
-	xxButton->setFixedSize(200,100);
-	yButton->setFixedSize(200,100);
-	yyButton->setFixedSize(200,100);
-	camPositionTitle->setAutoFillBackground(true);
+	// zButton->setFixedSize(200,100);
+	// zzButton->setFixedSize(200,100);
+	// xButton->setFixedSize(200,100);
+	// xxButton->setFixedSize(200,100);
+	// yButton->setFixedSize(200,100);
+	// yyButton->setFixedSize(200,100);
+	// camPositionTitle->setAutoFillBackground(true);
 
 
 
@@ -513,6 +516,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	QObject::connect(xxButton, SIGNAL(clicked()), w, SLOT(setcamXX()));
 	QObject::connect(yButton, SIGNAL(clicked()), w, SLOT(setcamY()));
 	QObject::connect(yyButton, SIGNAL(clicked()), w, SLOT(setcamYY()));
+	QObject::connect(toggleFrisbeeTrackingCameraModeButton, SIGNAL(clicked()), w, SLOT(toggleFrisbeeTrackingCameraMode()));
 
 	// QObject::connect(boutonMass ,SIGNAL(clicked()) , w , SLOT(toggle_Mass()));
 	// QObject::connect(boutonSpring ,SIGNAL(clicked()) , w , SLOT(toggle_springs()));
@@ -673,36 +677,11 @@ void CommandWindow::startStopTimeSetNew() {
 }
 
 void CommandWindow::selectSaveCurrentStateFile() {
-	// string fileName (dialogue);
-
-
-	// QString filePath = QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("Open File"),"D:/Jiangjie/test",tr("Images (*.png *.xpm *.jpg);;Text file( *.txt);;XML files (*.xml)"));
-	// QString getSaveFileName ( QWidget * parent = 0, const QString & caption = QString(), const QString & dir = QString(), const QString & filter = QString(), QString * selectedFilter = 0, Options options = 0 )
-
-
-	saveStateFileNameLabel->setText(QFileDialog::getSaveFileName(this,tr("Save current state file location"),"",tr("State Files (*.state)")));
-
-
-	// saveStateFileName = QFileDialog::getSaveFileName(this,
-	// 	tr("Save current state file location"),
-	// 	"",
-	// 	tr("State Files (*.state)")).toStdString();
-
-	// cerr << "saveStateFileName = " << saveStateFileName;
-
-	// if (!fileName.isNull()) {
-	//      //fileName is the file name ***
-	// }
-	// else {
-	//      //The point is canceled
-	// }
+	saveStateFileNameLabel->setText(QFileDialog::getSaveFileName(this,tr("Select file location to save current state"),"",tr("State Files (*.state)")));
 }
 
 void CommandWindow::saveCurrentState() {
 	try {
-		// string fileName ((saveStateFileNameEdit->text()).toStdString()); ***
-		// w->saveCurrentState(fileName);
-
 		string saveStateFileName (saveStateFileNameLabel->text().toStdString());
 		w->saveCurrentState(saveStateFileName);
 
@@ -716,10 +695,7 @@ void CommandWindow::saveCurrentState() {
 }
 
 void CommandWindow::selectLoadStateFile() {
-
-	loadStateFileNameLabel->setText(QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("Open File"),"",tr("State Files (*.state)")));
- // saveStateFileNameLabel->setText(QFileDialog::getSaveFileName(this,tr("Save current state file location"),"",tr("State Files (*.state)")));
-
+	loadStateFileNameLabel->setText(QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("Select state file to load"),"",tr("State Files (*.state)")));
 }
 
 void CommandWindow::loadState() {

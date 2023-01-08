@@ -166,30 +166,6 @@ queue<string> System::getLineMakeQ(ifstream& input) const {
 System::System(Canvas* canvas, ifstream& input)
 	: Drawable(canvas) {
 
-	// ***
-	// string s;
-	// input >> s;
-	// cerr << "s=" << s << endl;
-
-	// string headers;
-	// if (!getline(input, headers)) { throw string("System::System(canvas, ifstream) empty file'"); }
-	// if (!headers) { throw string("System::System(canvas, ifstream) empty file'"); }
-
-	
-
-	// string tmp;
-	// if (!getline(input, tmp)) { throw string("System::System(canvas, ifstream) empty file'"); }
-	// stringstream str_strm(tmp);
-	// queue<string> q; 
-	// char sep (',');
-	// while (getline(str_strm, tmp, sep)) {
-	// 	q.push(tmp);
-	// }
-	// while(!q.empty()) {
-	// 	cerr << q.front();
-	// 	q.pop();
-	// }
-
 	queue<string> headers (getLineMakeQ(input));
 	queue<string> values (getLineMakeQ(input));
 
@@ -197,122 +173,14 @@ System::System(Canvas* canvas, ifstream& input)
 
 	if (headers.front()!="time") { throw string("System::System(Canvas*, ifstream&) 'time' header missing"); }
 	headers.pop();
-	time_ = stod(values.front()); //*** add a try catch in case values has bad format
+	time_ = stod(values.front());
 	values.pop();
 
 	f = new Frisbee(canvas, headers, values); // Create new Frisbee. Note that this process can fail if there are format errors.
 
-	// // playingfield ?
 	pf = new PlayingField(canvas);
-
-	//***
-
-	// time
-	// frisbee
-	// ***
-
-	// vector<Masse> masses;	//on y ajoute les masses lus, a la fin on construit tissu avec toutes ces masses
-	// vector<Liaison> liaisons;
-	
-	// string s;
-	// entree >> s;
-	// if (s!="Temps") throw string("Systeme::Systeme(istream)  ne commence pas par 'Temps'");
-	// entree >> temps_;
-	
-	// entree >> s;
-	// if (s!="Tissus") throw string("Systeme::Systeme(istream) pas 'Tissus'");
-	
-	// entree >> s;
-	// while (s!="FinTissus" and !entree.eof() ) {
-		
-	// 	if (s!="Tissu") throw string("Systeme::Systeme(istream) pas 'Tissu'");
-		
-	// 	entree >> s;
-	// 	if (s!="Masses") throw string("Systeme::Systeme(istream) pas 'Masses'");
-		
-	// 	double m, posiX, posiY, posiZ, vitX, vitY, vitZ, lambda;
-	// 	entree >> s;
-	// 	while (s!="FinMasses" and !entree.eof()) {
-	// 		m = fromStr(s);
-	// 		entree >> posiX >> posiY >> posiZ >> vitX >> vitY >> vitZ >> lambda;
-	// 		masses.push_back( Masse(m, Vecteur3D(posiX,posiY,posiZ), Vecteur3D(vitX,vitY,vitZ), lambda ) );	//ajoute la masse au vector
-	// 		entree >> s;
-	// 	}
-		
-	// 	entree >> s;
-	// 	if (s!="Liaisons") throw string("Systeme::Systeme(istream) pas 'Liaisons'");
-		
-	// 	size_t mDep, mArr;
-	// 	double k, l0;
-		
-	// 	entree >> s;
-	// 	while (s!="FinLiaisons" and !entree.eof()){
-	// 		mDep = fromStr(s);
-	// 		entree >> mArr;
-	// 		entree >> k;
-	// 		entree >> l0;
-	// 		liaisons.push_back( Liaison (mDep, {mArr}, k, l0) );	//ajoute la liaison au vector
-	// 		entree >> s;
-	// 	}
-		
-	// 	create_tissu(masses, liaisons);
-	// 	masses.clear();		//clear pour le prochain tissu
-	// 	liaisons.clear();
-		
-	// 	entree >> s;
-	// }
-	
-	// entree >> s;
-	// if (s!="Contraintes") throw string("Systeme::Systeme(istream) pas 'Contraintes'");
-	
-	// entree >> s;
-	// while (s!="FinContraintes" and !entree.eof() ) {
-		
-	// 	if (s.size()!=1) throw string("Systeme::Systeme(istream) mauvaise syntaxe contraintes");
-		
-	// 	double posX,posY,posZ,r,tDeb,tFin,fX,fY,fZ,freq,masse;
-	// 	switch(s[0]){
-	// 		case 'c':	//Crochet
-	// 			entree >> posX >> posY >> posZ >> r;
-	// 			create_Crochet( Vecteur3D(posX,posY,posZ),r);
-	// 			break;
-	// 		case 'i':	//Impulsion
-	// 			entree >> posX >> posY >> posZ >> r >> tDeb >> tFin >> fX >> fY >> fZ;
-	// 			create_Impulsion(Vecteur3D(posX,posY,posZ),r,tDeb,tFin,Vecteur3D(fX,fY,fZ), {});	//l'impulsion sera initialiser (si on avait sauvegarder en cours de simulation avec certaines masses soumises à l'impulsion, ça reset)
-	// 			break;
-	// 		case 's':	//ImpulsionSinusoidale
-	// 			entree >> posX >> posY >> posZ >> r >> tDeb >> tFin >> fX >> fY >> fZ >> freq;
-	// 			create_ImpulsionSinusoidale( Vecteur3D(posX,posY,posZ),r,tDeb,tFin,Vecteur3D(fX,fY,fZ), freq, {});
-	// 			break;
-	// 		case 'l':	//Levitateur
-	// 			entree >> posX >> posY >> posZ >> r;
-	// 			create_Levitateur(Vecteur3D(posX,posY,posZ),r);
-	// 			break;
-	// 		case 'b':	//BouleRigide
-	// 			entree >> posX >> posY >> posZ >> r;
-	// 			create_BouleRigide(Vecteur3D(posX,posY,posZ),r);
-	// 			break;
-	// 		case 't':	//TrouNoir
-	// 			entree >> posX >> posY >> posZ >> r >> masse;
-	// 			create_TrouNoir(Vecteur3D(posX,posY,posZ),r,masse);
-	// 			break;
-	// 	}
-		
-	// 	entree >> s;
-	// }
 }
 
-
-// string System::connectWithSep(vector<string> vec, string sep) const {
-// 	string out ("");
-// 	for (size_t i=0; i+1<vec.size(); ++i) {
-// 		out += vec[i] + sep;
-// 	}
-// 	if (vec.size()>0) {
-// 		out += vec[vec.size()-1];
-// 	}
-// 	return out;
-// }
 
 string System::connectWithSep(queue<string> q, string sep) const {
 	string out ("");
@@ -323,12 +191,6 @@ string System::connectWithSep(queue<string> q, string sep) const {
 			out += sep;
 		}
 	}
-	// for (size_t i=0; i+1<vec.size(); ++i) {
-	// 	out += vec[i] + sep;
-	// }
-	// if (vec.size()>0) {
-	// 	out += vec[vec.size()-1];
-	// }
 	return out;
 }
 
@@ -342,15 +204,6 @@ string System::getHeaders() const {
 
 	string sep (",");
 	return connectWithSep(outputQ,sep);
-
-	// vector<string> outputVec (0);
-	// outputVec.push_back("time");
-	// f->addHeaders(outputVec);
-
-	// // playingfield ? add headers ?
-
-	// string sep (",");
-	// return connectWithSep(outputVec,sep);
 }
 
 
@@ -363,15 +216,6 @@ string System::getCurrentState() const {
 
 	string sep (",");
 	return connectWithSep(outputQ,sep);
-
-	// vector<string> outputVec (0);
-	// outputVec.push_back(to_string(time()));
-	// f->addCurrentState(outputVec);
-
-	// // playingfield ? add headers ?
-
-	// string sep (",");
-	// return connectWithSep(outputVec,sep);
 }
 
 

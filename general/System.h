@@ -24,7 +24,6 @@ public:
 	// //--------------------File input / output----------------------------
 	// double fromStr(std::string const& str) const;
 	// System(SupportADessin* support, std::ifstream& fichier);	//constructeur qui lit un fichier
-	// void saveCurrentState(std::ofstream& output) const; *** not needed anymore
 	System(Canvas* canvas, std::ifstream& input);	// Constructor that loads a file.
 	std::string getHeaders() const;
 	std::string getCurrentState() const;

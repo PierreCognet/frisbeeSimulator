@@ -14,7 +14,7 @@ using namespace std;
 
 // GLWidget::GLWidget(IntegratorType type, QWidget* parent)
 GLWidget::GLWidget(IntegratorType type, CommandWindow* parent)
-	: QGLWidget(parent), s(new System(&view)), playbackSpeed(50), parent(parent) { // Dynamically allocated because we may want to change the System.
+	: QGLWidget(parent), s(new System(&view)), playbackSpeed(50), frisbeeTrackingCameraMode(false), parent(parent) { // Dynamically allocated because we may want to change the System.
 	switch (type) {
 		// case Euler:
 		// 	integrator =  new IntegrateurEuler;
@@ -122,6 +122,10 @@ void GLWidget::setcamZ() {
 void GLWidget::setcamZZ() {
 	view.setPOV("Zminus");
 	updateGL();
+}
+
+void GLWidget::toggleFrisbeeTrackingCameraMode() {
+	frisbeeTrackingCameraMode = !frisbeeTrackingCameraMode;
 }
 
 
@@ -336,10 +340,10 @@ void GLWidget::timerEvent(QTimerEvent* event) {
 		}
 	}
 
-	view.lookAt(s); // *** check booleans, in which camera evolution mode we are
+	if (frisbeeTrackingCameraMode) {
+		view.lookAt(s);
+	}
 
-
-	// cout << *s << endl;
 	updateGL();
 }
 

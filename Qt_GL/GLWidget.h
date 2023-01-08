@@ -30,12 +30,13 @@ public slots :
 	// void quit() { close(); }    // To close window. Deleted because close is directly used.
 
 	// *** to do: find a way to pass argument to slot without passing through the signal
-	void setcamX ();
-	void setcamXX ();
-	void setcamY ();
-	void setcamYY ();
-	void setcamZ ();
-	void setcamZZ ();
+	void setcamX();
+	void setcamXX();
+	void setcamY();
+	void setcamYY();
+	void setcamZ();
+	void setcamZZ();
+	void toggleFrisbeeTrackingCameraMode();
 
 	// void toggle_tri ();             //setters pour les
 	// void toggle_Mass();             //modes de dessin
@@ -172,6 +173,7 @@ private:
 
 	void stop();
 
+	bool frisbeeTrackingCameraMode;
 	int timerId; // Timer.
 	QTime chronometer; // To make objects evolve at the correct time step.
 	QPoint lastMousePosition;

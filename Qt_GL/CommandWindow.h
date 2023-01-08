@@ -132,6 +132,7 @@ private :
 	QPushButton* xxButton;
 	QPushButton* yButton;
 	QPushButton* yyButton;
+	QPushButton* toggleFrisbeeTrackingCameraModeButton;
 	
 
 
