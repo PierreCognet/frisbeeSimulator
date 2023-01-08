@@ -554,20 +554,103 @@ void OpenGLViewer::translate(Vector3 translation)
 	QMatrix4x4 translation_supplementaire;
 	translation_supplementaire.translate(translation[0], translation[1], translation[2]);
 	viewMatrix = translation_supplementaire * viewMatrix;
-	getViewPosition(); // ***
+    getCameraPosition(); // ***
 }
 
 
-void OpenGLViewer::rotate(double angle, Vector3 rotation)
-{
+void OpenGLViewer::rotate(double angle, Vector3 rotation) {
 	// Multiplie la matrice de vue par LA GAUCHE
 	QMatrix4x4 rotation_supplementaire;
 	rotation_supplementaire.rotate(angle, rotation[0], rotation[1], rotation[2]);
 	viewMatrix = rotation_supplementaire * viewMatrix;
 }
 
-Vector3 OpenGLViewer::getViewPosition() const {
-	// Vector3 viewPosition (viewMatrix[12], viewMatrix[13], viewMatrix[14]);
-	Vector3 viewPosition (viewMatrix(0,3), viewMatrix(1,3), viewMatrix(2,3));
-	cerr << viewPosition << endl;
+
+void OpenGLViewer::lookAt(System* s) {
+
+	// QVector3D eye (0.f, 0.f, 10.f);
+	// 	// 001 goes up world z axis
+	// 	// 010 goes to world left
+	// 	// 100 wtf rotates camera
+	// QVector3D target (0.f, 0.f, 1.f);  //   up, ,forward
+	// QVector3D up (0.f, 1.f, 0.f);  //       turn, up, 
+	// 	// 000 black screen
+	// 	// 001 black screen
+	// 	// up parallele to target : black screen
+	// 	// 010 still, but mini flickers
+	// 	// 110 alternates with 45 degrees counterclockwise
+	// 	// 100 alternates with 90 degrees counterclockwise
+
+ //        viewMatrix.lookAt(eye, target, up);
+
+
+
+	// QVector3D eye (0.f, 0.f, 10.f);
+	// QVector3D target (0.f, 0.f, 0.f);
+	// QVector3D up (1.f, 1.f, 0.f);
+	// viewMatrix.setToIdentity();
+	// viewMatrix.lookAt(eye, target, up);
+
+
+
+	// Vector3 eye_ (0.,10.,2.);
+	Vector3 eye_ (getCameraPosition());
+	QVector3D eye (eye_[0], eye_[1], eye_[2]);
+	Vector3 target_ (s->getFrisbeePosition());
+	// Vector3 target_ (worldToCameraCoord(s->getFrisbeePosition()));
+	QVector3D target (target_[0], target_[1], target_[2]);
+	Vector3 up_ (0., 0., 1.);
+	QVector3D up (up_[0], up_[1], up_[2]);
+	viewMatrix.setToIdentity();
+	viewMatrix.lookAt(eye, target, up);
+
+	// // Multiplie la matrice de vue par LA GAUCHE
+
+	// // Vector3 eye_ (getCameraPosition()); // In world coordinates.
+	// // glm::vec3 eye (glm::vec3(eye_[0], eye_[1], eye_[2]));
+	// Vector3 eye_ (0., 0., 0.);
+	// QVector3D eye (eye_[0], eye_[1], eye_[2]);
+		
+	// Vector3 target_ (worldToCameraCoord(s->getFrisbeePosition())); // In world coordinates.
+	// // glm::vec3 target(glm::vec3(target_[0], target_[1], target_[2]));
+	// QVector3D target (target_[0], target_[1], target_[2]);
+	
+	// // glm::vec3 up (glm::vec3(0.f, 0.f, 1.f));
+ //        QVector3D up (0.f, 1.f, 0.f);
+ //        // QVector3D up (0.f, 0.f, 0.f);
+
+	// // viewMatrix = glm::lookAt(eye, target, up);
+ //        viewMatrix.lookAt(eye, target, up);
+
+ //        cerr << "eye" << eye_ << endl << "target" << target_ << endl;
 }
+
+
+Vector3 OpenGLViewer::worldToCameraCoord(Vector3 const& v) const {
+	Matrix3x3 viewOrientation (-viewMatrix(0,0),-viewMatrix(0,1),-viewMatrix(0,2),-viewMatrix(1,0),-viewMatrix(1,1),-viewMatrix(1,2), -viewMatrix(2,0),-viewMatrix(2,1),-viewMatrix(2,2));	
+	return viewOrientation*v;
+}
+
+
+Vector3 OpenGLViewer::getCameraPosition() const {
+
+	// Vector3 viewPosition (viewMatrix[12], viewMatrix[13], viewMatrix[14]);
+	
+	Vector3 viewPosition (viewMatrix(0,3), viewMatrix(1,3), viewMatrix(2,3));
+	Matrix3x3 viewOrientation (-viewMatrix(0,0),-viewMatrix(1,0),-viewMatrix(2,0),-viewMatrix(0,1),-viewMatrix(1,1),-viewMatrix(2,1), -viewMatrix(0,2),-viewMatrix(1,2),-viewMatrix(2,2));
+	Vector3 cameraWorldCoordinates (viewOrientation*viewPosition);
+
+	cerr << viewOrientation << endl << endl;
+	cerr << viewPosition << endl << endl;
+    cerr << cameraWorldCoordinates << endl << endl;
+
+	return cameraWorldCoordinates;
+
+	// const float rotation = *viewMatrix.data();
+
+	// cerr << viewPosition << endl;
+	// cerr << viewMatrix(0,0) << '\t' << viewMatrix(1,0) << '\t' << viewMatrix(2,0) << '\t' << viewMatrix(3,0) << endl << viewMatrix(1,0) << '\t' << viewMatrix(1,1) << '\t' << viewMatrix(1,2) << '\t' << viewMatrix(1,3) << endl << viewMatrix(2,0) << '\t' << viewMatrix(2,1) << '\t' << viewMatrix(2,2) << '\t' << viewMatrix(2,3) << endl << viewMatrix(3,0) << '\t' << viewMatrix(3,1) << '\t' << viewMatrix(3,2) << '\t' << viewMatrix(3,3) << endl;
+
+}
+
+

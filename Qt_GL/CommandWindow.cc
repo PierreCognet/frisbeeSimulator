@@ -5,6 +5,7 @@
 #include "Integrator.h"
 // #include "IntegrateurEuler.h"
 #include "OpenGLViewer.h"
+#include <QFileDialog>
 
 
 CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
@@ -27,6 +28,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	timePage = new QWidget;
 	cameraPage = new QWidget;
 	keyboardPage = new QWidget;
+	savePage = new QWidget;
 	
 	stopButton = new QPushButton("Stop simulation");
 	startButton = new QPushButton("Start simulation");
@@ -82,7 +84,6 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	// boutonIntegrateurNewmark = new QPushButton("Newmark");
 	rk4Button = new QPushButton("RungeKutta");
 
-	//boutonOK = new QPushButton ("OK");
 	
 	// ChoixT = new QWidget;
 	// ChoixC = new QWidget;
@@ -165,6 +166,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	cameraGrid->addWidget(xxButton, 5, 1);
 	cameraGrid->addWidget(yButton, 3, 0);
 	cameraGrid->addWidget(yyButton, 3, 2);
+	// cameraGrid->addWidget(***Button, 6, 0);
 
 
 	keyboardGrid = new QGridLayout;
@@ -312,6 +314,23 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	// }
 
 
+	saveGrid = new QGridLayout;
+
+	saveStateButton = new QPushButton("Save current state");
+	selectStateFileDialogButton = new QPushButton("Select file location");
+	saveStateFileNameLabel = new QLabel("");
+	loadStateButton = new QPushButton("Load state from file");
+	selectLoadStateFileDialogButton = new QPushButton("Select file location");
+	loadStateFileNameLabel = new QLabel("");
+
+	saveGrid->addWidget(saveStateButton, 1, 1, 1, 2);
+	saveGrid->addWidget(selectStateFileDialogButton, 2, 1);
+    saveGrid->addWidget(saveStateFileNameLabel, 2, 2);
+	saveGrid->addWidget(loadStateButton, 4, 1, 1, 2);
+	saveGrid->addWidget(selectLoadStateFileDialogButton, 5, 1);
+    saveGrid->addWidget(loadStateFileNameLabel, 5, 2);
+
+
 
 
 	// box4 = new QGridLayout;
@@ -400,6 +419,8 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	yyButton->setFixedSize(200,100);
 	camPositionTitle->setAutoFillBackground(true);
 
+
+
 	// ClearTT->setFixedHeight(60);
 
 	// boutonMass->setFixedSize(450 , 100);
@@ -435,6 +456,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	timePage->setLayout(timeGrid);
 	cameraPage->setLayout(cameraGrid);
 	keyboardPage->setLayout(keyboardGrid);
+	savePage->setLayout(saveGrid);
 
 
 	// Fill the tabs.
@@ -444,6 +466,7 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	tabs->addTab(timePage, " Time");
 	tabs->addTab(cameraPage, " Camera");
 	tabs->addTab(keyboardPage, " Keyboard Bindings");
+	tabs->addTab(savePage, " Save File");
 
 
 
@@ -523,6 +546,10 @@ CommandWindow::CommandWindow(QWidget *parent) : QWidget(parent) {
 	QObject::connect(moveBackwardSetButton, SIGNAL(clicked()), this, SLOT(moveBackwardSetNew()));
 	QObject::connect(resetPositionSetButton, SIGNAL(clicked()), this, SLOT(resetPositionSetNew()));
 	QObject::connect(startStopTimeSetButton, SIGNAL(clicked()), this, SLOT(startStopTimeSetNew()));
+	QObject::connect(selectStateFileDialogButton, SIGNAL(clicked()), this, SLOT(selectSaveCurrentStateFile()));
+	QObject::connect(saveStateButton, SIGNAL(clicked()), this, SLOT(saveCurrentState()));
+	QObject::connect(selectLoadStateFileDialogButton, SIGNAL(clicked()), this, SLOT(selectLoadStateFile()));
+	QObject::connect(loadStateButton, SIGNAL(clicked()), this, SLOT(loadState()));
 
 	// QObject::connect(ClearTT , SIGNAL(clicked()), w , SLOT(clear_tissu()));
 	// QObject::connect(ToggleContr, SIGNAL(clicked()) , w , SLOT (Toggle_Contr()));
@@ -644,6 +671,69 @@ void CommandWindow::startStopTimeSetNew() {
 	// setNewKeyTitleLabel->Focus();	
 	actionToSet = startStopTime;
 }
+
+void CommandWindow::selectSaveCurrentStateFile() {
+	// string fileName (dialogue);
+
+
+	// QString filePath = QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("Open File"),"D:/Jiangjie/test",tr("Images (*.png *.xpm *.jpg);;Text file( *.txt);;XML files (*.xml)"));
+	// QString getSaveFileName ( QWidget * parent = 0, const QString & caption = QString(), const QString & dir = QString(), const QString & filter = QString(), QString * selectedFilter = 0, Options options = 0 )
+
+
+	saveStateFileNameLabel->setText(QFileDialog::getSaveFileName(this,tr("Save current state file location"),"",tr("State Files (*.state)")));
+
+
+	// saveStateFileName = QFileDialog::getSaveFileName(this,
+	// 	tr("Save current state file location"),
+	// 	"",
+	// 	tr("State Files (*.state)")).toStdString();
+
+	// cerr << "saveStateFileName = " << saveStateFileName;
+
+	// if (!fileName.isNull()) {
+	//      //fileName is the file name ***
+	// }
+	// else {
+	//      //The point is canceled
+	// }
+}
+
+void CommandWindow::saveCurrentState() {
+	try {
+		// string fileName ((saveStateFileNameEdit->text()).toStdString()); ***
+		// w->saveCurrentState(fileName);
+
+		string saveStateFileName (saveStateFileNameLabel->text().toStdString());
+		w->saveCurrentState(saveStateFileName);
+
+		QMessageBox msgBox;
+		msgBox.setText(QString::fromStdString("Current state successfully saved to file : "+saveStateFileName));
+		msgBox.exec();
+
+	}catch (std::string s) {
+		QMessageBox::information(this, "Problem", QString::fromStdString(s));
+	}
+}
+
+void CommandWindow::selectLoadStateFile() {
+
+	loadStateFileNameLabel->setText(QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("Open File"),"",tr("State Files (*.state)")));
+ // saveStateFileNameLabel->setText(QFileDialog::getSaveFileName(this,tr("Save current state file location"),"",tr("State Files (*.state)")));
+
+}
+
+void CommandWindow::loadState() {
+	try {
+		string loadStateFileName (loadStateFileNameLabel->text().toStdString());
+		w->loadState(loadStateFileName);
+
+	}catch (std::string s) {
+		QMessageBox::information(this, "Problem", QString::fromStdString(s));}
+
+	w->updateGL();
+}
+
+
 
 
 

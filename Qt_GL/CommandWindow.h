@@ -52,6 +52,10 @@ private slots :
 	void moveBackwardSetNew();
 	void resetPositionSetNew();
 	void startStopTimeSetNew();
+	void selectSaveCurrentStateFile();
+	void saveCurrentState();
+	void selectLoadStateFile();
+	void loadState();
 
 private :
 
@@ -63,74 +67,14 @@ private :
 
 
 	QTabWidget *tabs;
+
+
 	QWidget* masterPage;
-	QWidget* frisbeePage;
-	QWidget* timePage;
-	QWidget* cameraPage;
-	QWidget* keyboardPage;
-
-	// QPushButton* save;
-	// QPushButton* load;
-	// QComboBox *TypeTissu;
-	// QComboBox *TypeContraintes;
-	// QComboBox *TissuComp;
-	
-
-	QLabel* camPositionTitle;
-
-
-	QPushButton* resetTimeButton;
-	// QPushButton *boutonTri ;
-	// QPushButton *boutonSpring ;
-	// QPushButton *boutonMass ;
-
-	QGridLayout* integratorGrid;
-
-	
-	// QPushButton *boutonIntegrateurEuler;
-	// QPushButton *boutonIntegrateurNewmark;
-	QPushButton* rk4Button;
-
-
-	QPushButton* startStopButton;
-	QPushButton* stopButton;
-	QPushButton* startButton;
-
-	QPushButton* zButton;
-	QPushButton* zzButton;
-	QPushButton* xButton;
-	QPushButton* xxButton;
-	QPushButton* yButton;
-	QPushButton* yyButton;
-	
-	// QPushButton *boutonCDM; // set camera on fribee ? ***
-
-	// QPushButton *ToggleContr;
-	// QPushButton *ToggleCass;
-	//QPushButton *boutonOK;
-
-	QSlider* playbackSpeedSlider;
-	
 	QGridLayout* masterGrid;
+
+
+	QWidget* frisbeePage;
 	QGridLayout* frisbeeGrid;
-	QGridLayout* timeGrid;
-	QGridLayout* cameraGrid;
-	QGridLayout* keyboardGrid;
-
-	QLabel* playbackSpeedLabel;
-	
-	// QPushButton* ClearTT;
-	// QLineEdit* filename;
-	// QLabel* infofile;
-	QLabel* integratorLabel;
-
-	// QPushButton *Del_Tissu;
-	// QPushButton *Del_Contr;
-
-
-	// QGridLayout *ChoixTissu;
-	// QWidget *ChoixT;
-
 	QDoubleSpinBox* xSpinBox;
 	QDoubleSpinBox* ySpinBox;
 	QDoubleSpinBox* zSpinBox;
@@ -162,6 +106,37 @@ private :
 	bool uvwIsBodyNotEarthAxes;
 
 
+	QWidget* timePage;
+	QGridLayout* timeGrid;
+	QPushButton* startStopButton;
+	QPushButton* stopButton;
+	QPushButton* startButton;
+	QPushButton* resetTimeButton;
+	QSlider* playbackSpeedSlider;
+	QLabel* playbackSpeedLabel;
+
+	QGridLayout* integratorGrid;
+	// QPushButton *boutonIntegrateurEuler;
+	// QPushButton *boutonIntegrateurNewmark;
+	QPushButton* rk4Button;
+	QLabel* integratorLabel;
+
+
+
+	QWidget* cameraPage;
+	QGridLayout* cameraGrid;
+	QLabel* camPositionTitle;
+	QPushButton* zButton;
+	QPushButton* zzButton;
+	QPushButton* xButton;
+	QPushButton* xxButton;
+	QPushButton* yButton;
+	QPushButton* yyButton;
+	
+
+
+	QWidget* keyboardPage;
+	QGridLayout* keyboardGrid;
 	std::map<int, KeyAction> keyActionMap; // For each key, maps to the corresponding action. Would be cleaner to use Qt::Key, as key type.
 
     QLabel* actionTitleLabel;
@@ -219,6 +194,45 @@ private :
 
 	bool nextKeyPressSetsAction;
 	KeyAction actionToSet;
+
+
+	
+	QWidget* savePage;
+	QGridLayout* saveGrid;
+
+	QPushButton* saveStateButton;
+	QPushButton* selectStateFileDialogButton;
+	QLabel* saveStateFileNameLabel;
+	// string saveStateFileName;
+	
+	QPushButton* loadStateButton;
+	QPushButton* selectLoadStateFileDialogButton;
+	QLabel* loadStateFileNameLabel;
+
+	// *** add save movie file
+
+	// *** add open movie file ? no actually in the other menu type
+
+
+
+
+	
+
+	// QPushButton* ClearTT;
+	// QLineEdit* filename;
+	// QLabel* infofile;
+
+	// QPushButton *Del_Tissu;
+	// QPushButton *Del_Contr;
+
+	// QGridLayout *ChoixTissu;
+	// QWidget *ChoixT;
+
+
+
+
+
+
 
 	// QDoubleSpinBox* MasseGet ;
 	// QDoubleSpinBox* MasseGet1;

@@ -21,12 +21,16 @@ public:
 
 	virtual ~System() override;
 	
-	// //--------------------EnregistrerFichier----------------------------
+	// //--------------------File input / output----------------------------
 	// double fromStr(std::string const& str) const;
 	// System(SupportADessin* support, std::ifstream& fichier);	//constructeur qui lit un fichier
-	// void sauvegarderFichier(std::ofstream& sortie) const;	//enregistre le système sur un fichier
+	// void saveCurrentState(std::ofstream& output) const; *** not needed anymore
+	System(Canvas* support, std::ifstream& input);	// Constructor that loads a file.
+	std::string connectWithSep(std::vector<std::string> vec, std::string sep) const;
+	std::string getHeaders() const;
+	std::string getCurrentState() const;
 	
-	
+
 	
 	virtual void draw() const override;
 	void drawFrisbee() const;
@@ -56,6 +60,7 @@ public:
 
 
 	void evolve(Integrator& i, double const& dt);
+
 
 
 private :

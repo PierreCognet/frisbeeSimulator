@@ -44,6 +44,9 @@ public :
 
 	// Getters
 	const Vector3 xyz() const;
+	const double x() const;
+	const double y() const;
+	const double z() const;
 
 	const Vector3 phiThetaPsi() const;
 	const double phi() const;
@@ -149,6 +152,10 @@ public :
 	// void arrete(std::initializer_list<size_t> const& listnum);
 	// void arrete();
 
+	// string getHeaders() const;
+	void addHeaders(vector<string> & outputVec) const;
+	// string getCurrentState() const;
+	void addCurrentState(vector<string> & outputVec) const;
 	ostream& display(ostream& out) const;
 	
 	

@@ -151,6 +151,10 @@ public :
 	// bool getContrDess() const {return view.get_contr();}
 	// bool getCass() const {return s->get_Cassable();}
 
+	void saveCurrentState(std::string fileName) const;
+	void loadState(std::string const& fileName);
+
+
 
 //====================================================================================
 

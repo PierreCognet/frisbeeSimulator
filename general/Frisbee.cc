@@ -26,6 +26,9 @@ void Frisbee::setXdotYdotZdot(Vector3 const& v) {
 
 // Getters
 const Vector3 Frisbee::xyz() const { return xyz_; }
+const double Frisbee::x() const { return xyz()[0]; }
+const double Frisbee::y() const { return xyz()[1]; }
+const double Frisbee::z() const { return xyz()[2]; }
 
 const Vector3 Frisbee::phiThetaPsi() const { return phiThetaPsi_; }
 const double Frisbee::phi() const { return phiThetaPsi()[0]; }
@@ -448,6 +451,80 @@ const double Frisbee::advR(double const& r, double const& v_inf) const { // adva
 // void Frisbee::arrete(){
 // 	for(size_t i(0); i<listMasses.size() ; ++i) arrete(i);
 // }
+
+// string Frisbee::getHeaders() const {
+// 	// in future if there are multiple Frisbees, add the frisbee number.
+// 	string pre ("Frisbee_");
+// 	string sep (",");
+// 	string output = "";
+// 	output += pre+"x"+sep;
+// 	output += pre+"y"+sep;
+// 	output += pre+"z"+sep;
+// 	output += pre+"phi"+sep;
+// 	output += pre+"theta"+sep;
+// 	output += pre+"psi"+sep;
+// 	output += pre+"u"+sep;
+// 	output += pre+"v"+sep;
+// 	output += pre+"w"+sep;
+// 	output += pre+"p"+sep;
+// 	output += pre+"q"+sep;
+// 	output += pre+"r";
+// 	return output;
+// }
+
+void Frisbee::addHeaders(vector<string> & outputVec) const {
+	// To do : In future if there are multiple Frisbees, add the frisbee number.
+	string pre ("Frisbee_");
+	outputVec.push_back(pre+"x");
+	outputVec.push_back(pre+"y");
+	outputVec.push_back(pre+"z");
+	outputVec.push_back(pre+"phi");
+	outputVec.push_back(pre+"theta");
+	outputVec.push_back(pre+"psi");
+	outputVec.push_back(pre+"u");
+	outputVec.push_back(pre+"v");
+	outputVec.push_back(pre+"w");
+	outputVec.push_back(pre+"p");
+	outputVec.push_back(pre+"q");
+	outputVec.push_back(pre+"r");	
+}
+
+
+// string Frisbee::getCurrentState() const {
+// 	string sep (",");
+// 	string output = "";
+// 	output += to_string(x())+sep;
+// 	output += to_string(y())+sep;
+// 	output += to_string(z())+sep;
+// 	output += to_string(phi())+sep;
+// 	output += to_string(theta())+sep;
+// 	output += to_string(psi())+sep;
+// 	output += to_string(u())+sep;
+// 	output += to_string(v())+sep;
+// 	output += to_string(w())+sep;
+// 	output += to_string(p())+sep;
+// 	output += to_string(q())+sep;
+// 	output += to_string(r());
+// 	return output;
+// }
+
+
+void Frisbee::addCurrentState(vector<string> & outputVec) const {
+	// To do : In future if there are multiple Frisbees, add the frisbee number.
+	outputVec.push_back(to_string(x()));
+	outputVec.push_back(to_string(y()));
+	outputVec.push_back(to_string(z()));
+	outputVec.push_back(to_string(phi()));
+	outputVec.push_back(to_string(theta()));
+	outputVec.push_back(to_string(psi()));
+	outputVec.push_back(to_string(u()));
+	outputVec.push_back(to_string(v()));
+	outputVec.push_back(to_string(w()));
+	outputVec.push_back(to_string(p()));
+	outputVec.push_back(to_string(q()));
+	outputVec.push_back(to_string(r()));
+}
+
 
 ostream& Frisbee::display(ostream& out) const{
 	out << "Frisbee " << this << " : " << endl

@@ -23,16 +23,6 @@ public:
   virtual void draw(PlayingField const& toDraw) override;
   virtual void draw(Cone const& toDraw) override;
   virtual void draw(Line const& toDraw) override;
-//   virtual void dessine(Tissu const& a_dessiner) override;
-//   virtual void dessine(Masse const& a_dessiner)override;
-//   virtual void dessine(Ressort const& a_dessiner) override;
-//   virtual void dessine(ChampAction const& a_dessiner) override;
-//   virtual void dessine(Crochet const& a_dessiner) override;
-//   virtual void dessine(Impulsion const& a_dessiner) override;
-// //  virtual void dessine(ImpulsionSinusoidale const& a_dessiner) override;	//se dessine pareil qu'une impulsion
-//   virtual void dessine(Levitateur const& a_dessiner) override;
-//   virtual void dessine(BouleRigide const& a_dessiner) override;
-//   virtual void dessine(TrouNoir const& a_dessiner) override;
 
 
   void setPOV(string const& pov);
@@ -61,7 +51,11 @@ public:
   void translate(Vector3 translation);
   void rotate(double angle, Vector3 rotation);
 
-  Vector3 getViewPosition() const;
+
+  void lookAt(System* s);
+  Vector3 worldToCameraCoord(Vector3 const& v) const;
+
+  Vector3 getCameraPosition() const;
 
 
   void drawLine(QMatrix4x4 const& pov , Vector3 Point1 ,Vector3 Point2 ,Vector3 couleur );

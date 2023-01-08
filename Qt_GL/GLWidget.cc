@@ -3,6 +3,7 @@
 #include <QTimerEvent>
 #include <QMatrix4x4>
 #include "GLWidget.h"
+#include <fstream>
 // #include "IntegratorEuler.h"
 // #include "IntegratorNewmark.h"
 #include "IntegratorRK4.h"
@@ -198,6 +199,45 @@ const Vector3 GLWidget::getFrisbeePosition() const {
 }
 
 
+void GLWidget::saveCurrentState(std::string fileName) const{
+	
+	string extension (".state");
+	size_t extSiz (extension.size());
+	if (fileName.size()>=extSiz) {
+		if (fileName.substr(fileName.size()-extSiz,extSiz)!=extension) {
+			fileName += extension;
+		}
+	}
+
+	ofstream output(fileName);	// Open flow.
+	if (output.fail()) {
+		throw string("GLWidget::saveCurrentState(...)  impossible to open '"+fileName+"' in write mode");
+	}
+	
+	// s->saveCurrentState(output);
+	output << s->getHeaders() << endl << s->getCurrentState();
+	
+	output.close();
+}
+
+
+void GLWidget::loadState(std::string const& fileName) {
+	// ***
+	ifstream input(fileName);
+	if (input.fail()) {
+		throw string("GLWidget::loadState(...)  impossible to load '"+fileName+"' in read mode");
+	}
+	
+	if (input.is_open()) {
+		System* tmpSyst ( new System (&view,input) );	// Create new system. Note that this process can fail if there are format errors.
+		delete s;	// If successfully loaded, delete and replace the old System.
+		s = tmpSyst;	//on garde le nouveau
+		input.close();
+	}
+}
+
+
+
 
 
 void GLWidget::initializeGL() {
@@ -288,7 +328,11 @@ void GLWidget::timerEvent(QTimerEvent* event) {
 				s->evolve(*integrator, dt*coef/nbLoops); // coef/nbLoops<=1, so all time steps are smaller or equal to dt.
 		}
 	}
-	cout << *s << endl;
+
+	view.lookAt(s); // *** check booleans, in which camera evolution mode we are
+
+
+	// cout << *s << endl;
 	updateGL();
 }
 
