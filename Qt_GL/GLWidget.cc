@@ -23,7 +23,7 @@ GLWidget::GLWidget(IntegratorType type, CommandWindow* parent)
 		// 	integrator = new IntegrateurNewmark;
 		// 	break;
 		case RungeKutta:
-			integrator = new IntegratorRK4;
+			integrator = new IntegratorRK4; // ***delete the integrator and system
 			break;
 	}
 

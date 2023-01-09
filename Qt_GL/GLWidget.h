@@ -179,8 +179,8 @@ private:
 	QPoint lastMousePosition;
 	OpenGLViewer view; // Canvas.
 	System* s; // Objects to draw and make evolve.
-	Integrator* integrator;
-	double playbackSpeed; // To change the speed at which time flows (multiplier).
+	Integrator* integrator; // delete
+	double playbackSpeed; // To change the speed at which time flows (multiplier). *** delete
 
 	// std::map<int, KeyAction> keyActionMap;
 	// // std::map<Qt::Key, KeyAction> keyActionMap;

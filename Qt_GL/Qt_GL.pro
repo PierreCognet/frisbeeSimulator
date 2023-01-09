@@ -12,23 +12,25 @@ PRE_TARGETDEPS += ../general/libgeneral.a
 INCLUDEPATH = ../general
 
 SOURCES += \
-    CommandWindow.cc\
     GLSphere.cc\
-    GLWidget.cc \
-    InfoWindow.cc \
-    main_qt_gl.cc \
+    InfoWindow.cc\
+    MainWindow.cc\
+    main_qt_gl.cc\
     OpenGLViewer.cc\
-    PosInfo.cc 
+    PosInfo.cc\
+    Visual3DWindow.cc\
+    VisualSimulation.cc
 
 HEADERS += \
-    CommandWindow.h\
     GLSphere.h\
-    GLWidget.h \
-    InfoWindow.h \
-    main_qt_gl.h \
+    InfoWindow.h\
+    MainWindow.h\
+    main_qt_gl.h\
     OpenGLViewer.h\
-    PosInfo.h \
-    VertexShader.h
+    PosInfo.h\
+    VertexShader.h\
+    Visual3DWindow.h\
+    VisualSimulation.h
 
 RESOURCES += \
     resource.qrc

@@ -3,18 +3,20 @@
 #include <QtWidgets>
 #include <QGridLayout>
 #include "PosInfo.h"
-#include "GLWidget.h"
+#include "VisualSimulation.h"
 
-class GLWidget;
+class VisualSimulation;
 class PosInfo;
 
 class InfoWindow : public QWidget {
 Q_OBJECT
 	public :
-		InfoWindow (QWidget *parent, GLWidget* w);
+		InfoWindow (QWidget *parent, VisualSimulation* vs);
+
+	virtual ~InfoWindow();  // Delete dyamically allocated integrator.
 
 	public slots :
-		void quitter() { close();}
+		// void quitter() { close();}
 
 	private :
 		// QTime chronometre;
@@ -71,11 +73,14 @@ Q_OBJECT
 		// QLabel* Contr;
 		// QLabel* Cass;
 
-		GLWidget* w; // This is where we get the info to be displayed.
+		VisualSimulation* vs; // This is where we get the info to be displayed.
 
 		void refreshLabels();
 		void setIntegratorLabel();
 		virtual void timerEvent(QTimerEvent* event)  override;
+
+		void closeEvent(QCloseEvent* event);
+
 };
 
 #endif

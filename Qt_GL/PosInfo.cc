@@ -2,7 +2,6 @@
 #include <QKeyEvent>
 #include <QTimerEvent>
 #include <QMatrix4x4>
-#include "GLWidget.h"
 
 void PosInfo::initializeGL() {
 	view.init();
@@ -26,10 +25,10 @@ void PosInfo::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	switch (axisType) {
 		case Z :
-			view.drawZ(GetInfo->getFrisbeePosition());
+			view.drawZ(vs->getFrisbeePosition());
 			break;
 		case XY :
-			view.drawXY(GetInfo->getFrisbeePosition());
+			view.drawXY(vs->getFrisbeePosition());
 			break;
 	}
 }

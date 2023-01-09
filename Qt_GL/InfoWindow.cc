@@ -1,7 +1,7 @@
 #include "InfoWindow.h"
 
-InfoWindow::InfoWindow(QWidget *parent, GLWidget* w)
-	: QWidget(parent), w(w) {
+InfoWindow::InfoWindow(QWidget *parent, VisualSimulation* vs)
+	: QWidget(parent), vs(vs) {
 
 	startTimer(20);
 
@@ -13,8 +13,8 @@ InfoWindow::InfoWindow(QWidget *parent, GLWidget* w)
 	xyAxesTitleLabel = new QLabel("Projection on XY axes:");
 	zAxisTitleLabel = new QLabel("Projection on Z axis:");
 
-	xyAxes = new PosInfo(w,XY,this);
-	zAxis = new PosInfo(w,Z,this);
+	xyAxes = new PosInfo(vs,XY,this);
+	zAxis = new PosInfo(vs,Z,this);
 
 
 	integratorTitleLabel = new QLabel("Current integrator: ");
@@ -149,8 +149,13 @@ InfoWindow::InfoWindow(QWidget *parent, GLWidget* w)
 	refreshLabels();
 }
 
+InfoWindow::~InfoWindow() {
+	cerr << "InfoWindow::~InfoWindow()" << endl;
+}
+
+
 void InfoWindow::setIntegratorLabel(){
-	switch (w->getIntegratorType()) {
+	switch (vs->getIntegratorType()) {
 		// case Euler:
 		//     integratorLabel->setText("Euler");
 		//     break;
@@ -164,7 +169,7 @@ void InfoWindow::setIntegratorLabel(){
 }
 
 void InfoWindow::refreshLabels(){
-	QString currentTime = QString::number(w->getCurrentTime());
+	QString currentTime = QString::number(vs->getCurrentTime());
 	timeLabel->setText(currentTime);
 
 	// if (w->gettri())
@@ -190,7 +195,7 @@ void InfoWindow::refreshLabels(){
 	setIntegratorLabel();
 
 
-	System* s (w->getSystem());
+	System* s (vs->getSystem());
 	Frisbee* f (s->getFrisbee());
 	Vector3 v;
 	v = f->xyz();
@@ -219,3 +224,10 @@ void InfoWindow::timerEvent(QTimerEvent* event) {
 	Q_UNUSED(event);
 	refreshLabels();
 }
+
+void InfoWindow::closeEvent(QCloseEvent* event) {
+	cerr << "InfoWindow::closeEvent(QCloseEvent* event)" << endl;
+	vs->close();
+	event->accept();
+}
+

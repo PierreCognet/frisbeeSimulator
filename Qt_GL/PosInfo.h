@@ -5,9 +5,9 @@
 #include <QTime>
 #include "OpenGLViewer.h"
 #include <QObject>
-#include "GLWidget.h"
+#include "VisualSimulation.h"
 
-class GLWidget;
+class VisualSimulation;
 
 enum AxisType {XY , Z};
 
@@ -15,8 +15,8 @@ class PosInfo : public QGLWidget {
 
 public:
 
-	PosInfo(GLWidget* i, AxisType check = XY,  QWidget* parent = nullptr)
-		: QGLWidget(parent), GetInfo(i), axisType(check) {}
+	PosInfo(VisualSimulation* vs, AxisType check = XY,  QWidget* parent = nullptr)
+		: QGLWidget(parent), vs(vs), axisType(check) {}
 
 	virtual ~PosInfo() {}
 
@@ -31,7 +31,7 @@ private:
 
 	OpenGLViewer view; // We use the same view where we add a function. We could re create a view but we lack the required competences. 
 
-	GLWidget* GetInfo;
+	VisualSimulation* vs;
 	QTime chronometre;
 	AxisType axisType;
 };
