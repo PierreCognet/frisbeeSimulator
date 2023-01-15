@@ -82,57 +82,7 @@ void Visual3DWindow::paintGL() {
 }
 
 void Visual3DWindow::keyPressEvent(QKeyEvent* event) {
-
 	parent->visual3DWindowKeyPressEvent(event);
-
-	// ***** do use this in another code
-	// constexpr double smallAngle(5.0); // In degrees.
-	// constexpr double smallStep(1.0);
-
-	// KeyAction action;
-
-
-	// // map<int, KeyAction>::iterator it = keyActionMap.find(event->key()); // Find the action correesponding to this key press; 
-	// // // map<Qt::Key, KeyAction>::iterator it = keyActionMap.find(event->key()); // Find the action correesponding to this key press; 
-
-	// // if (it != keyActionMap.end()) { 
-		
-	// // 	action = it->second;
-
-	// if (parent->getMappedAction(event, action)) {
-	// 	if (action==pitchUp) {
-	// 		view.rotate(smallAngle, Vector3(-1.0, 0.0, 0.0));	
-	// 	} else if (action==pitchDown) {
-	// 		view.rotate(smallAngle, Vector3(+1.0, 0.0, 0.0));
-	// 	} else if (action==yawLeft) {
-	// 		view.rotate(smallAngle, Vector3(0.0, -1.0, 0.0));	
-	// 	} else if (action==yawRight) {
-	// 		view.rotate(smallAngle, Vector3(0.0, +1.0, 0.0));
-	// 	} else if (action==rollLeft) {
-	// 		view.rotate(smallAngle, Vector3(0.0, 0.0, -1.0));
-	// 	} else if (action==rollRight) {
-	// 		view.rotate(smallAngle, Vector3(0.0, 0.0, +1.0));
-	// 	} else if (action==moveUp) {
-	// 		view.translate(Vector3(0.0, -smallStep, 0.0));
-	// 	} else if (action==moveDown) {
-	// 		view.translate(Vector3(0.0,  smallStep, 0.0));
-	// 	} else if (action==moveLeft) {
-	// 		view.translate( Vector3(smallStep, 0.0, 0.0));
-	// 	} else if (action==moveRight) {
-	// 		view.translate(Vector3(-smallStep, 0.0, 0.0));
-	// 	} else if (action==moveForward) {
-	// 		view.translate(Vector3(0.0, 0.0,  smallStep));	
-	// 	} else if (action==moveBackward) {
-	// 		view.translate(Vector3(0.0, 0.0, -smallStep));
-	// 	} else if (action==resetPosition) {
-	// 		view.initializePosition();
-	// 	} else if (action==startStopTime) {
-	// 		parent->toggleTime(); **** hummmm, need to give the event to parent somehow... similarly make a class to receive the event ? !!! replace the keyactionmapper with a class that is a window (that will be the superclass of the VisualSimulation and playback) it has a key action map, and has a function (to be overriden in subclasse) to receive the events (that the Visual3DWindow will call), and produce the actions (like start stop timer, rotate camera; etc, etc), maybe also already has the keyboard tab, and liked stuff   
-	// 	} else {
-	// 		throw string("Visual3DWindow::keyPressEvent(...)  unknown action");
-	// 	}
-	// }
-	// updateGL(); // put this line inside the if brackets ?
 }
 
 

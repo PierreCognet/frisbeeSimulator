@@ -2,22 +2,23 @@
 #include "VisualSimulation.h"
 #include "Visual3DWindow.h"
 #include "InfoWindow.h"
-// #include <QString>
 
 #include "Integrator.h"
 // #include "IntegratorEuler.h"
 // #include "IntegratorNewmark.h"
 #include "IntegratorRK4.h"
 
-// #include "OpenGLViewer.h"
+
 // #include <QFileDialog>
 #include <fstream>
+#include "MovieRecorder.h"
 
 
 // VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : QWidget(parent), parent(mw) { // ***** deleted
 // VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : QWidget(parent), parent(mw), kam() { // ***** added
 VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : KeyActionWindow(parent, mw) {
 
+	integ = new IntegratorRK4; // RK4 by default.
 
 	setWindowTitle("Visual Simulation");
 	//setFixedSize(700, 500);
@@ -135,22 +136,24 @@ VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : KeyActionW
 
 
 
-	// savePage = new QWidget;
-	// saveGrid = new QGridLayout;
-
-	// saveStateButton = new QPushButton("Save current state");
-	// selectStateFileDialogButton = new QPushButton("Select file location");
-	// saveStateFileNameLabel = new QLabel("");
 	loadStateButton = new QPushButton("Load state from file");
 	selectLoadStateFileDialogButton = new QPushButton("Select file location");
 	loadStateFileNameLabel = new QLabel("");
 
-	// saveGrid->addWidget(saveStateButton, 1, 1, 1, 2);
-	// saveGrid->addWidget(selectStateFileDialogButton, 2, 1);
-    // saveGrid->addWidget(saveStateFileNameLabel, 2, 2);
+	beginRecordMovieButton = new QPushButton("Start recording movie");
+	endRecordMovieButton = new QPushButton("Stop recording movie");
+	selectMovieFileDialogButton = new QPushButton("Select file location");
+	movieFileNameLabel = new QLabel("");
+
+
 	saveGrid->addWidget(loadStateButton, 4, 1, 1, 2);
 	saveGrid->addWidget(selectLoadStateFileDialogButton, 5, 1);
     saveGrid->addWidget(loadStateFileNameLabel, 5, 2);
+
+	saveGrid->addWidget(beginRecordMovieButton, 7, 1);
+	saveGrid->addWidget(endRecordMovieButton, 7, 2);
+	saveGrid->addWidget(selectMovieFileDialogButton, 8, 1);
+    saveGrid->addWidget(movieFileNameLabel, 8, 2);
 
 	savePage->setLayout(saveGrid);
 
@@ -164,79 +167,29 @@ VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : KeyActionW
 	tabs->addTab(savePage, " Save File");
 
 
-	// v3dw = new Visual3DWindow(this); 
-	// v3dw->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
-	// v3dw->setGeometry(1100 , 0, 1200 , 1055);
-	// v3dw->show();
-
-	// sys = new System(v3dw->getView());
-	integ = new IntegratorRK4; // RK4 by default.
-	// timerId = 0;
-	// playbackSpeed = 50; // To change the speed at which time flows (multiplier).
-	// frisbeeTrackingCameraMode = false;
-
-
-
-	infoWin = new InfoWindow(this); // **** added
-	// infoWin = new InfoWindow(this, sys, integ);  // **** deleted
-	// infoWin = new InfoWindow(this, this);
-	infoWin->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
-	// infoWin->refreshLabels(sys, integ); // **** added
-	infoWin->refreshLabels(sys); // **** added
-	infoWin->show();
-
-
 	// Must connect buttons here, so that they live in the whole class.
     QObject::connect(setFrisbeeStateButton, SIGNAL(clicked()), this, SLOT(setFrisbeeState()));
     QObject::connect(toggleUvwBodyEarthAxesButton, SIGNAL(clicked()), this, SLOT(toggleUvwBodyEarthAxes()));
 
-	// QObject::connect(startStopButton, SIGNAL(clicked()), this, SLOT(toggleTime()));
-
-	// QObject::connect(zButton, SIGNAL(clicked()), v3dw, SLOT(setcamZ()));
-	// QObject::connect(zzButton, SIGNAL(clicked()), v3dw, SLOT(setcamZZ()));
-	// QObject::connect(xButton, SIGNAL(clicked()), v3dw, SLOT(setcamX()));
-	// QObject::connect(xxButton, SIGNAL(clicked()), v3dw, SLOT(setcamXX()));
-	// QObject::connect(yButton, SIGNAL(clicked()), v3dw, SLOT(setcamY()));
-	// QObject::connect(yyButton, SIGNAL(clicked()), v3dw, SLOT(setcamYY()));
-	// QObject::connect(toggleFrisbeeTrackingCameraModeButton, SIGNAL(clicked()), this, SLOT(toggleFrisbeeTrackingCameraMode()));
-
 	
+	QObject::connect(resetTimeButton, SIGNAL(clicked()), this, SLOT(resetTime()));
 	// QObject::connect(boutonIntegrateurEuler, SIGNAL(clicked()), this , SLOT(set_Euler()));
 	// QObject::connect(boutonIntegrateurNewmark, SIGNAL(clicked()), this, SLOT(set_Newmark()));
 	QObject::connect(rk4Button, SIGNAL(clicked()), this, SLOT(setRK4()));
 	
-	// QObject::connect(playbackSpeedSlider, SIGNAL(valueChanged(int)), this, SLOT(setPlaybackSpeed(int)) );
-	
-	QObject::connect(resetTimeButton, SIGNAL(clicked()), this, SLOT(resetTime()));
-	
-	// QObject::connect(pitchUpSetButton, SIGNAL(clicked()), this, SLOT(pitchUpSetNew()));
-	// QObject::connect(pitchDownSetButton, SIGNAL(clicked()), this, SLOT(pitchDownSetNew()));
-	// QObject::connect(yawLeftSetButton, SIGNAL(clicked()), this, SLOT(yawLeftSetNew()));
-	// QObject::connect(yawRightSetButton, SIGNAL(clicked()), this, SLOT(yawRightSetNew()));
-	// QObject::connect(rollLeftSetButton, SIGNAL(clicked()), this, SLOT(rollLeftSetNew()));
-	// QObject::connect(rollRightSetButton, SIGNAL(clicked()), this, SLOT(rollRightSetNew()));
-	// QObject::connect(moveUpSetButton, SIGNAL(clicked()), this, SLOT(moveUpSetNew()));
-	// QObject::connect(moveDownSetButton, SIGNAL(clicked()), this, SLOT(moveDownSetNew()));
-	// QObject::connect(moveLeftSetButton, SIGNAL(clicked()), this, SLOT(moveLeftSetNew()));
-	// QObject::connect(moveRightSetButton, SIGNAL(clicked()), this, SLOT(moveRightSetNew()));
-	// QObject::connect(moveForwardSetButton, SIGNAL(clicked()), this, SLOT(moveForwardSetNew()));
-	// QObject::connect(moveBackwardSetButton, SIGNAL(clicked()), this, SLOT(moveBackwardSetNew()));
-	// QObject::connect(resetPositionSetButton, SIGNAL(clicked()), this, SLOT(resetPositionSetNew()));
-	// QObject::connect(startStopTimeSetButton, SIGNAL(clicked()), this, SLOT(startStopTimeSetNew()));
-
-	// QObject::connect(selectStateFileDialogButton, SIGNAL(clicked()), this, SLOT(selectSaveCurrentStateFile()));
-	// QObject::connect(saveStateButton, SIGNAL(clicked()), this, SLOT(saveCurrentState()));
 	QObject::connect(selectLoadStateFileDialogButton, SIGNAL(clicked()), this, SLOT(selectLoadStateFile()));
 	QObject::connect(loadStateButton, SIGNAL(clicked()), this, SLOT(loadState()));
+	QObject::connect(selectMovieFileDialogButton, SIGNAL(clicked()), this, SLOT(selectMovieFile()));
+	QObject::connect(beginRecordMovieButton, SIGNAL(clicked()), this, SLOT(beginRecordMovie()));
+	QObject::connect(endRecordMovieButton, SIGNAL(clicked()), this, SLOT(endRecordMovie()));
+	endRecordMovieButton->setEnabled(false);
+
 }
 
 
 VisualSimulation::~VisualSimulation() { 
 	cerr << "VisualSimulation::~VisualSimulation()" << endl;
 	delete integ;
-	// delete sys;
-	// v3dw->deleteLater();
-	// infoWin->deleteLater();
 }
 
 
@@ -346,8 +299,6 @@ void VisualSimulation::loadState() {
 		}
 
 
-
-
 	}catch (std::string s) {
 		QMessageBox::information(this, "Problem", QString::fromStdString(s));}
 
@@ -356,6 +307,45 @@ void VisualSimulation::loadState() {
 	infoWin->refreshLabels(sys); // **** added
 }
 
+
+void VisualSimulation::selectMovieFile() {
+	movieFileNameLabel->setText(QFileDialog::getSaveFileName(this,tr("Select file location to save movie"),"",tr("Movie Files (*.movie)")));
+}
+
+void VisualSimulation::beginRecordMovie() {
+	try {
+		string fileName (movieFileNameLabel->text().toStdString());
+
+		string extension (".movie");
+		size_t extSiz (extension.size());
+		if (fileName.size()>=extSiz) {
+			if (fileName.substr(fileName.size()-extSiz,extSiz)!=extension) {
+				fileName += extension;
+			}
+		}
+
+		mr.beginRecording(fileName, sys);
+
+		beginRecordMovieButton->setEnabled(false);
+		endRecordMovieButton->setEnabled(true);
+		selectMovieFileDialogButton->setEnabled(false);
+
+	}catch (std::string s) {
+		QMessageBox::information(this, "Problem", QString::fromStdString(s));
+	}
+}
+
+void VisualSimulation::endRecordMovie() {
+	string fileName (mr.endRecording());	
+
+	beginRecordMovieButton->setEnabled(true);
+	endRecordMovieButton->setEnabled(false);
+	selectMovieFileDialogButton->setEnabled(true);
+
+	QMessageBox msgBox;
+	msgBox.setText(QString::fromStdString("Movie successfully saved to file : "+fileName));
+	msgBox.exec();
+}
 
 // void VisualSimulation::set_Euler(){
 //     if (integ->get_type() != Euler) {
@@ -407,6 +397,10 @@ void VisualSimulation::timerEvent(QTimerEvent* event) {
 
 	if (frisbeeTrackingCameraMode) {
 		v3dw->lookAt(sys);
+	}
+
+	if (mr.isRecording()) {
+		mr.addFrame(sys);
 	}
 
 	v3dw->updateGL();

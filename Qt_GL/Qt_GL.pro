@@ -17,6 +17,7 @@ SOURCES += \
     KeyActionWindow.cc\
     MainWindow.cc\
     main_qt_gl.cc\
+    MovieRecorder.cc\
     OpenGLViewer.cc\
     PosInfo.cc\
     Visual3DWindow.cc\
@@ -28,6 +29,7 @@ HEADERS += \
     KeyActionWindow.h\
     MainWindow.h\
     main_qt_gl.h\
+    MovieRecorder.h\
     OpenGLViewer.h\
     PosInfo.h\
     VertexShader.h\

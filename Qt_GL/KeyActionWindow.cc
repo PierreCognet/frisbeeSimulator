@@ -28,34 +28,16 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	timeGrid = new QGridLayout;
 
 	startStopButton = new QPushButton("Start/stop");
-	// resetTimeButton = new QPushButton ("Reinitialize time");
 	playbackSpeedSlider = new QSlider(Qt::Horizontal);
 	playbackSpeedLabel = new QLabel("Vary speed:");
 
-	// integratorGrid = new QGridLayout;
-	// integratorLabel = new QLabel("Change integrator:");
-	// // boutonIntegrateurEuler = new QPushButton("Euler");
-	// // boutonIntegrateurNewmark = new QPushButton("Newmark");
-	// rk4Button = new QPushButton("RungeKutta");
-
 	startStopButton->setFixedHeight(120);
-	// resetTimeButton->setFixedSize(200,80);
 	playbackSpeedSlider->setValue(50);
 	playbackSpeedSlider->setRange(1, 100);
-
-	// integratorGrid->addWidget(resetTimeButton, 1, 1, 1, 1);
-	// integratorGrid->addWidget(integratorLabel, 2, 1, 2, 1);
-	// // integratorGrid->addWidget(boutonIntegrateurEuler, 3, 0);
-	// // integratorGrid->addWidget(boutonIntegrateurNewmark, 3, 1);
-	// integratorGrid->addWidget(rk4Button, 3, 2);
-
 
 	timeGrid->addWidget(startStopButton, 1, 0);
 	timeGrid->addWidget(playbackSpeedLabel, 2, 0);
 	timeGrid->addWidget(playbackSpeedSlider, 3, 0);
-	// timeGrid->addLayout(integratorGrid, 4, 0, 3, 1);
-
-	// timePage->setLayout(timeGrid);
 
 
 
@@ -96,23 +78,6 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	keyboardPage = new QWidget;
 	keyboardGrid = new QGridLayout;
 
-// ***** deleted
-	// keyActionMap[Qt::Key_Up] = pitchUp;
-	// keyActionMap[Qt::Key_Down] = pitchDown;
-	// keyActionMap[Qt::Key_Left] = yawLeft;
-	// keyActionMap[Qt::Key_Right] = yawRight;
-	// keyActionMap[Qt::Key_A] = rollLeft;
-	// keyActionMap[Qt::Key_E] = rollRight;
-	// keyActionMap[Qt::Key_R] = moveUp;
-	// keyActionMap[Qt::Key_F] = moveDown;
-	// keyActionMap[Qt::Key_Q] = moveLeft;
-	// keyActionMap[Qt::Key_D] = moveRight;
-	// keyActionMap[Qt::Key_Z] = moveForward;
-	// keyActionMap[Qt::Key_S] = moveBackward;
-	// keyActionMap[Qt::Key_Home] = resetPosition;
-	// keyActionMap[Qt::Key_Space] = startStopTime;
-
-// ***** added
 	mapKeyToAction(Qt::Key_Up, pitchUp);
 	mapKeyToAction(Qt::Key_Down, pitchDown);
 	mapKeyToAction(Qt::Key_Left, yawLeft);
@@ -127,7 +92,6 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	mapKeyToAction(Qt::Key_S, moveBackward);
 	mapKeyToAction(Qt::Key_Home, resetPosition);
 	mapKeyToAction(Qt::Key_Space, startStopTime);
-
 
 	actionTitleLabel = new QLabel("Action:");
 	currentKeyTitleLabel = new QLabel("Current Key:");
@@ -165,20 +129,7 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	moveBackwardCurKeyLabel = new QLabel("");
 	resetPositionCurKeyLabel = new QLabel("");
 	startStopTimeCurKeyLabel = new QLabel("");
-	// pitchUpCurKeyLabel = new QLabel(QKeySequence(findBindedKey(pitchUp)).toString());
-	// pitchDownCurKeyLabel = new QLabel(QKeySequence(findBindedKey(pitchDown)).toString());
-	// yawLeftCurKeyLabel = new QLabel(QKeySequence(findBindedKey(yawLeft)).toString());
-	// yawRightCurKeyLabel = new QLabel(QKeySequence(findBindedKey(yawRight)).toString());
-	// rollLeftCurKeyLabel = new QLabel(QKeySequence(findBindedKey(rollLeft)).toString());
-	// rollRightCurKeyLabel = new QLabel(QKeySequence(findBindedKey(rollRight)).toString());
-	// moveUpCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveUp)).toString());
-	// moveDownCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveDown)).toString());
-	// moveLeftCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveLeft)).toString());
-	// moveRightCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveRight)).toString());
-	// moveForwardCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveForward)).toString());
-	// moveBackwardCurKeyLabel = new QLabel(QKeySequence(findBindedKey(moveBackward)).toString());
-	// resetPositionCurKeyLabel = new QLabel(QKeySequence(findBindedKey(resetPosition)).toString());
-	// startStopTimeCurKeyLabel = new QLabel(QKeySequence(findBindedKey(startStopTime)).toString());
+
 	refreshCurKeyLabels();
 
 	pitchUpSetButton = new QPushButton("Set new key");
@@ -265,28 +216,10 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	saveStateButton = new QPushButton("Save current state");
 	selectStateFileDialogButton = new QPushButton("Select file location");
 	saveStateFileNameLabel = new QLabel("");
-	// loadMovieButton = new QPushButton("Load movie from file");
-	// loadMovieFileNameLabel = new QPushButton("Select file location");
-	// loadMovieFileNameLabel = new QLabel("");
 
 	saveGrid->addWidget(saveStateButton, 1, 1, 1, 2);
 	saveGrid->addWidget(selectStateFileDialogButton, 2, 1);
     saveGrid->addWidget(saveStateFileNameLabel, 2, 2);
-	// saveGrid->addWidget(loadMovieButton, 4, 1, 1, 2);
-	// saveGrid->addWidget(selectLoadMovieFileDialogButton, 5, 1);
-    // saveGrid->addWidget(loadMovieFileNameLabel, 5, 2);
-
-	// savePage->setLayout(saveGrid);
-
-
-
-	// Fill the tabs.
-	// tabs->addTab(frisbeePage, "Frisbee");
-	// tabs->addTab(timePage, " Time");
-	// tabs->addTab(cameraPage, " Camera");
-	// tabs->addTab(keyboardPage, " Keyboard Bindings");
-	// tabs->addTab(savePage, " Save File");
-
 
 	v3dw = new Visual3DWindow(this); 
 	v3dw->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
@@ -294,27 +227,24 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	v3dw->show();
 
 	sys = new System(v3dw->getView());
-	// integ = new IntegratorRK4; // RK4 by default.
+
 	timerId = 0;
 	playbackSpeed = 50; // To change the speed at which time flows (multiplier).
 	frisbeeTrackingCameraMode = false;
 
 
-
-	// infoWin = new InfoWindow(this); // **** added
-	// // infoWin = new InfoWindow(this, sys, integ);  // **** deleted
-	// // infoWin = new InfoWindow(this, this);
-	// infoWin->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
-	// // infoWin->refreshLabels(sys, integ); // **** added
-	// infoWin->refreshLabels(sys); // **** added
-	// infoWin->show();
+	infoWin = new InfoWindow(this); // **** added
+	// infoWin = new InfoWindow(this, sys, integ);  // **** deleted
+	// infoWin = new InfoWindow(this, this);
+	infoWin->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
+	// infoWin->refreshLabels(sys, integ); // **** added
+	infoWin->refreshLabels(sys); // **** added
+	infoWin->show();
 
 
 	// Must connect buttons here, so that they live in the whole class.
-    // QObject::connect(setFrisbeeStateButton, SIGNAL(clicked()), this, SLOT(setFrisbeeState()));
-    // QObject::connect(toggleUvwBodyEarthAxesButton, SIGNAL(clicked()), this, SLOT(toggleUvwBodyEarthAxes()));
-
 	QObject::connect(startStopButton, SIGNAL(clicked()), this, SLOT(toggleChrono()));
+	QObject::connect(playbackSpeedSlider, SIGNAL(valueChanged(int)), this, SLOT(setPlaybackSpeed(int)) );
 
 	QObject::connect(zButton, SIGNAL(clicked()), v3dw, SLOT(setcamZ()));
 	QObject::connect(zzButton, SIGNAL(clicked()), v3dw, SLOT(setcamZZ()));
@@ -323,16 +253,7 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 	QObject::connect(yButton, SIGNAL(clicked()), v3dw, SLOT(setcamY()));
 	QObject::connect(yyButton, SIGNAL(clicked()), v3dw, SLOT(setcamYY()));
 	QObject::connect(toggleFrisbeeTrackingCameraModeButton, SIGNAL(clicked()), this, SLOT(toggleFrisbeeTrackingCameraMode()));
-
-	
-	// QObject::connect(boutonIntegrateurEuler, SIGNAL(clicked()), this , SLOT(set_Euler()));
-	// QObject::connect(boutonIntegrateurNewmark, SIGNAL(clicked()), this, SLOT(set_Newmark()));
-	// QObject::connect(rk4Button, SIGNAL(clicked()), this, SLOT(setRK4()));
-	
-	QObject::connect(playbackSpeedSlider, SIGNAL(valueChanged(int)), this, SLOT(setPlaybackSpeed(int)) );
-	
-	// QObject::connect(resetTimeButton, SIGNAL(clicked()), this, SLOT(resetTime()));
-	
+		
 	QObject::connect(pitchUpSetButton, SIGNAL(clicked()), this, SLOT(pitchUpSetNew()));
 	QObject::connect(pitchDownSetButton, SIGNAL(clicked()), this, SLOT(pitchDownSetNew()));
 	QObject::connect(yawLeftSetButton, SIGNAL(clicked()), this, SLOT(yawLeftSetNew()));
@@ -350,8 +271,6 @@ KeyActionWindow::KeyActionWindow(QWidget* parent, MainWindow* mw) : QWidget(pare
 
 	QObject::connect(selectStateFileDialogButton, SIGNAL(clicked()), this, SLOT(selectSaveCurrentStateFile()));
 	QObject::connect(saveStateButton, SIGNAL(clicked()), this, SLOT(saveCurrentState()));
-	// QObject::connect(selectLoadMovieFileDialogButton, SIGNAL(clicked()), this, SLOT(selectLoadMovieFile()));
-	// QObject::connect(loadMovieButton, SIGNAL(clicked()), this, SLOT(loadMovie()));
 }
 
 
@@ -371,25 +290,6 @@ void KeyActionWindow::stop() {
 		timerId = 0;
 	}
 }
-
-// void KeyActionWindow::setFrisbeeState() {
-// 	try {
-//     	sys->setFrisbeeState(Vector3(xSpinBox->value(), ySpinBox->value(), zSpinBox->value()),
-//     						Vector3(phiSpinBox->value(), thetaSpinBox->value(), psiSpinBox->value()),
-//     						Vector3(uSpinBox->value(), vSpinBox->value(), wSpinBox->value()),
-//     						Vector3(pSpinBox->value(), qSpinBox->value(), rSpinBox->value()),
-//     						uvwIsBodyNotEarthAxes);
-// 		stop();
-// 		v3dw->updateGL();
-// 		infoWin->refreshLabels(sys, integ); // **** added
-
-// 		// cout << *sys << endl;
-    	
-//     }catch (std::string s) {
-//         QMessageBox::information(this, "Problem", QString::fromStdString(s));
-//     }
-// }
-
 
 
 void KeyActionWindow::pitchUpSetNew() {
@@ -509,45 +409,6 @@ void KeyActionWindow::saveCurrentState() {
 	}
 }
 
-// void KeyActionWindow::selectLoadStateFile() {
-// 	loadStateFileNameLabel->setText(QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("Select state file to load"),"",tr("State Files (*.state)")));
-// }
-
-// void KeyActionWindow::loadState() {
-// 	try {
-// 		string fileName (loadStateFileNameLabel->text().toStdString());
-
-
-// 		ifstream input(fileName);
-// 		if (input.fail()) {
-// 			throw string("Visual3DWindow::loadState(...)  impossible to load '"+fileName+"' in read mode");
-// 		}
-		
-// 		if (input.is_open()) {
-
-// 			try {
-// 				System* tmpSyst ( new System(v3dw->getView(), input) );	// Create new system. Note that this process can fail if there are format errors.
-// 				delete sys;	// If successfully loaded, delete and replace the old System.
-// 				sys = tmpSyst;	//on garde le nouveau
-// 			} catch (std::string s) {
-// 			    QMessageBox::information(this, "Exception caught", QString::fromStdString(s));
-// 			} catch (const std::exception& e) {
-// 			    QMessageBox::information(this, "Exception caught", QString::fromStdString(e.what()));
-// 			}
-
-// 			input.close();
-// 		}
-
-
-
-
-// 	}catch (std::string s) {
-// 		QMessageBox::information(this, "Problem", QString::fromStdString(s));}
-
-// 	v3dw->updateGL();
-// 	infoWin->refreshLabels(sys, integ); // **** added
-// }
-
 
 void KeyActionWindow::toggleFrisbeeTrackingCameraMode() {
 	frisbeeTrackingCameraMode = !frisbeeTrackingCameraMode;
@@ -559,56 +420,8 @@ void KeyActionWindow::setPlaybackSpeed(int a){
 }
 
 
-
-// void KeyActionWindow::resetTime() {
-// 	sys->resetTime();
-// }
-
-
-
-// ***** deleted
-// bool KeyActionWindow::getMappedAction(QKeyEvent* event, KeyAction& action) {
-
-// 	map<int, KeyAction>::iterator it = keyActionMap.find(event->key()); // Find the action corresponding to this key press. 
-
-// 	if (it != keyActionMap.end()) { 
-// 		action = it->second;
-// 		return true;
-// 	} else {
-// 		return false;
-// 	}
-
-// }
-
-// ***** deleted
-// int KeyActionWindow::findBindedKey(KeyAction const& a) {
-// 	for (auto& it : keyActionMap) {
-// 		if (it.second==a) {
-// 			return it.first;
-// 		}
-// 	}
-// 	throw string("KeyActionWindow::findBindedKey(...)  action doesn't have any key binding");
-// }
-
-
 void KeyActionWindow::refreshCurKeyLabels() {
 	// QString:: ?
-
-	// pitchUpCurKeyLabel->setText(QKeySequence(kam->findBindedKey(pitchUp)).toString());
-	// pitchDownCurKeyLabel->setText(QKeySequence(kam->findBindedKey(pitchDown)).toString());
-	// yawLeftCurKeyLabel->setText(QKeySequence(kam->findBindedKey(yawLeft)).toString());
-	// yawRightCurKeyLabel->setText(QKeySequence(kam->findBindedKey(yawRight)).toString());
-	// rollLeftCurKeyLabel->setText(QKeySequence(kam->findBindedKey(rollLeft)).toString());
-	// rollRightCurKeyLabel->setText(QKeySequence(kam->findBindedKey(rollRight)).toString());
-	// moveUpCurKeyLabel->setText(QKeySequence(kam->findBindedKey(moveUp)).toString());
-	// moveDownCurKeyLabel->setText(QKeySequence(kam->findBindedKey(moveDown)).toString());
-	// moveLeftCurKeyLabel->setText(QKeySequence(kam->findBindedKey(moveLeft)).toString());
-	// moveRightCurKeyLabel->setText(QKeySequence(kam->findBindedKey(moveRight)).toString());
-	// moveForwardCurKeyLabel->setText(QKeySequence(kam->findBindedKey(moveForward)).toString());
-	// moveBackwardCurKeyLabel->setText(QKeySequence(kam->findBindedKey(moveBackward)).toString());
-	// resetPositionCurKeyLabel->setText(QKeySequence(kam->findBindedKey(resetPosition)).toString());
-	// startStopTimeCurKeyLabel->setText(QKeySequence(kam->findBindedKey(startStopTime)).toString());
-
 	pitchUpCurKeyLabel->setText(QKeySequence(findBindedKey(pitchUp)).toString());
 	pitchDownCurKeyLabel->setText(QKeySequence(findBindedKey(pitchDown)).toString());
 	yawLeftCurKeyLabel->setText(QKeySequence(findBindedKey(yawLeft)).toString());
@@ -623,123 +436,27 @@ void KeyActionWindow::refreshCurKeyLabels() {
 	moveBackwardCurKeyLabel->setText(QKeySequence(findBindedKey(moveBackward)).toString());
 	resetPositionCurKeyLabel->setText(QKeySequence(findBindedKey(resetPosition)).toString());
 	startStopTimeCurKeyLabel->setText(QKeySequence(findBindedKey(startStopTime)).toString());
-
 }
 
-
-
-// void KeyActionWindow::timerEvent(QTimerEvent* event) {
-// 	Q_UNUSED(event);
-
-// 	should do this function as =0 purely virtal ?
-
-// 	double dt = chronometer.restart()/1000.;
-
-// 	// playbackSpeed = 50 means normal playack speed.
-
-// 	if (playbackSpeed < 50) { // 0 < playbackSpeed < 50 means slower than normal, so make smaller time steps.
-// 			double coef (playbackSpeed/50.); // Linear function of playbackSpeed, passes through (0,0) and (50,1).
-// 			sys->evolve(*integ, dt*coef); 
-// 	}
-// 	else { // 50 < playbackSpeed < 100 means faster than normal. Warning, big time steps cause errors, so make multiple smaller time steps.
-// 		double coef (playbackSpeed*(5./50.)-4.); // Linear function of playbackSpeed, passes through (50,1) and (100,6). This means that at maximal "playbackSpeed=100" the simulation is 6 times normal speed.
-// 		int nbLoops (coef);
-// 		if (playbackSpeed!=50) ++nbLoops;     // "nbLoops" is the integer greater than "coef".
-// 		//cerr << coef << " " << nbLoops << endl;
-// 		for (int i(0); i<nbLoops; ++i ) {
-// 				sys->evolve(*integ, dt*coef/nbLoops); // coef/nbLoops<=1, so all time steps are smaller or equal to dt.
-// 		}
-// 	}
-
-// 	if (frisbeeTrackingCameraMode) {
-// 		v3dw->lookAt(sys);
-// 	}
-
-// 	v3dw->updateGL();
-// 	infoWin->refreshLabels(sys, integ); // **** added
-// }
 
 
 void KeyActionWindow::keyPressEvent(QKeyEvent* event) {
 	if (nextKeyPressSetsAction) {
 		nextKeyPressSetsAction = false;
 
-		// ***** start added
 		if (remapKeyToAction(event->key(), actionToSet)) {
 			// *** (while nextKeyPressSetsAction change the text of label or button to say that you are waiting for a keypress)
 			refreshCurKeyLabels();
 		} else {
 			// *** dialogue box or error msg saying that this key is already attributed.
 		}
-		// ***** end added
-
-		// ***** start deleted
-		// map<int, KeyAction>::iterator it = keyActionMap.find(event->key());
-
-		// if (it == keyActionMap.end()) {
-		// 	// The key is not already attributed to other action. Good, so attribute it to this action.
-		// 	bool valueNotYetFound (true);
-		// 	for (map<int, KeyAction>::iterator it=keyActionMap.begin(); it!=keyActionMap.end() && valueNotYetFound; ++it) {
-		// 		if (it->second==actionToSet) {
-		// 			keyActionMap.erase(it);
-		// 			valueNotYetFound = false;
-		// 		}
-		// 	}
-		// 	keyActionMap[event->key()] = actionToSet;
-
-		// 	// *** (while nextKeyPressSetsAction change the text of label or button to say that you are waiting for a keypress)
-
-		// 	refreshCurKeyLabels();
-
-		// } else {
-		// 	// *** dialogue box or error msg saying that this key is already attributed.
-		// }
-		// ***** end deleted
-
 	}
 }
-
-// const Vector3 KeyActionWindow::getFrisbeePosition() const {
-// 	return sys->getFrisbeePosition();
-// }
-
-
-
-
-
-// void KeyActionWindow::set_Euler(){
-//     if (integ->get_type() != Euler) {
-//         delete integ;
-//         integ = new IntegrateurEuler;}
-//     }
-
-// void KeyActionWindow::set_Newmark(){
-//     if (integ->get_type() != Newmark){
-//         delete integ;
-//         integ = new IntegrateurNewmark;}
-//     }
-
-// void KeyActionWindow::setRK4(){
-// 	if (integ->getType() != RungeKutta) {
-// 		delete integ;
-// 		integ = new IntegratorRK4;
-// 	}
-// }
 
 
 // double KeyActionWindow::getCurrentTime() {
 // 		return sys->time();
 // }
-
-
-
-// void KeyActionWindow::closeEvent(QCloseEvent* event) {
-// 	cerr << "KeyActionWindow::closeEvent(QCloseEvent* event)" << endl;
-// 	parent->visualWindowIsClosing();
-// 	event->accept();
-// }
-
-
 
 
 bool KeyActionWindow::mapKeyToAction(int key, KeyAction action) {

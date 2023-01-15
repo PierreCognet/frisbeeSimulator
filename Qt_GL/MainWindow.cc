@@ -33,22 +33,6 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 	// QObject::connect(nonVisualSimulationButton, SIGNAL(clicked()), this, SLOT(startNonVisualSimulation()));
 	QObject::connect(visualSimulationButton, SIGNAL(clicked()), this, SLOT(startVisualSimulation()));
 	// QObject::connect(playbackButton, SIGNAL(clicked()), this, SLOT(startPlayback()));
-
-
-	// // All that is linked to w.
-
-	// // Create/set parameter of OpenGL window.
-	// w = new GLWidget(RungeKutta, this); // RK4 by default.  // *** do same but with visual window ? create it when the button is pressed ?
-	// w->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
-	// w->setGeometry(1100 , 0, 1200 , 1055 ); // *** delete this ? no fixed size ? or a percentage of screen size 
-
-
-
-
-	// // Must connect buttons here, so that they live in the whole class.
-	// QObject::connect(stopButton, SIGNAL(clicked()), w, SLOT(close()));   // *** this is to close a window ! delete it after ?
-	// QObject::connect(stopButton, SIGNAL(clicked()), infoWin, SLOT(close()));
-
 }
 
 

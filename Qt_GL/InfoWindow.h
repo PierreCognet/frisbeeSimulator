@@ -45,7 +45,7 @@ Q_OBJECT
 
 		QGridLayout* infoGrid;
 
-		QLabel* integratorTitleLabel;
+		QLabel* integratorTitleLabel; // *** delete this ?
 		QLabel* timeTitleLabel;
 		QLabel* xTitleLabel;
 		QLabel* yTitleLabel;

@@ -17,6 +17,7 @@ Q_OBJECT
 public :
 
 	MainWindow (QWidget *parent);
+	// ***** Make a destructor to handle the deletes of children windows
 
 	// void nonVisualSimulationIsClosing();
 	void visualSimulationIsClosing();

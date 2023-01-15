@@ -59,11 +59,7 @@ private:
 	QPoint lastMousePosition;
 	OpenGLViewer view; // Canvas.
 
-	// std::map<int, KeyAction> keyActionMap;
-	// // std::map<Qt::Key, KeyAction> keyActionMap;
-	// VisualSimulation* parent; // The parent window.
 	KeyActionWindow* parent; // The parent window.
-
 
 };
 
