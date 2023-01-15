@@ -3,9 +3,6 @@
 
 #include <QtWidgets>
 #include <QGridLayout>
-// #include "NonVisualSimulation.h"
-#include "VisualSimulation.h"
-// #include "Playback.h"
 
 
 // class NonVisualSimulation;

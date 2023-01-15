@@ -14,6 +14,7 @@ INCLUDEPATH = ../general
 SOURCES += \
     GLSphere.cc\
     InfoWindow.cc\
+    KeyActionWindow.cc\
     MainWindow.cc\
     main_qt_gl.cc\
     OpenGLViewer.cc\
@@ -24,6 +25,7 @@ SOURCES += \
 HEADERS += \
     GLSphere.h\
     InfoWindow.h\
+    KeyActionWindow.h\
     MainWindow.h\
     main_qt_gl.h\
     OpenGLViewer.h\

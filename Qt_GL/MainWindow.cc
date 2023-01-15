@@ -4,6 +4,10 @@
 // #include "IntegrateurEuler.h"
 #include "OpenGLViewer.h"
 #include <QFileDialog>
+// #include "NonVisualSimulation.h"
+#include "VisualSimulation.h"
+// #include "Playback.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {

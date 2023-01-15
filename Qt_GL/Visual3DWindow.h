@@ -6,9 +6,8 @@
 #include "VisualSimulation.h"
 #include "OpenGLViewer.h"
 
-class VisualSimulation;
-
-// enum KeyAction { pitchUp, pitchDown, yawLeft, yawRight, rollLeft, rollRight, moveUp, moveDown, moveLeft, moveRight, moveForward, moveBackward, resetPosition, startStopTime };
+// class VisualSimulation;
+class KeyActionWindow;
 
 class Visual3DWindow : public QGLWidget {
 
@@ -17,14 +16,17 @@ Q_OBJECT
 public:
 
 	// Visual3DWindow(IntegratorType type = RungeKutta, QWidget* parent = nullptr);
-	Visual3DWindow(VisualSimulation* parent = nullptr);
+	// Visual3DWindow(VisualSimulation* parent = nullptr);
+	Visual3DWindow(KeyActionWindow* parent);
+
+	virtual ~Visual3DWindow();  // Delete dyamically allocated integrator.
 
 	OpenGLViewer* getView() { return &view; }
 
 	void lookAt(System* s);
+	// void rotate(double const& angle, Vector3 const& v);	
+	// void translate(Vector3 const& v);
 
-
-	virtual ~Visual3DWindow();  // Delete dyamically allocated integrator.
 
 public slots :
 
@@ -38,7 +40,7 @@ public slots :
 
 
 public :
-	void setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr, bool const& uvwIsBodyNotEarthAxes);
+	// void setFrisbeeState(Vector3 const& xyz, Vector3 const& phiThetaPsi, Vector3 const& uvw, Vector3 const& pqr, bool const& uvwIsBodyNotEarthAxes);
 	
 
 private:
@@ -59,7 +61,8 @@ private:
 
 	// std::map<int, KeyAction> keyActionMap;
 	// // std::map<Qt::Key, KeyAction> keyActionMap;
-	VisualSimulation* parent; // The parent window.
+	// VisualSimulation* parent; // The parent window.
+	KeyActionWindow* parent; // The parent window.
 
 
 };

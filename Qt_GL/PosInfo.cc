@@ -5,7 +5,7 @@
 
 void PosInfo::initializeGL() {
 	view.init();
-	startTimer(20);
+	// startTimer(20); **** deleted
 }
 
 void PosInfo::resizeGL(int width, int height) {
@@ -15,22 +15,33 @@ void PosInfo::resizeGL(int width, int height) {
 	view.setProjection(matrix);
 }
 
-void PosInfo::timerEvent(QTimerEvent* event) {
-	Q_UNUSED(event);
+
+// **** added function
+void PosInfo::updateData(Vector3 const& vec) {
+	v = vec;
 	updateGL();
 }
-
 
 void PosInfo::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	switch (axisType) {
 		case Z :
-			view.drawZ(vs->getFrisbeePosition());
+			view.drawZ(v); // *** added
+			// view.drawZ(sys->getFrisbeePosition()); // *** deleted
+			// view.drawZ(vs->getFrisbeePosition());
 			break;
 		case XY :
-			view.drawXY(vs->getFrisbeePosition());
+			view.drawXY(v); // *** added
+			// view.drawXY(sys->getFrisbeePosition()); // *** deleted
+			// view.drawXY(vs->getFrisbeePosition());
 			break;
 	}
 }
+
+// **** deleted fct
+// void PosInfo::timerEvent(QTimerEvent* event) {
+// 	Q_UNUSED(event);
+// 	updateGL();
+// }
 
 

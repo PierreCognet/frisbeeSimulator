@@ -11,9 +11,15 @@ class PosInfo;
 class InfoWindow : public QWidget {
 Q_OBJECT
 	public :
-		InfoWindow (QWidget *parent, VisualSimulation* vs);
+		InfoWindow (QWidget *parent); // **** delete
+		// InfoWindow (QWidget *parent, System* sys, Integrator* integ); // **** deleted
+		// InfoWindow (QWidget *parent, VisualSimulation* vs);
 
 	virtual ~InfoWindow();  // Delete dyamically allocated integrator.
+
+	void refreshLabels(System* sys);
+	// void refreshLabels(System* sys, Integrator* integ); // **** should have added it but it was already there
+
 
 	public slots :
 		// void quitter() { close();}
@@ -70,16 +76,16 @@ Q_OBJECT
 		QLabel* rLabel;
 
 
-		// QLabel* Contr;
-		// QLabel* Cass;
+		// VisualSimulation* vs; // This is where we get the info to be displayed.
+		// System* sys; // This is where we get the info to be displayed. // **** deleted
+		// Integrator* integ; // This is where we get the info to be displayed. // **** deleted
 
-		VisualSimulation* vs; // This is where we get the info to be displayed.
+		// void refreshLabels(); // **** deleted
+		// void setIntegratorLabel(); // **** deleted
+		void setIntegratorLabel(Integrator* integ); // **** added
+		// virtual void timerEvent(QTimerEvent* event) override; // **** deleted
 
-		void refreshLabels();
-		void setIntegratorLabel();
-		virtual void timerEvent(QTimerEvent* event)  override;
-
-		void closeEvent(QCloseEvent* event);
+		void closeEvent(QCloseEvent* event) override;
 
 };
 

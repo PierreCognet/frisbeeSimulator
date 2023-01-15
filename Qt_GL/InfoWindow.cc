@@ -1,9 +1,13 @@
 #include "InfoWindow.h"
 
-InfoWindow::InfoWindow(QWidget *parent, VisualSimulation* vs)
-	: QWidget(parent), vs(vs) {
+// InfoWindow::InfoWindow(QWidget *parent, VisualSimulation* vs)
+// 	: QWidget(parent), vs(vs) {
+// InfoWindow::InfoWindow(QWidget *parent, System* sys, Integrator* integ) // **** deleted
+// 	: QWidget(parent), sys(sys), integ(integ) { // **** deleted
+InfoWindow::InfoWindow(QWidget *parent) // **** added
+	: QWidget(parent) { // **** added
 
-	startTimer(20);
+	// startTimer(20); // **** deleted
 
 	// Set shape.
 	setFixedSize(700, 480);
@@ -13,8 +17,12 @@ InfoWindow::InfoWindow(QWidget *parent, VisualSimulation* vs)
 	xyAxesTitleLabel = new QLabel("Projection on XY axes:");
 	zAxisTitleLabel = new QLabel("Projection on Z axis:");
 
-	xyAxes = new PosInfo(vs,XY,this);
-	zAxis = new PosInfo(vs,Z,this);
+	// xyAxes = new PosInfo(vs,XY,this);
+	// zAxis = new PosInfo(vs,Z,this);
+	// xyAxes = new PosInfo(this, sys, XY); // **** deleted
+	// zAxis = new PosInfo(this, sys, Z); // **** deleted
+	xyAxes = new PosInfo(this, XY); // **** added
+	zAxis = new PosInfo(this, Z); // **** added
 
 
 	integratorTitleLabel = new QLabel("Current integrator: ");
@@ -48,27 +56,10 @@ InfoWindow::InfoWindow(QWidget *parent, VisualSimulation* vs)
 	qLabel = new QLabel("");
 	rLabel = new QLabel("");
 
-	// triangle = new QLabel ("Triangles : ");
-	// springs = new QLabel ("Ressorts : ");
-	// Masses = new QLabel ("Masses : ");
-	// t = new QLabel ("OFF");
-	// s = new QLabel ("ON");
-	// m = new QLabel ("ON");
-
-	// QLabel* titreContr  = new QLabel("     Contraintes : ");
-	// QLabel* titreCass  = new QLabel("      Ressorts Cassables : ");
-
-	// QLabel* titreCDM = new QLabel("    Centre de Masse du Tissu (X,Y et Z)");
-
-	// Contr = new QLabel("ON");
-	// Cass = new QLabel("ON");
-
-
 	// Parametrize our Widgets
 	xyAxes->setGeometry(10, 10, 100, 100);
 	zAxis->setGeometry(300, 400, 100, 100);
-	xyAxes->show();
-
+	xyAxes->show(); // *** why not Axis show as well ? maybe this line is useless 
 
 	// Set main layout.
 	posGrid = new QGridLayout;
@@ -112,50 +103,28 @@ InfoWindow::InfoWindow(QWidget *parent, VisualSimulation* vs)
 	infoGrid->addWidget(qLabel, 6, 3);
 	infoGrid->addWidget(rLabel, 7, 3);
 
-	// box1 = new QGridLayout;
-	// box1->addWidget(triangle , 0 , 0);
-	// box1->addWidget(Masses , 1 , 0);
-	// box1->addWidget(springs , 2 , 0);
-	// box1->addWidget(t , 0 , 1);
-	// box1->addWidget(m , 1 , 1);
-	// box1->addWidget(s , 2 , 1);
-
-	// box2 = new QGridLayout;
-	// box2->addWidget(titreContr , 0 , 1);
-	// box2->addWidget(titreCass , 1 , 1);
-	// box2->addWidget(Contr , 0 , 2);
-	// box2->addWidget(Cass , 1 , 2);
-	// box2->addWidget(titreCDM , 2, 1);
-
-
 	mainGrid = new QGridLayout;
-	// mainGrid->addLayout(box1 , 2 , 1);
-	// mainGrid->addLayout(box2,1 , 2 );
-	
-
-	// mainGrid->addLayout(infoGrid, 1, 1, 2, 1);
-	// mainGrid->addWidget(xyAxesTitleLabel, 1, 2);
-	// mainGrid->addWidget(zAxisTitleLabel, 1, 3);
-	// mainGrid->addWidget(xyAxes, 2, 2);
-	// mainGrid->addWidget(zAxis, 2, 3);
-
-
 	mainGrid->addLayout(infoGrid, 1, 1);
 	mainGrid->addLayout(posGrid, 1, 2);
 
-
 	this->setLayout(mainGrid);
 
-	refreshLabels();
+	// refreshLabels(); // **** deleted
 }
 
 InfoWindow::~InfoWindow() {
+	delete xyAxes;
+	delete zAxis;
 	cerr << "InfoWindow::~InfoWindow()" << endl;
 }
 
 
-void InfoWindow::setIntegratorLabel(){
-	switch (vs->getIntegratorType()) {
+// void InfoWindow::setIntegratorLabel(){
+// 	switch (vs->getIntegratorType()) {
+// void InfoWindow::setIntegratorLabel(){ // **** deleted
+// 	switch (integ->getType()) { // **** deleted
+void InfoWindow::setIntegratorLabel(Integrator* integ){ // **** added
+	switch (integ->getType()) { // **** added
 		// case Euler:
 		//     integratorLabel->setText("Euler");
 		//     break;
@@ -168,40 +137,26 @@ void InfoWindow::setIntegratorLabel(){
 	}
 }
 
-void InfoWindow::refreshLabels(){
-	QString currentTime = QString::number(vs->getCurrentTime());
+// **** added thee following
+void InfoWindow::refreshLabels(System* sys){
+// void InfoWindow::refreshLabels(System* sys, Integrator* integ){
+	QString currentTime = QString::number(sys->time());
 	timeLabel->setText(currentTime);
 
-	// if (w->gettri())
-	//     {t->setText("ON");}
-	//     else {t->setText("OFF");}
+	// setIntegratorLabel();
+	// setIntegratorLabel(integ); *****
 
-	// if (w->getmas())
-	//     {m->setText("ON");}
-	//     else {m->setText("OFF");}
-
-	// if (w->getspr())
-	//     {s->setText("ON");}
-	//     else {s->setText("OFF");}
-
-	// if (w->getContrDess())
-	//     {Contr->setText("ON");}
-	//     else {Contr->setText("OFF");}
-
-	// if (w->getCass())
-	//     {Cass->setText("ON");}
-	//     else {Cass->setText("OFF");}
-
-	setIntegratorLabel();
-
-
-	System* s (vs->getSystem());
-	Frisbee* f (s->getFrisbee());
+	// System* s (vs->getSystem());
+	// Frisbee* f (s->getFrisbee());
+	Frisbee* f (sys->getFrisbee());
 	Vector3 v;
 	v = f->xyz();
 	xLabel->setText(QString::number(v[0]));
 	yLabel->setText(QString::number(v[1]));
 	zLabel->setText(QString::number(v[2]));
+
+	xyAxes->updateData(v);
+	zAxis->updateData(v);
 
 	v = f->phiThetaPsi();
 	phiLabel->setText(QString::number(v[0]));
@@ -217,17 +172,54 @@ void InfoWindow::refreshLabels(){
 	pLabel->setText(QString::number(v[0]));
 	qLabel->setText(QString::number(v[1]));
 	rLabel->setText(QString::number(v[2]));
+
+// **** deleted thee following
+// void InfoWindow::refreshLabels(){
+// 	// QString currentTime = QString::number(vs->getCurrentTime());
+// 	QString currentTime = QString::number(sys->time());
+// 	timeLabel->setText(currentTime);
+
+// 	setIntegratorLabel();
+
+// 	// System* s (vs->getSystem());
+// 	// Frisbee* f (s->getFrisbee());
+// 	Frisbee* f (sys->getFrisbee());
+// 	Vector3 v;
+// 	v = f->xyz();
+// 	xLabel->setText(QString::number(v[0]));
+// 	yLabel->setText(QString::number(v[1]));
+// 	zLabel->setText(QString::number(v[2]));
+
+// 	xyAxes->updateData(v); // **** added
+// 	zAxis->updateData(v); // **** added
+
+// 	v = f->phiThetaPsi();
+// 	phiLabel->setText(QString::number(v[0]));
+// 	thetaLabel->setText(QString::number(v[1]));
+// 	psiLabel->setText(QString::number(v[2]));
+
+// 	v = f->uvw();
+// 	uLabel->setText(QString::number(v[0]));
+// 	vLabel->setText(QString::number(v[1]));
+// 	wLabel->setText(QString::number(v[2]));
+
+// 	v = f->pqr();
+// 	pLabel->setText(QString::number(v[0]));
+// 	qLabel->setText(QString::number(v[1]));
+// 	rLabel->setText(QString::number(v[2]));
 }
 
 
-void InfoWindow::timerEvent(QTimerEvent* event) {
-	Q_UNUSED(event);
-	refreshLabels();
-}
+// **** deleted fct
+// void InfoWindow::timerEvent(QTimerEvent* event) {
+// 	Q_UNUSED(event);
+// 	refreshLabels();
+// }
 
 void InfoWindow::closeEvent(QCloseEvent* event) {
 	cerr << "InfoWindow::closeEvent(QCloseEvent* event)" << endl;
-	vs->close();
+	// vs->close();
+	parentWidget()->close();
 	event->accept();
 }
 

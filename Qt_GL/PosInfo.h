@@ -15,10 +15,15 @@ class PosInfo : public QGLWidget {
 
 public:
 
-	PosInfo(VisualSimulation* vs, AxisType check = XY,  QWidget* parent = nullptr)
-		: QGLWidget(parent), vs(vs), axisType(check) {}
+	PosInfo(QWidget* parent = nullptr, AxisType check = XY) // **** added
+		: QGLWidget(parent), axisType(check), v() {} // **** added
+	// PosInfo(VisualSimulation* vs, AxisType check = XY,  QWidget* parent = nullptr)
+	// 	: QGLWidget(parent), vs(vs), axisType(check) {}
+	// PosInfo(QWidget* parent, System* sys, AxisType check = XY) // **** deleted
+	// 	: QGLWidget(parent), sys(sys), axisType(check) {} // **** deleted
 
 	virtual ~PosInfo() {}
+	void updateData(Vector3 const& v); // **** added
 
 private:
 
@@ -27,13 +32,17 @@ private:
 	virtual void resizeGL(int width, int height) override;
 	virtual void paintGL()                       override;
 
-	virtual void timerEvent(QTimerEvent* event)  override;
+
+	// virtual void timerEvent(QTimerEvent* event)  override; // **** deleted
 
 	OpenGLViewer view; // We use the same view where we add a function. We could re create a view but we lack the required competences. 
 
-	VisualSimulation* vs;
-	QTime chronometre;
+	// VisualSimulation* vs;
+	Vector3 v; // **** added
 	AxisType axisType;
+
+	// System* sys; // **** deleted
+	// QTime chronometre;
 };
 
 
