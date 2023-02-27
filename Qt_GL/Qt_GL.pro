@@ -19,6 +19,7 @@ SOURCES += \
     main_qt_gl.cc\
     MovieRecorder.cc\
     OpenGLViewer.cc\
+    Playback.cc\
     PosInfo.cc\
     Visual3DWindow.cc\
     VisualSimulation.cc
@@ -32,6 +33,7 @@ HEADERS += \
     MovieRecorder.h\
     OpenGLViewer.h\
     PosInfo.h\
+    Playback.h\
     VertexShader.h\
     Visual3DWindow.h\
     VisualSimulation.h

@@ -640,9 +640,9 @@ Vector3 OpenGLViewer::getCameraPosition() const {
 	Matrix3x3 viewOrientation (-viewMatrix(0,0),-viewMatrix(1,0),-viewMatrix(2,0),-viewMatrix(0,1),-viewMatrix(1,1),-viewMatrix(2,1), -viewMatrix(0,2),-viewMatrix(1,2),-viewMatrix(2,2));
 	Vector3 cameraWorldCoordinates (viewOrientation*viewPosition);
 
-	cerr << viewOrientation << endl << endl;
-	cerr << viewPosition << endl << endl;
-    cerr << cameraWorldCoordinates << endl << endl;
+	// cerr << viewOrientation << endl << endl;
+	// cerr << viewPosition << endl << endl;
+    // cerr << cameraWorldCoordinates << endl << endl;
 
 	return cameraWorldCoordinates;
 

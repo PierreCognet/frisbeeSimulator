@@ -1,12 +1,12 @@
 #include "MainWindow.h"
 #include <QString>
-#include "Integrator.h"
+// #include "Integrator.h"
 // #include "IntegrateurEuler.h"
 #include "OpenGLViewer.h"
 #include <QFileDialog>
 // #include "NonVisualSimulation.h"
 #include "VisualSimulation.h"
-// #include "Playback.h"
+#include "Playback.h"
 
 
 
@@ -20,19 +20,19 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
 	// nonVisualSimulationButton = new QPushButton("Open non visual simulation mode");
 	visualSimulationButton = new QPushButton("Open visual simulation mode");
-	// playbackButton = new QPushButton("Open playback mode");
+	playbackButton = new QPushButton("Open playback mode");
 
 	mainGrid = new QGridLayout;
 	// mainGrid->addWidget(nonVisualSimulationButton, 1, 1);
 	mainGrid->addWidget(visualSimulationButton, 1, 1);
-	// mainGrid->addWidget(playbackButton, 2, 1);
+	mainGrid->addWidget(playbackButton, 2, 1);
 
 	this->setLayout(mainGrid);
 
 
 	// QObject::connect(nonVisualSimulationButton, SIGNAL(clicked()), this, SLOT(startNonVisualSimulation()));
 	QObject::connect(visualSimulationButton, SIGNAL(clicked()), this, SLOT(startVisualSimulation()));
-	// QObject::connect(playbackButton, SIGNAL(clicked()), this, SLOT(startPlayback()));
+	QObject::connect(playbackButton, SIGNAL(clicked()), this, SLOT(startPlayback()));
 }
 
 
@@ -49,8 +49,6 @@ void MainWindow::startVisualSimulation() {
 		// QObject::connect(vs, SIGNAL(closeEvent(int)), this, SLOT(visualSimulationIsClosing()));
 		// vs->setGeometry(1100 , 0, 1200 , 1055 ); // *** delete this ? no fixed size ? or a percentage of screen size 
 		vs->show();
-
-
 
 		// *** use this on the sub windows to
 		// void MainWindow::closeEvent(QCloseEvent* event) {
@@ -74,17 +72,16 @@ void MainWindow::visualSimulationIsClosing() {
 }
 
 
-// void MainWindow::startPlayback() {
-// 	if (pb==nullptr) {	
-// 		pb = new Playback(this);
-// 		pb->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
-// 		QObject::connect(pb, SIGNAL(finished(int)), pb, SLOT(deleteLater()));
-// 		// pb->setGeometry(1100 , 0, 1200 , 1055 ); // *** delete this ? no fixed size ? or a percentage of screen size 
-// 		pb->show();
-// 	}
-// }
+void MainWindow::startPlayback() {
+	if (pb==nullptr) {	
+		pb = new Playback(this, this);
+		pb->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint);
+		pb->show();
+	}
+}
 
-// void MainWindow::playbackIsClosing() {
-// 	// pb->deleteLater() // no need because it is connected to the finished slot
-// 	pb = nullptr;
-// }
+void MainWindow::playbackIsClosing() {
+	pb->deleteLater();
+	pb = nullptr;
+	cerr << "MainWindow::playbackIsClosing()" << endl;
+}

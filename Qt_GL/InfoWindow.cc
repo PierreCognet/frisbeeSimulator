@@ -115,7 +115,7 @@ InfoWindow::InfoWindow(QWidget *parent) // **** added
 InfoWindow::~InfoWindow() {
 	delete xyAxes;
 	delete zAxis;
-	cerr << "InfoWindow::~InfoWindow()" << endl;
+	// cerr << "InfoWindow::~InfoWindow()" << endl;
 }
 
 
@@ -217,7 +217,7 @@ void InfoWindow::refreshLabels(System* sys){
 // }
 
 void InfoWindow::closeEvent(QCloseEvent* event) {
-	cerr << "InfoWindow::closeEvent(QCloseEvent* event)" << endl;
+	// cerr << "InfoWindow::closeEvent(QCloseEvent* event)" << endl;
 	// vs->close();
 	parentWidget()->close();
 	event->accept();

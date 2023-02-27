@@ -7,7 +7,7 @@
 
 // class NonVisualSimulation;
 class VisualSimulation;
-// class Playback;
+class Playback;
 
 
 class MainWindow : public QWidget {
@@ -21,13 +21,13 @@ public :
 
 	// void nonVisualSimulationIsClosing();
 	void visualSimulationIsClosing();
-	// void playbackIsClosing();
+	void playbackIsClosing();
 
 
 private slots :
 	// void startNonVisualSimulation();
 	void startVisualSimulation();
-	// void startPlayback();
+	void startPlayback();
 
 
 private :
@@ -36,12 +36,12 @@ private :
 
 	// QPushButton* nonVisualSimulationButton;
 	QPushButton* visualSimulationButton;
-	// QPushButton* playbackButton;
+	QPushButton* playbackButton;
 
 
 	// NonVisualSimulation* nvs;
 	VisualSimulation* vs;
-	// Playback* pb;
+	Playback* pb;
 };
 
 

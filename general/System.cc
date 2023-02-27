@@ -6,16 +6,6 @@
 #include <fstream>
 #include <sstream>
 #include <queue>
-// #include "TissuChaine.h"
-// #include "TissuRectangle.h"
-// #include "TissuDisque.h"
-// #include "TissuCompose.h"
-// #include "Contrainte.h"
-// #include "Crochet.h"
-// #include "Levitateur.h"
-// #include "ImpulsionSinusoidale.h"
-// #include "BouleRigide.h"
-// #include "TrouNoir.h"
 
 using namespace std;
 
@@ -151,10 +141,12 @@ System::~System() {
 // 	sortie << "FinContraintes" << endl;
 
 
-queue<string> System::getLineMakeQ(ifstream& input) const {
+queue<string> System::getLineMakeQ(string s) const { // ***
+// queue<string> System::getLineMakeQ(ifstream& input) const { *** change this, put a string insteadd of a ifstream
 	string tmp;
-	if (!getline(input, tmp)) { throw string("System::getLineMakeQ(ifstream) end of file'"); }
-	stringstream str_strm(tmp);
+// 	if (!getline(input, tmp)) { throw string("System::getLineMakeQ(ifstream) end of file'"); }
+// 	stringstream str_strm(tmp);
+	stringstream str_strm(s);
 	queue<string> q; 
 	char sep (',');
 	while (getline(str_strm, tmp, sep)) {
@@ -163,15 +155,19 @@ queue<string> System::getLineMakeQ(ifstream& input) const {
 	return q;
 }
 
-System::System(Canvas* canvas, ifstream& input)
+
+// *** System::System(Canvas* canvas, ifstream& input) *** change this, put a string insteadd of a ifstream
+System::System(Canvas* canvas, string headers_str, string values_str)
 	: Drawable(canvas) {
 
-	queue<string> headers (getLineMakeQ(input));
-	queue<string> values (getLineMakeQ(input));
+	// queue<string> headers (getLineMakeQ(input));
+	// queue<string> values (getLineMakeQ(input));
+	queue<string> headers (getLineMakeQ(headers_str));
+	queue<string> values (getLineMakeQ(values_str));
 
-	if (!input.eof()) { throw string("System::System(Canvas*, ifstream&) loaded file has too many lines"); }
+	// if (!input.eof()) { throw string("System::System(Canvas*, ifstream&) loaded file has too many lines"); }
 
-	if (headers.front()!="time") { throw string("System::System(Canvas*, ifstream&) 'time' header missing"); }
+	if (headers.front()!="time") { throw string("System::System(Canvas*, ifstream&, string, string) 'time' header missing"); }
 	headers.pop();
 	time_ = stod(values.front());
 	values.pop();
@@ -326,6 +322,15 @@ Frisbee* System::getFrisbee() {
 // const size_t System::nbTissus () const  {	return listTissu.size(); }
 
 const double System::time() const{ return time_; }
+
+const double System::time(string values) const {
+	string value;
+	stringstream str_strm(values);
+	char sep (',');
+	getline(str_strm, value, sep);
+	return stod(value);
+}
+
 
 void System::display(ostream& out) const{
 	out << "Canvas : " << canvas_ << endl

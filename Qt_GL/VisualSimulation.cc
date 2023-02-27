@@ -136,6 +136,14 @@ VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : KeyActionW
 
 
 
+	// possibleActions.push_back({ startStopTime,	Qt::Key_Space,	new QLabel("Toggle time"),		new QLabel(""), new QPushButton("Set new key") });
+	initKeyboardPage();
+	// refreshCurKeyLabels(); // ***
+	// keyboardPage->setLayout(keyboardGrid); // ***
+
+
+
+
 	loadStateButton = new QPushButton("Load state from file");
 	selectLoadStateFileDialogButton = new QPushButton("Select file location");
 	loadStateFileNameLabel = new QLabel("");
@@ -193,48 +201,54 @@ VisualSimulation::~VisualSimulation() {
 }
 
 
-void VisualSimulation::visual3DWindowKeyPressEvent(QKeyEvent* event) {
+// *** void VisualSimulation::visual3DWindowKeyPressEvent(QKeyEvent* event) {
+// 	KeyAction action;
+// 	if (getMappedAction(event, action)) {
 
-	KeyAction action;
-	if (getMappedAction(event, action)) {
+// 		// *** 
+// 		if (!KeyActionWindow::executeAction(action)) {
+// 			throw string("VisualSimulation::visual3DWindowKeyPressEvent(...)  unknown action");
+// 		}
+// 		// No specific actions other than thee common superclass ones.
 
-		double smallAngle(5.0); // In degrees.
-		double smallStep(1.0);
+// 		// ***
+// 		// double smallAngle(5.0); // In degrees.
+// 		// double smallStep(1.0);
 
-		if (action==pitchUp) {
-			v3dw->getView()->rotate(smallAngle, Vector3(-1.0, 0.0, 0.0));	
-		} else if (action==pitchDown) {
-			v3dw->getView()->rotate(smallAngle, Vector3(+1.0, 0.0, 0.0));
-		} else if (action==yawLeft) {
-			v3dw->getView()->rotate(smallAngle, Vector3(0.0, -1.0, 0.0));	
-		} else if (action==yawRight) {
-			v3dw->getView()->rotate(smallAngle, Vector3(0.0, +1.0, 0.0));
-		} else if (action==rollLeft) {
-			v3dw->getView()->rotate(smallAngle, Vector3(0.0, 0.0, -1.0));
-		} else if (action==rollRight) {
-			v3dw->getView()->rotate(smallAngle, Vector3(0.0, 0.0, +1.0));
-		} else if (action==moveUp) {
-			v3dw->getView()->translate(Vector3(0.0, -smallStep, 0.0));
-		} else if (action==moveDown) {
-			v3dw->getView()->translate(Vector3(0.0,  smallStep, 0.0));
-		} else if (action==moveLeft) {
-			v3dw->getView()->translate( Vector3(smallStep, 0.0, 0.0));
-		} else if (action==moveRight) {
-			v3dw->getView()->translate(Vector3(-smallStep, 0.0, 0.0));
-		} else if (action==moveForward) {
-			v3dw->getView()->translate(Vector3(0.0, 0.0,  smallStep));	
-		} else if (action==moveBackward) {
-			v3dw->getView()->translate(Vector3(0.0, 0.0, -smallStep));
-		} else if (action==resetPosition) {
-			v3dw->getView()->initializePosition();
-		} else if (action==startStopTime) {
-			toggleChrono();
-		} else {
-			throw string("VisualSimulation::visual3DWindowKeyPressEvent(...)  unknown action");
-		}
-		v3dw->updateGL();
-	}
-}
+// 		// if (action==pitchUp) {
+// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(-1.0, 0.0, 0.0));	
+// 		// } else if (action==pitchDown) {
+// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(+1.0, 0.0, 0.0));
+// 		// } else if (action==yawLeft) {
+// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, -1.0, 0.0));	
+// 		// } else if (action==yawRight) {
+// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, +1.0, 0.0));
+// 		// } else if (action==rollLeft) {
+// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, 0.0, -1.0));
+// 		// } else if (action==rollRight) {
+// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, 0.0, +1.0));
+// 		// } else if (action==moveUp) {
+// 		// 	v3dw->getView()->translate(Vector3(0.0, -smallStep, 0.0));
+// 		// } else if (action==moveDown) {
+// 		// 	v3dw->getView()->translate(Vector3(0.0,  smallStep, 0.0));
+// 		// } else if (action==moveLeft) {
+// 		// 	v3dw->getView()->translate( Vector3(smallStep, 0.0, 0.0));
+// 		// } else if (action==moveRight) {
+// 		// 	v3dw->getView()->translate(Vector3(-smallStep, 0.0, 0.0));
+// 		// } else if (action==moveForward) {
+// 		// 	v3dw->getView()->translate(Vector3(0.0, 0.0,  smallStep));	
+// 		// } else if (action==moveBackward) {
+// 		// 	v3dw->getView()->translate(Vector3(0.0, 0.0, -smallStep));
+// 		// } else if (action==resetPosition) {
+// 		// 	v3dw->getView()->initializePosition();
+// 		// } else if (action==startStopTime) {
+// 		// 	toggleChrono();
+// 		// } else {
+// 		// 	throw string("VisualSimulation::visual3DWindowKeyPressEvent(...)  unknown action");
+// 		// }
+// 		// v3dw->updateGL();
+// 	}
+// }
 
 
 void VisualSimulation::setFrisbeeState() {
@@ -280,15 +294,24 @@ void VisualSimulation::loadState() {
 
 		ifstream input(fileName);
 		if (input.fail()) {
-			throw string("Visual3DWindow::loadState(...)  impossible to load '"+fileName+"' in read mode");
+			throw string("VisualSimulation::loadState()  impossible to load '"+fileName+"' in read mode");
 		}
 		
 		if (input.is_open()) {
-
 			try {
-				System* tmpSyst ( new System(v3dw->getView(), input) );	// Create new system. Note that this process can fail if there are format errors.
+			
+				string headers;
+				if (!getline(input, headers)) { throw string("VisualSimulation::loadState() loaded state file has 0 lines instead of 2'"); }
+				string values;
+				if (!getline(input, values)) { throw string("VisualSimulation::loadState() loaded state file has 1 line instead of 2'"); }
+				if (!input.eof()) { throw string("VisualSimulation::loadState() loaded state file has more than 2 lines"); }
+
+				System* tmpSyst ( new System(v3dw->getView(), headers, values) );	// Create new system. Note that this process can fail if there are format errors.
+				// *** System* tmpSyst ( new System(v3dw->getView(), input) );	// Create new system. Note that this process can fail if there are format errors.
 				delete sys;	// If successfully loaded, delete and replace the old System.
 				sys = tmpSyst;	//on garde le nouveau
+			
+
 			} catch (std::string s) {
 			    QMessageBox::information(this, "Exception caught", QString::fromStdString(s));
 			} catch (const std::exception& e) {
@@ -371,6 +394,11 @@ void VisualSimulation::setRK4(){
 void VisualSimulation::resetTime() {
 	sys->resetTime();
 	infoWin->refreshLabels(sys);
+}
+
+
+bool VisualSimulation::executeAction(KeyAction action) {
+	return KeyActionWindow::executeAction(action);
 }
 
 

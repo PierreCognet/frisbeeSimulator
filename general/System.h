@@ -24,7 +24,8 @@ public:
 	// //--------------------File input / output----------------------------
 	// double fromStr(std::string const& str) const;
 	// System(SupportADessin* support, std::ifstream& fichier);	//constructeur qui lit un fichier
-	System(Canvas* canvas, std::ifstream& input);	// Constructor that loads a file.
+	// *** System(Canvas* canvas, std::ifstream& input);	// Constructor that loads a file.
+	System(Canvas* canvas, std::string headers_str, std::string values_str);	// Constructor when loading a file. // ***
 	std::string getHeaders() const;
 	std::string getCurrentState() const;
 	
@@ -49,6 +50,7 @@ public:
 	
 
 	const double time() const;
+	const double time(string values) const;
 	void display(std::ostream& out) const;
 	// std::vector<Vecteur3D> get_CDM () const;
 	const Vector3 getFrisbeePosition() const;
@@ -63,7 +65,8 @@ public:
 
 private :
 	// std::string connectWithSep(std::vector<std::string> vec, std::string sep) const;
-	std::queue<std::string> getLineMakeQ(std::ifstream& input) const;
+	// *** std::queue<std::string> getLineMakeQ(std::ifstream& input) const;
+	std::queue<std::string> getLineMakeQ(std::string input) const;
 	std::string connectWithSep(std::queue<std::string> q, std::string sep) const;
 
 	Frisbee* f;

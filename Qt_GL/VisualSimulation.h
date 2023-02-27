@@ -16,7 +16,7 @@ public :
 	VisualSimulation (QWidget* parent, MainWindow* mw);
 	virtual ~VisualSimulation();  // Delete dyamically allocated system and integrator.
 	
-	virtual void visual3DWindowKeyPressEvent(QKeyEvent* event) override;
+	// *** virtual void visual3DWindowKeyPressEvent(QKeyEvent* event) override;
 
 	// IntegratorType getIntegratorType() { return integ->getType(); }
 
@@ -33,14 +33,16 @@ private slots :
 	void endRecordMovie();
 
 	// void set_Euler();
-	// void set_Newmark();	
+	// void set_Newmark();
 	void setRK4();
 	void resetTime();
 
 
 private :
 
-	virtual void timerEvent(QTimerEvent* event)  override;
+	virtual bool executeAction(KeyAction action) override; // Returns true if an action has been executed.
+
+	virtual void timerEvent(QTimerEvent* event) override;
 	void closeEvent(QCloseEvent* event);
 
 
