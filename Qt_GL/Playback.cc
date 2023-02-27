@@ -9,8 +9,6 @@
 
 using namespace std;
 
-// Playback::Playback(QWidget *parent, MainWindow* mw) : QWidget(parent), parent(mw) { // ***** deleted
-// Playback::Playback(QWidget *parent, MainWindow* mw) : QWidget(parent), parent(mw), kam() { // ***** added
 Playback::Playback(QWidget *parent, MainWindow* mw) : KeyActionWindow(parent, mw) {
 
 	setWindowTitle("Movie Player");
@@ -30,12 +28,10 @@ Playback::Playback(QWidget *parent, MainWindow* mw) : KeyActionWindow(parent, mw
 	// keyboardGrid->addWidget(oneFrameForwardLabel, 16, 1);
 	// keyboardGrid->addWidget(oneFrameBackwardLabel, 17, 1);
 
-	// *** ajout des onefraeforward oneframebackward
 	possibleActions.push_back({ oneFrameForward,	Qt::Key_N, new QLabel("One frame forwards"),	new QLabel(""), new QPushButton("Set new key") });
 	possibleActions.push_back({ oneFrameBackward,	Qt::Key_B, new QLabel("One frame backwards"),	new QLabel(""), new QPushButton("Set new key") });
+	// *** Implement : tenFramesForward tenFramesBackward
 	initKeyboardPage();
-	// refreshCurKeyLabels(); // ***
-	// keyboardPage->setLayout(keyboardGrid); // ***
 
 
 
@@ -106,13 +102,7 @@ void Playback::loadMovie() {
 
 				// *** verify that all the lines are correct ? then get rid of tmp ?
 
-
-
-				// System* tmpSyst ( new System(v3dw->getView(), movieHeadersLine, movieValueLines[movieCurIdx]) ); // Create new system. Note that this process can fail if there are format errors.
-				// delete sys;	// If successfully loaded, delete and replace the old System.
-				// sys = tmpSyst;	//on garde le nouveau
 				loadMovieFrameToSys();
-
 				moviePlaybackTime = sys->time();
 
 			} catch (std::string s) {
@@ -127,9 +117,6 @@ void Playback::loadMovie() {
 
 	}catch (std::string s) {
 		QMessageBox::information(this, "Problem", QString::fromStdString(s));}
-
-	// v3dw->updateGL();
-	// infoWin->refreshLabels(sys); // **** added
 }
 
 

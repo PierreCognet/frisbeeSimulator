@@ -30,22 +30,7 @@ public :
 	virtual void visual3DWindowKeyPressEvent(QKeyEvent* event);
 
 protected slots :
-	void setNewAction(int i); // *** *** ***
-	// void setNewAction(KeyAction ka); // *** *** ***
-	// *** *** *** void pitchUpSetNew();
-	// void pitchDownSetNew();
-	// void yawLeftSetNew();
-	// void yawRightSetNew();
-	// void rollLeftSetNew();
-	// void rollRightSetNew();
-	// void moveUpSetNew();
-	// void moveDownSetNew();
-	// void moveLeftSetNew();
-	// void moveRightSetNew();
-	// void moveForwardSetNew();
-	// void moveBackwardSetNew();
-	// void resetPositionSetNew();
-	// void startStopTimeSetNew();
+	void setNewAction(int i);
 
 	void selectSaveCurrentStateFile();
 	void saveCurrentState();
@@ -58,13 +43,10 @@ protected :
 
 	virtual bool executeAction(KeyAction action); // Returns true if an action has been executed.
 
-	void initKeyboardPage(); // *** *** ***
-	void refreshCurKeyLabels();
+	void initKeyboardPage();
 	// virtual void timerEvent(QTimerEvent* event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override;
 	// void closeEvent(QCloseEvent* event); // do virtual = 0 ? to make sure that the main window deletes me ? 
-
-
 
 
 	QTabWidget *tabs;
@@ -100,72 +82,17 @@ protected :
 	QLabel* actionTitleLabel;
 	QLabel* currentKeyTitleLabel;
 	QLabel* setNewKeyTitleLabel;
-	// vector<QLabel*> actionLabels; // std:: ?
-	// vector<QLabel*> currentKeyLabels; // std:: ?
-	// vector<QPushButton*> setNewKeyButtons; // std:: ?
 
 	
-	struct keyActionsStruct { // ***
+	struct keyActionsStruct {
 		KeyAction action;
 		int key;
 		QLabel* nameLabel;
 		QLabel* currentKeyLabel;
 		QPushButton* setNewKeyButton;
-		// void (*fcnPtr)(); *** *** ***
 	};
 
-	std::vector<keyActionsStruct> possibleActions; // ***
-
-
-// ***	vector<KeyAction> possibleActions;
-
-// ***	vector<QLabel*> actionLabels;
-	// QLabel* pitchUpLabel;
-	// QLabel* pitchDownLabel;
-	// QLabel* yawLeftLabel;
-	// QLabel* yawRightLabel;
-	// QLabel* rollLeftLabel;
-	// QLabel* rollRightLabel;
-	// QLabel* moveUpLabel;
-	// QLabel* moveDownLabel;
-	// QLabel* moveLeftLabel;
-	// QLabel* moveRightLabel;
-	// QLabel* moveForwardLabel;
-	// QLabel* moveBackwardLabel;
-	// QLabel* resetPositionLabel;
-	// QLabel* startStopTimeLabel;
-
-// ***	vector<QLabel*> currentKeyLabels;
-	// QLabel* pitchUpCurKeyLabel;
-	// QLabel* pitchDownCurKeyLabel;
-	// QLabel* yawLeftCurKeyLabel;
-	// QLabel* yawRightCurKeyLabel;
-	// QLabel* rollLeftCurKeyLabel;
-	// QLabel* rollRightCurKeyLabel;
-	// QLabel* moveUpCurKeyLabel;
-	// QLabel* moveDownCurKeyLabel;
-	// QLabel* moveLeftCurKeyLabel;
-	// QLabel* moveRightCurKeyLabel;
-	// QLabel* moveForwardCurKeyLabel;
-	// QLabel* moveBackwardCurKeyLabel;
-	// QLabel* resetPositionCurKeyLabel;
-	// QLabel* startStopTimeCurKeyLabel;
-
-// ***	vector<QPushButton*> setNewKeyButtons;
-	// QPushButton* pitchUpSetButton;
-	// QPushButton* pitchDownSetButton;
-	// QPushButton* yawLeftSetButton;
-	// QPushButton* yawRightSetButton;
-	// QPushButton* rollLeftSetButton;
-	// QPushButton* rollRightSetButton;
-	// QPushButton* moveUpSetButton;
-	// QPushButton* moveDownSetButton;
-	// QPushButton* moveLeftSetButton;
-	// QPushButton* moveRightSetButton;
-	// QPushButton* moveForwardSetButton;
-	// QPushButton* moveBackwardSetButton;
-	// QPushButton* resetPositionSetButton;
-	// QPushButton* startStopTimeSetButton;
+	std::vector<keyActionsStruct> possibleActions;
 
 	bool nextKeyPressSetsAction;
 	KeyAction actionToSet;
@@ -179,12 +106,7 @@ protected :
 	QPushButton* selectStateFileDialogButton;
 	QLabel* saveStateFileNameLabel;
 
-// *** add movie dialoguebutton ?
-
-	// *** std::map<int, KeyAction> keyActionMap; // For each key, maps to the corresponding action. Would be cleaner to use Qt::Key, as key type.
-	// *** bool mapKeyToAction(int key, KeyAction action);
 	bool getMappedAction(QKeyEvent* event, KeyAction& action);
-	// *** int findBindedKey(KeyAction const& a);
 	bool remapKeyToAction(int key, KeyAction& action);
 
 

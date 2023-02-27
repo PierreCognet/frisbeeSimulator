@@ -12,7 +12,6 @@ public :
 	Playback (QWidget* parent, MainWindow* mw);
 	virtual ~Playback();  // Delete dyamically allocated system and integrator.
 	
-	// *** virtual void visual3DWindowKeyPressEvent(QKeyEvent* event) override;
 
 private slots :
 

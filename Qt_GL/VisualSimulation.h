@@ -16,8 +16,6 @@ public :
 	VisualSimulation (QWidget* parent, MainWindow* mw);
 	virtual ~VisualSimulation();  // Delete dyamically allocated system and integrator.
 	
-	// *** virtual void visual3DWindowKeyPressEvent(QKeyEvent* event) override;
-
 	// IntegratorType getIntegratorType() { return integ->getType(); }
 
 private slots :

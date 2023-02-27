@@ -141,11 +141,8 @@ System::~System() {
 // 	sortie << "FinContraintes" << endl;
 
 
-queue<string> System::getLineMakeQ(string s) const { // ***
-// queue<string> System::getLineMakeQ(ifstream& input) const { *** change this, put a string insteadd of a ifstream
+queue<string> System::getLineMakeQ(string s) const {
 	string tmp;
-// 	if (!getline(input, tmp)) { throw string("System::getLineMakeQ(ifstream) end of file'"); }
-// 	stringstream str_strm(tmp);
 	stringstream str_strm(s);
 	queue<string> q; 
 	char sep (',');
@@ -156,16 +153,11 @@ queue<string> System::getLineMakeQ(string s) const { // ***
 }
 
 
-// *** System::System(Canvas* canvas, ifstream& input) *** change this, put a string insteadd of a ifstream
 System::System(Canvas* canvas, string headers_str, string values_str)
 	: Drawable(canvas) {
 
-	// queue<string> headers (getLineMakeQ(input));
-	// queue<string> values (getLineMakeQ(input));
 	queue<string> headers (getLineMakeQ(headers_str));
 	queue<string> values (getLineMakeQ(values_str));
-
-	// if (!input.eof()) { throw string("System::System(Canvas*, ifstream&) loaded file has too many lines"); }
 
 	if (headers.front()!="time") { throw string("System::System(Canvas*, ifstream&, string, string) 'time' header missing"); }
 	headers.pop();

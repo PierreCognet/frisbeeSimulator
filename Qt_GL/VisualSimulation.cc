@@ -14,8 +14,6 @@
 #include "MovieRecorder.h"
 
 
-// VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : QWidget(parent), parent(mw) { // ***** deleted
-// VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : QWidget(parent), parent(mw), kam() { // ***** added
 VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : KeyActionWindow(parent, mw) {
 
 	integ = new IntegratorRK4; // RK4 by default.
@@ -138,8 +136,6 @@ VisualSimulation::VisualSimulation(QWidget *parent, MainWindow* mw) : KeyActionW
 
 	// possibleActions.push_back({ startStopTime,	Qt::Key_Space,	new QLabel("Toggle time"),		new QLabel(""), new QPushButton("Set new key") });
 	initKeyboardPage();
-	// refreshCurKeyLabels(); // ***
-	// keyboardPage->setLayout(keyboardGrid); // ***
 
 
 
@@ -201,56 +197,6 @@ VisualSimulation::~VisualSimulation() {
 }
 
 
-// *** void VisualSimulation::visual3DWindowKeyPressEvent(QKeyEvent* event) {
-// 	KeyAction action;
-// 	if (getMappedAction(event, action)) {
-
-// 		// *** 
-// 		if (!KeyActionWindow::executeAction(action)) {
-// 			throw string("VisualSimulation::visual3DWindowKeyPressEvent(...)  unknown action");
-// 		}
-// 		// No specific actions other than thee common superclass ones.
-
-// 		// ***
-// 		// double smallAngle(5.0); // In degrees.
-// 		// double smallStep(1.0);
-
-// 		// if (action==pitchUp) {
-// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(-1.0, 0.0, 0.0));	
-// 		// } else if (action==pitchDown) {
-// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(+1.0, 0.0, 0.0));
-// 		// } else if (action==yawLeft) {
-// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, -1.0, 0.0));	
-// 		// } else if (action==yawRight) {
-// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, +1.0, 0.0));
-// 		// } else if (action==rollLeft) {
-// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, 0.0, -1.0));
-// 		// } else if (action==rollRight) {
-// 		// 	v3dw->getView()->rotate(smallAngle, Vector3(0.0, 0.0, +1.0));
-// 		// } else if (action==moveUp) {
-// 		// 	v3dw->getView()->translate(Vector3(0.0, -smallStep, 0.0));
-// 		// } else if (action==moveDown) {
-// 		// 	v3dw->getView()->translate(Vector3(0.0,  smallStep, 0.0));
-// 		// } else if (action==moveLeft) {
-// 		// 	v3dw->getView()->translate( Vector3(smallStep, 0.0, 0.0));
-// 		// } else if (action==moveRight) {
-// 		// 	v3dw->getView()->translate(Vector3(-smallStep, 0.0, 0.0));
-// 		// } else if (action==moveForward) {
-// 		// 	v3dw->getView()->translate(Vector3(0.0, 0.0,  smallStep));	
-// 		// } else if (action==moveBackward) {
-// 		// 	v3dw->getView()->translate(Vector3(0.0, 0.0, -smallStep));
-// 		// } else if (action==resetPosition) {
-// 		// 	v3dw->getView()->initializePosition();
-// 		// } else if (action==startStopTime) {
-// 		// 	toggleChrono();
-// 		// } else {
-// 		// 	throw string("VisualSimulation::visual3DWindowKeyPressEvent(...)  unknown action");
-// 		// }
-// 		// v3dw->updateGL();
-// 	}
-// }
-
-
 void VisualSimulation::setFrisbeeState() {
 	try {
     	sys->setFrisbeeState(Vector3(xSpinBox->value(), ySpinBox->value(), zSpinBox->value()),
@@ -307,7 +253,6 @@ void VisualSimulation::loadState() {
 				if (!input.eof()) { throw string("VisualSimulation::loadState() loaded state file has more than 2 lines"); }
 
 				System* tmpSyst ( new System(v3dw->getView(), headers, values) );	// Create new system. Note that this process can fail if there are format errors.
-				// *** System* tmpSyst ( new System(v3dw->getView(), input) );	// Create new system. Note that this process can fail if there are format errors.
 				delete sys;	// If successfully loaded, delete and replace the old System.
 				sys = tmpSyst;	//on garde le nouveau
 			
